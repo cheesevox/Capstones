@@ -14,6 +14,7 @@ import FeedBackScreen from "../screens/FeedBackScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from '@expo/vector-icons';
 import BottomTabNavigator from "../screens/BottomTabNavigation";
+import MealDetailScreen from "../screens/MealDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ const AppNavigator = () => {
 				<Stack.Screen name="Login" component={LoginScreen} />
 				<Stack.Screen name="FoodList" component={FoodListScreen} />
 				<Stack.Screen name="FoodDetail" component={FoodDetailsScreen} />
+				<Stack.Screen name="MealDetail" component={MealDetailScreen} />
 				<Stack.Screen name="OrderCart" component={OrderCartScreen} />
 				<Stack.Screen name="Wallet" component={WalletScreen} />
 				<Stack.Screen name="Payment" component={PaymentScreen} />

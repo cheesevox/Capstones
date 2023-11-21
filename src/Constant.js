@@ -9,6 +9,23 @@ export const colors = {
 
 //  Data for categories filter
 
+export const Option=[
+	{
+		id:"1",
+		name :"Add monney"
+	},
+	{
+		id:"2",
+		name :"Add monney"
+	},{
+		id:"3",
+		name :"Add monney"
+	},{
+		id:"4",
+		name :"Add monney"
+	},
+]
+
 export const order = [{
 	id: "01",
 	sessionmeal: "02",
@@ -123,51 +140,66 @@ export const recipeList = [
 		id: "01",
 		name: "Mâm Salad",
 		session:"Lunch",
-		image: require("../assets/images/tuna.png"),
+		image: require("../assets/images/pizza.png"),
 		rating: "4.2",
 		price: "2 point",
 		area: "sky9",
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#006A4E",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 
 	},
 	{
 		id: "02",
 		name: "Mâm Phô Mai",
-		image: require("../assets/images/lasgana.png"),
+		image: require("../assets/images/pizza.png"),
 		rating: "3.6",
 		price: "2 point",
 		area: "Home Meal",
 		session:"Dinner",
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#f39c12",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
-
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 	},
 	{
 		id: "03",
@@ -178,23 +210,29 @@ export const recipeList = [
 		area: "sky9",
 		session:"Lunch",
 
-		dish0: "thịt kho",
-		typedish0: "kho",
-
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#FF0000",
-		// description, steps to prepare
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 
 	},
 	{
@@ -206,21 +244,29 @@ export const recipeList = [
 		area: "Grand Park",
 		session:"Lunch",
 
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#d35400",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 
 	},
 	{
@@ -232,21 +278,29 @@ export const recipeList = [
 		area: "Grand Park",
 		session:"Dinner",
 
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#8d4004",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 
 	},
 	{
@@ -258,21 +312,29 @@ export const recipeList = [
 		area: "sky9",
 		session:"Lunch",
 
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
-
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 	},
 	{
 		id: "07",
@@ -282,23 +344,29 @@ export const recipeList = [
 		price: "2 point",
 		area: "sky9",
 		session:"Dinner",
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#d35400",
-
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
-
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 	},
 	{
 		id: "08",
@@ -308,21 +376,29 @@ export const recipeList = [
 		price: "2 point",
 		area: "sky9",
 		session:"Dinner",
-		dish0: "thịt kho",
-		typedish0: "kho",
-		dish1: "cá rim",
-		typedish1: "rim",
-		dish2: "rau luộc",
-		typedish2: "luộc",
-		dish3: "Mắm cá",
-		typedish3: "mắm",
-		dish4: "Cơm",
-		typedish4: "cơm",
-		dish5: "Salad",
-		typedish5: "Salad",
-		color: "#f96163",
-		description:
-			"Mâm cơm bao gồm thịt, cá, rau, củ đầy đủ, thành phần, Hãy liên hệ chatbox",
+		dishes: [
+			{
+			   id: 1,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 2,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+			{
+			   id: 3,
+			   name: 'pizza',
+			   description: 'cheezy garlic pizza',
+			   price: 10,
+			   image:  require('../assets/images/pizzaDish.png')
+			},
+		]
 	},
 
 	// getOrderByID()

@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import OptionCard from '../components/OptionCard'
 
 
 const WalletScreen = ({ navigation }) => {
@@ -31,16 +32,13 @@ const WalletScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{}}>
-        <View style={{}}>
-          <Text>Body</Text>
-        </View>
+				<OptionCard />
       </View>
 
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <TouchableOpacity
           onPress={() => navigation.navigate("Payment")}
           style={{
-            
             backgroundColor: "#f96163",
             borderRadius: 29,
             paddingVertical: 18,

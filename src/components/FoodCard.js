@@ -24,7 +24,7 @@ const FoodCard = () => {
 				renderItem={({ item }) => (
 					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 					<Pressable
-						onPress={() => navigation.navigate("FoodDetail", { item: item })}
+						onPress={() => navigation.navigate("MealDetail", { item: item })}
 						style={{
 							backgroundColor: colors.COLOR_LIGHT,
 							shadowColor: "#000",
