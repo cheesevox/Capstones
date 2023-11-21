@@ -4,6 +4,7 @@ import { categories, colors } from "../Constant";
 
 const CategoriesFilter = () => {
 	return (
+		
 		<View>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				{categories.map((category, index) => {

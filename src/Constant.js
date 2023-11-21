@@ -26,13 +26,61 @@ export const Option=[
 	},
 ]
 
-export const order = [{
-	id: "01",
-	sessionmeal: "02",
-	orderid: "02",
-	totalamount: "30,000",
-	quantity: 1
-}]
+export const order = [
+	{
+		"orderId": 4,
+		image: require("../assets/images/tuna.png"),
+		"customerDto2": {
+			"customerId": 2,
+			"userId": 13,
+			"name": "Truong",
+			"phone": "0384619027",
+			"districtId": 5,
+			"areaId": 2
+		},
+		"status": "PAID",
+		"mealSessionDto2": {
+			"mealSessionId": 7,
+			"mealDto2": {
+				"mealId": 8,
+				"name": "Mâm cơm mùa hè",
+				"image": "https://media.istockphoto.com/id/1082421544/vi/anh/b%E1%BB%AFa-%C4%83n-%E1%BA%A9m-th%E1%BB%B1c-th%C3%A1i-lan-theo-phong-c%C3%A1ch-mi%E1%BB%81n-b%E1%BA%AFc.jpg?s=2048x2048&w=is&k=20&c=rxf7CjAPAIWGaysKPKLd-C26yXcAzYrus6849yF5ZYo=",
+				"kitchenDto2": {
+					"kitchenId": 1,
+					"userId": 3,
+					"name": "TriKitchen",
+					"address": "TPHCM",
+					"areaId": 1
+				},
+				"createDate": "21-11-2023",
+				"description": "tat ca la do cong san"
+			},
+			"sessionDto2": {
+				"sessionId": 27,
+				"createDate": "2023-11-13",
+				"startTime": "Nov 13 2023  5:00PM",
+				"endTime": "Nov 13 2023  7:00PM",
+				"endDate": "2023-11-13",
+				"userId": 2,
+				"status": true,
+				"sessionType": "Dinner",
+				"areaId": 1
+			},
+			"price": 75000,
+			"quantity": 1,
+			"remainQuantity": 1,
+			"status": "REJECTED",
+			"createDate": "21-11-2023"
+		},
+		"totalPrice": 75000,
+		"quantity": 1,
+		"time": "Nov 14 2023  5:23PM"
+	}
+]
+
+
+
+
 
 export const user=[{
 	id:"1",

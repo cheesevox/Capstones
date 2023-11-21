@@ -42,7 +42,7 @@ const FoodCard = () => {
 					>
 						<Image
 							source={item.image}
-							style={{ width: 150, height: 100, resizeMode: "center" }}
+							style={{ width: 150, height: 100, resizeMode: "center", borderRadius:15 }}
 						/>
 						<Text>{item.name}</Text>
 						<View style={{ flexDirection: "row", marginTop: 8 }}>
