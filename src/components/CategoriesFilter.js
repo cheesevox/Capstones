@@ -1,10 +1,13 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
 import { categories, colors } from "../Constant";
+
+const changePicker =({index})=>{
+
+}
 
 const CategoriesFilter = () => {
 	return (
-		
 		<View>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				{categories.map((category, index) => {
@@ -12,8 +15,8 @@ const CategoriesFilter = () => {
 						<View
 							key={index}
 							style={{
-								backgroundColor:
-									index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+								backgroundColor: colors.COLOR_LIGHT,
+									// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
 								marginRight: 10,
 								borderRadius: 8,
 								paddingHorizontal: 16,
@@ -26,14 +29,16 @@ const CategoriesFilter = () => {
 								marginVertical: 16,
 							}}
 						>
+							{/* <TouchableOpacity onPress={changePicker(index)}> */}
 							<Text
 								style={{
-									color: index === 0 && colors.COLOR_LIGHT,
+									// index === 0 && colors.COLOR_LIGHT,
 									fontSize: 18,
-								}}
-							>
+								}}>
 								{category.category}
 							</Text>
+							{/* </TouchableOpacity> */}
+							
 						</View>
 					);
 				})}
