@@ -4,16 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Ionicons } from '@expo/vector-icons'
 import foods, { colors } from '../Constant'
+import * as Icon from "react-native-feather";
 
 const OrderCartScreen = ({ navigation }) => {
-  const plus =({item})=>{
+  const plus = ({ item }) => {
   }
 
   const CartCard = ({ item }) => {
-
-    
     return <View style={styles.cartcard}>
-
       <View style={{
         height: 100,
         marginLeft: 10,
@@ -28,25 +26,33 @@ const OrderCartScreen = ({ navigation }) => {
           <View style={{ justifyContent: 'center', flexDirection: 'column', marginLeft: 20 }}>
             <Text style={styles.textItem}>{item.name}</Text>
             <Text style={styles.textItem}>Quantity: {item.quantity}</Text>
-            <View style={{flexDirection:'row', alignItems:'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.textItem}>Price: {item.price}</Text>
-              <Text style={{ fontSize:17, fontWeight: 'bold', marginLeft:30}}>Total: {item.price}</Text>
+              <Text style={{ fontSize: 17, fontWeight: 'bold', marginLeft: 30 }}>Total: {item.price}</Text>
             </View>
           </View>
         </View>
       </View>
       <View style={{ alignItems: 'center' }}>
         <View style={styles.actionButton}>
-          <Ionicons name="add-circle-outline"  size={25} color={Colors.black}></Ionicons>
+          <Ionicons name="add-circle-outline" size={25} color={Colors.black}></Ionicons>
           <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>1</Text>
           <Ionicons name="remove-circle-outline" size={25} color={Colors.black}></Ionicons>
         </View>
       </View>
     </View>
   }
-  return (
 
+  return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
+      <View>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 24, backgroundColor: 'orange', borderRadius: 28, marginTop:42 }}
+        >
+          <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity>
+      </View>
       <View style={{ marginBottom: 30, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={styles.titleText}>
           Cart
@@ -58,24 +64,26 @@ const OrderCartScreen = ({ navigation }) => {
         data={foods}
         renderItem={({ item }) => <CartCard item={item} />}
       />
+      <View style={{justifyContent:'center', alignItems:'center'}}>
       <TouchableOpacity
         onPress={() => navigation.navigate("Wallet")}
         style={{
           backgroundColor: "#f96163",
           borderRadius: 29,
           paddingVertical: 18,
-          width: "80%",
+          width: "60%",
           alignContent: 'center',
-          marginVertical: 30,
-          marginLeft: 40,
           alignItems: "center",
-          justifyContent:'flex-end'
+          justifyContent: 'flex-end',
+          marginBottom:20
         }}
       >
         <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-          Check out
+          Place Holder
         </Text>
       </TouchableOpacity>
+      </View>
+      
     </SafeAreaView>
 
   )
@@ -118,13 +126,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2
   },
-  actionButton:{
-    width:80,
-    height:30,
-    borderRadius:30,
-    flexDirection:'row',
-    justifyContent:'space-around',
-    alignContent:'center'
+  actionButton: {
+    width: 80,
+    height: 30,
+    borderRadius: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignContent: 'center'
   }
 })
 export default OrderCartScreen;

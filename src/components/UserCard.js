@@ -14,7 +14,7 @@ const UserCard = ({item }) => {
                 <Text style={{  marginTop:10,fontWeight: 'bold', fontSize: 26, color:'orange' }}>{item.name}</Text>
             <View style={styles.cartcard}>
                 <View style={{
-                    height: 300,
+                    height: 250,
                     marginLeft: 10,
                     paddingVertical: 20,
                     marginHorizontal:50,
@@ -51,10 +51,9 @@ export default UserCard;
 
 const styles = StyleSheet.create({
     cartcard: {
-        height: 300,
+        height: 250,
         elevation: 15,
         borderRadius: 10,
-        marginTop:50,
         backgroundColor: Colors.white,
         marginHorizontal: 20,
         marginVertical: 10,

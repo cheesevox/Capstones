@@ -15,7 +15,6 @@ const OptionCard = () => {
 							shadowOffset: { width: 0, height: 4 },
 							shadowOpacity: 0.1,
 							shadowRadius: 7,
-							elevation:5,
 							borderRadius: 16,
                             borderWidth:3,
 							marginVertical: 16,

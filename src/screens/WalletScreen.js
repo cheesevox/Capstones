@@ -2,11 +2,32 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import OptionCard from '../components/OptionCard'
+import * as Icon from "react-native-feather";
 
 
 const WalletScreen = ({ navigation }) => {
   return (
-    <View style={{}}>
+    <View style={{flex:1}}>
+       <View style={{flexDirection:'row'}}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 24, backgroundColor: 'orange', borderRadius: 28, marginTop:42 }}
+        >
+          <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("OrderCart")}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 410, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+        >
+          <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity>
+        {/* <TouchableOpacity
+          onPress={() => navigation.navigate("OrderCart")}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 24, backgroundColor: 'orange', borderRadius: 28, marginTop:42 }}
+        >
+          <Icon. style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity> */}
+      </View>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Text style={styles.walletText}>
           Wallet
@@ -35,9 +56,9 @@ const WalletScreen = ({ navigation }) => {
 				<OptionCard />
       </View>
 
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center', flex:1  }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Payment")}
+          onPress={() => navigation.navigate("Order")}
           style={{
             backgroundColor: "#f96163",
             borderRadius: 29,
@@ -46,17 +67,16 @@ const WalletScreen = ({ navigation }) => {
             alignItems: 'center',
             width: "60%",
             alignContent: 'space-between',
-            marginVertical: 30,
             alignItems: "center",
+            marginTop:60
           }}
         >
           <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-            Payment with credit card
+            Payment with Wallet
           </Text>
         </TouchableOpacity>
       </View>
     </View>
-
   )
 }
 
