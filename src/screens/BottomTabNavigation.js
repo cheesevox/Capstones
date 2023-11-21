@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import FoodListScreen from './FoodListScreen';
 import OrderCartScreen from './OrderCartScreen';
 import WalletScreen from './WalletScreen';
+import OrderScreen from './OrderScreen';
 import UserProfileScreen from './UserProfileScreen';
 const Tab = createBottomTabNavigator();
 
@@ -21,8 +22,8 @@ const BottomTabNavigator = () => {
           headerShown:false,
           tabBarIcon: ({color}) => <Ionicons name='cart-outline' size={24} color={color}></Ionicons>
         }} 
-        name='OrderCart' 
-        component={OrderCartScreen}/>
+        name='Order' 
+        component={OrderScreen}/>
         <Tab.Screen options={{
           headerShown:false,
           tabBarIcon: ({color}) => <Ionicons name='wallet-outline' size={24} color={color}></Ionicons>
