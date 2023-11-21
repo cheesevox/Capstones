@@ -3,11 +3,24 @@ import React from 'react'
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import OptionCard from '../components/OptionCard'
 import * as Icon from "react-native-feather";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors } from '../Constant';
 
 
 const WalletScreen = ({ navigation }) => {
   return (
-    <View style={{flex:1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View>
+      <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 24, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+        >
+          <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity>
+        
+      </View>
+      
        <View style={{flexDirection:'row'}}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -52,31 +65,32 @@ const WalletScreen = ({ navigation }) => {
           <Ionicons style={{ alignContent: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', textAlignVertical: 'center', alignItems: 'center', fontSize: 20 }} name='caret-down-circle-outline' ></Ionicons>
         </TouchableOpacity>
       </View>
-      <View style={{}}>
+      <View style={{margin:20, marginBottom:50}}>
 				<OptionCard />
       </View>
 
-      <View style={{ justifyContent: 'center', alignItems: 'center', flex:1  }}>
+      <View style={{
+        justifyContent: 'center',
+        alignItems: "center",
+      }}>
         <TouchableOpacity
           onPress={() => navigation.navigate("Order")}
           style={{
             backgroundColor: "#f96163",
             borderRadius: 29,
             paddingVertical: 18,
-            justifyContent: 'center',
-            alignItems: 'center',
             width: "60%",
-            alignContent: 'space-between',
-            alignItems: "center",
+            marginBottom:20,
             marginTop:60
           }}
         >
-          <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-            Payment with Wallet
+          <Text style={{ textAlign: 'center', fontSize: 18, color: "#fff", fontWeight: "700", }}>
+            Payment With Wallet
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+      </View>
+    </SafeAreaView>
   )
 }
 
@@ -86,11 +100,12 @@ const styles = StyleSheet.create({
     borderRadius: 29,
     paddingVertical: 18,
     width: '80%',
-    height: '30%',
+    height: '20%',
     justifyContent:'center',
     alignItems: 'center',
     marginVertical: 30,
-    marginHorizontal:50
+    marginHorizontal:50,
+    marginTop:20,
   },
   walletText: {
     fontWeight: '600',

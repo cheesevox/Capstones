@@ -28,23 +28,34 @@ const MealDetailScreen = ({ navigation, route }) => {
                         <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
                     </TouchableOpacity>
                     <View style={{
-                        position: 'absolute', marginTop: 290,
+                        position: 'absolute', marginTop: 260,
                         width: '100%',
                         backgroundColor: "#fff",
                         borderTopLeftRadius: 60,
                         borderTopRightRadius: 50,
                     }}>
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', marginLeft: 50 , marginTop:10}}>
-                            {item.name}
-                        </Text>
-                        <TouchableOpacity
-                        // onPress={() => navigation.navigate("MealDetail", { item: item })}
-                        onPress={() => navigation.navigate("OrderCart")}
-                                style={{ justifyContent: "center", alignItems: "center", width: 50, height: 50, position: 'absolute', marginTop: 15, marginStart: 400, backgroundColor: 'orange', borderRadius: 28 }}
-                        >
-                                <Ionicons name="cart-outline" size={25}/>
-                                {/* <ion-icon name="cart-outline"></ion-icon> */}
-                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,marginLeft: 50,}}>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold',  marginTop: 10}}>
+                                {item.name}
+                            </Text>
+                            <View style={{marginRight:20}}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("OrderCart", { item: item })}
+                                style={{ 
+                                    justifyContent: 'center', alignItems: 'center',
+                                     width: 50, height: 50, 
+                                     marginTop: 15,
+                                     backgroundColor: 'orange', 
+                                     borderRadius: 28 
+                                }}
+                            >
+                                <Ionicons name="cart-outline" color={'white'} size={25} />
+                            </TouchableOpacity>
+                            </View>
+                           
+                        </View>
+                        <View>
+                        </View>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <TouchableOpacity
@@ -54,7 +65,7 @@ const MealDetailScreen = ({ navigation, route }) => {
                                 <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ flexDirection: 'row', marginLeft: 50, paddingBottom: 2, alignItems:'center' }}>
+                        <View style={{ flexDirection: 'row', marginLeft: 50, paddingBottom: 2, alignItems: 'center' }}>
                             <Ionicons name='star-outline' size={15} style={{ color: 'orange' }} />
                             <Text style={styles.text}> {item.rating}</Text>
                             <Text style={styles.text}> Đánh Giá (4.6k review)</Text>
@@ -69,8 +80,8 @@ const MealDetailScreen = ({ navigation, route }) => {
                             <Text style={{ fontWeight: 'bold', fontSize: 26, paddingBottom: 36, marginLeft: 30, marginTop: 30 }}>
                                 Menu Dish
                             </Text>
-                            <Text style={{marginRight:10, fontWeight: 'bold', fontSize: 20, paddingBottom: 36, marginLeft: 30, marginTop: 36 }}>
-                                {item.price}vnd 
+                            <Text style={{ marginRight: 10, fontWeight: 'bold', fontSize: 20, paddingBottom: 36, marginLeft: 30, marginTop: 36 }}>
+                                {item.price}vnd
                             </Text>
                         </View>
                         {item.dishes.map((dish, index) => <DishCard item={{ ...dish }} key={index} />)}

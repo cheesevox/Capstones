@@ -23,22 +23,21 @@ const UserCard = ({item }) => {
                     flex: 1
                 }}>
                 <TouchableOpacity
-
                 >
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                    <Ionicons name='wallet-outline' size={30} paddingHorizontal={5}> Wallet
+                    <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Wallet
                      </Ionicons>
                     <Text style={{ fontSize:20}}>{item.wallet}</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Ionicons name='wallet-outline' size={30} paddingHorizontal={5}> Setting </Ionicons>
+                    <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Setting </Ionicons>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Ionicons name='wallet-outline' size={30} paddingHorizontal={5}> Help </Ionicons>
+                    <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Help </Ionicons>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Ionicons name='wallet-outline' size={30} paddingHorizontal={5}> Term & Policy</Ionicons>
+                    <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Term & Policy</Ionicons>
                 </TouchableOpacity>
                 </View>
                 

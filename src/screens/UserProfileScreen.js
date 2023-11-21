@@ -8,13 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const UserProfileScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{flex:1}}>
-      
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={styles.Text}>
-          User Profile
-        </Text>
-      </View>
-      <View style={{ flexDirection: 'row' }}>
+       <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 24, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
@@ -23,11 +17,17 @@ const UserProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("OrderCart")}
-          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 410, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginLeft: 350, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
         >
           <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
         </TouchableOpacity>
       </View>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.Text}>
+          User Profile
+        </Text>
+      </View>
+     
       <FlatList
         data={user}
         renderItem={({ item }) => <UserCard item={item} />}
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   Text: {
     fontWeight: '600',
     justifyContent: 'center',
-    fontSize: 26,
+    fontSize: 24,
     alignContent: 'center',
     textAlign: 'center',
     color: '#e65332',

@@ -49,15 +49,6 @@ const FoodCard = () => {
 							<Text>{item.price} </Text>
 							<Text>{item.area}</Text>
 						</View>
-						<View>
-							<TouchableOpacity 
-							style={{paddingTop:20}}
-							onPress={()=>navigation.navigate("Feedback")}>
-								<Text style={{borderWidth:2, borderRadius:10, padding:5, borderColor:'grey'}}>
-									Feedback Of Kitchen
-								</Text>
-							</TouchableOpacity>
-						</View>
 					</Pressable>
 					</ScrollView>
 				)}
