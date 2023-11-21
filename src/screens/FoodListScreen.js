@@ -4,7 +4,7 @@ import SearchFilter from "../components/SearchFilter";
 import React, { useState, useEffect } from "react";
 // import CategoriesFilter from "../components/CategoriesFilter";
 import FoodCard from "../components/FoodCard";
-import { recipeList,colors } from "../Constant";
+import { recipeList, colors } from "../Constant";
 import { getAllMealInSessionID, getAllSessionByAreaId } from "../Api";
 import { getAllArea } from "../Api";
 
@@ -12,8 +12,10 @@ const FoodListScreen = ({ navigation }) => {
 	const [area, setArea] = useState([])
 	const [areaId, setAreaId] = useState()
 	const [session, setSession] = useState([])
+	const [sessionId, setSessionId] = useState([])
 	const [mealInSession, setMealInSession] = useState([])
-	
+	const [mealInSessionId, setMealInSessionId] = useState([])
+
 	const fetchAllSessionByAreaId = () => {
 		getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
 			console.log("session", res)
@@ -30,8 +32,15 @@ const FoodListScreen = ({ navigation }) => {
 		fetchAllSessionByAreaId()
 	}, [areaId])
 
-	const getAllMealInSessionID = (sessionId) = {
-	} 
+	// const fetchAllMealInSessionBySessionId =() =>{
+	// 	getAllMealInSessionID(sessionId ? sessionId : session[0].then((res)=>{
+	// 		console.log("meal In Session", res)
+	// 		setMealInSession(res)
+	// 	}).catch(error => console.log(error)))
+	// }
+	// useEffect(() => {
+	// 	fetchAllMealInSessionBySessionId()
+	// }, [sessionId])
 
 	return (
 		<SafeAreaView style={{ flex: 1, marginHorizontal: 16, marginTop: 40 }}>
@@ -87,12 +96,12 @@ const FoodListScreen = ({ navigation }) => {
 									<TouchableOpacity onPress={() => {
 										console.log(area.areaId)
 										setAreaId(area.areaId)
+										console.log(mealInSession.sessionId)
 									}}>
 										<Text style={{ fontSize: 16 }}>
 											{area.areaName}
 										</Text>
 									</TouchableOpacity>
-
 								</View>
 							);
 						})}
@@ -100,55 +109,91 @@ const FoodListScreen = ({ navigation }) => {
 				</View>
 			</View>
 			<FlatList
+
 				data={session}
 				renderItem={({ item }) => (
 					<View>
 						<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
-
-						{/* <FoodCard /> */}
+						{/* <FoodCard />
 						<View style={{ justifyContent: "center" }}>
-							<FlatList
-								horizontal
-								data={mealInSession}
-								renderItem={({ item }) => (
-									<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-										<Pressable
-											onPress={() => navigation.navigate("MealDetail", { item: item })}
-											style={{
-												backgroundColor: colors.COLOR_LIGHT,
-												shadowColor: "#000",
-												shadowOffset: { width: 0, height: 4 },
-												shadowOpacity: 0.1,
-												shadowRadius: 7,
-												elevation: 5,
-												borderRadius: 16,
-												marginVertical: 16,
-												alignItems: "center",
-												paddingHorizontal: 8,
-												paddingVertical: 26,
-												marginRight: 20
-											}}
-										>
-											{/* <Image
+							{/* <FlatList */}
+
+								{/* // data={mealInSession}
+								// renderItem={({ item }) => (
+								<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+									{mealInSession.map((mealSession, index) => {
+										return (
+											<Pressable
+												onPress={() => navigation.navigate("MealDetail", { item: item })}
+												style={{
+													backgroundColor: colors.COLOR_LIGHT,
+													shadowColor: "#000",
+													shadowOffset: { width: 0, height: 4 },
+													shadowOpacity: 0.1,
+													shadowRadius: 7,
+													elevation: 5,
+													borderRadius: 16,
+													marginVertical: 16,
+													alignItems: "center",
+													paddingHorizontal: 8,
+													paddingVertical: 26,
+													marginRight: 20
+												}}
+											>
+												{/* <Image
 												source={it}
 												style={{ width: 150, height: 100, resizeMode: "center", borderRadius: 15 }}
 											/> */}
-											<Text>{item}</Text>
-											<View style={{ flexDirection: "row", marginTop: 8 }}>
-												{/* <Text>{item.price} </Text> */}
-												{/* <Text>{item.area}</Text> */}
-											</View>
-										</Pressable>
-									</ScrollView>
-								)}
-								showsVerticalScrollIndicator={false}
-							/>
-						</View>
-
+												{/* <Text>{item.mealSessionId}</Text>
+												<View style={{ flexDirection: "row", marginTop: 8 }}> */}
+													{/* <Text>{item.price} </Text> */}
+													{/* <Text>{item.area}</Text> */}
+												{/* </View>
+											</Pressable>
+									</ScrollView> */} 
+								{/* )} */}
+							{/* // showsVerticalScrollIndicator={false}
+							// />
+						</View> */}
+						<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+						{mealInSession.map((mealSessionId, index) => {
+							return (
+								<View
+									key={index}
+									style={{
+										// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+										backgroundColor: colors.COLOR_LIGHT,
+													shadowColor: "#000",
+													shadowOffset: { width: 0, height: 4 },
+													shadowOpacity: 0.1,
+													shadowRadius: 7,
+													elevation: 5,
+													borderRadius: 16,
+													marginVertical: 16,
+													alignItems: "center",
+													paddingHorizontal: 8,
+													paddingVertical: 26,
+													marginRight: 20
+									}}
+								>
+									<TouchableOpacity onPress={() => {
+										console.log(area.areaId)
+										console.log(mealInSession)
+										setAreaId(area.areaId)
+										setMealInSession(sessionId)
+									}}>
+										<Text style={{ fontSize: 16 }}>
+											{mealInSession.mealSessionId}
+										</Text>
+									</TouchableOpacity>
+								</View>
+							);
+						})}
+					</ScrollView>
 					</View>
 				)}
 				showsVerticalScrollIndicator={false}
-			/>
+			/> 
 
 			{/* </View> */}
 			<View>
