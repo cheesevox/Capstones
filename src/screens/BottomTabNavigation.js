@@ -7,7 +7,6 @@ import OrderCartScreen from "./OrderCartScreen";
 import WalletScreen from "./WalletScreen";
 import UserProfileScreen from "./UserProfileScreen";
 const Tab = createBottomTabNavigator();
-
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator>
@@ -58,7 +57,6 @@ const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
 export default BottomTabNavigator;
 
 const styles = StyleSheet.create({});

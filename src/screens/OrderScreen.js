@@ -1,157 +1,73 @@
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   SafeAreaView,
-//   TouchableOpacity,
-//   Image,
-//   ScrollView,
-// } from 'react-native';
-// import React from 'react';
-// import {useNavigation} from '@react-navigation/native';
-// import ListFoodOrder from '../components/ListFoodOrder';
-// import OrderFoodCRUD from '../components/OrderFoodCRUD';
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native'
+import React from 'react'
+import * as Icon from "react-native-feather";
+import { Ionicons } from '@expo/vector-icons';
+import DishCard from '../components/DishCard';
+import { order } from '../Constant';
 
+const OrderScreen = ({ navigation }) => {
 
-// const sumTotal = products => {
-//   return products.reduce((sum, item) => {
-//     return (
-//       sum +
-//       parseFloat(item.pricePerKg.replace('$', '')) * parseFloat(item.quantity)
-//     );
-//   }, 0);
-// };
+    return (
+            <ScrollView>
+                <View style={{
+                    position: "relative",
+                }}>
+                    <Image
+                        source={order.image}
+                        style={{
+                            width: 500,
+                            height: 360,
+                        }}
+                    />
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginTop: 40, marginLeft: 24, backgroundColor: 'white', borderRadius: 28 }}
+                    >
+                        <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
+                    </TouchableOpacity>
+                    <View style={{
+                        position: 'absolute', marginTop: 260,
+                        width: '100%',
+                        backgroundColor: "#fff",
+                        borderTopLeftRadius: 60,
+                        borderTopRightRadius: 50,
+                    }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,marginLeft: 50,}}>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold',  marginTop: 10}}>
+                                {order.name}
+                            </Text>
+                            <View style={{marginRight:20}}>
+                            
+                            </View>
+                           
+                        </View>
+                        <View>
+                        </View>
 
-// const OrderScreen = () => {
-//   const navigation = useNavigation();
-//   const {products} = OrderFoodCRUD();
-//   const totalPrice = (sumTotal(products) + 2.44).toFixed(2);
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.flexView}>
-//         <View style={styles.headerContainer}>
-//           <TouchableOpacity onPress={() => navigation.goBack()}>
-//             <Image
-//               style={styles.imageButton}
-//               source={require("../../assets/images/ic-back.png")}
-//             />
-//           </TouchableOpacity>
-//           <View style={styles.middle}>
-//             <Text style={styles.headerText}>Cart</Text>
-//           </View>
-//           <TouchableOpacity>
-//             <Image
-//               style={styles.imageButton}
-//               source={require("../../assets/images/ic-close.png")}
-//             />
-//           </TouchableOpacity>
-//         </View>
-//         <ScrollView style={styles.scrollView}>
-//           <Text style={styles.title}>Your order</Text>
-//           {/* <ListProductOrder products={products} /> */}
-//         <ListFoodOrder products={products}/>
-//         </ScrollView>
-//         <View style={styles.line1} />
-//         <View style={{paddingHorizontal: 16}}>
-//           <View style={styles.row}>
-//             <Text style={styles.text1}>Delivery</Text>
-//             <Text style={styles.text1}>$2.44</Text>
-//           </View>
-//           <View style={styles.line} />
-//           <View style={styles.row}>
-//             <Text style={styles.text2}>TOTAL</Text>
-//             <Text style={styles.text2}>${totalPrice}</Text>
-//           </View>
-//           <TouchableOpacity 
-//           onPress={() => navigation.navigate("Wallet")}
-//           style={styles.btnCheckout}>
-//             <Text style={styles.txtCheckout}>Checkout</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                            <TouchableOpacity
+                                onPress={() => navigation.goBack()}
+                                style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginTop: 24, marginLeft: 24, backgroundColor: 'white', borderRadius: 28 }}
+                            >
+                                <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginLeft: 50, paddingBottom: 2, alignItems: 'center' }}>
+                            <Ionicons name='star-outline' size={15} style={{ color: 'orange' }} />
+                            {/* <Text style={styles.text}> {order.rating}</Text> */}
+                            <Text style={styles.text}> Đánh Giá (4.6k review)</Text>
+                            </View>
+                    </View>
+                </View>
+            </ScrollView>
+    )
+}
 
-// export default OrderScreen;
+export default OrderScreen
 
-// const styles = StyleSheet.create({
-//   line1: {
-//     height: 14,
-//     backgroundColor: '#F8F8F8',
-//     width: '100%',
-//     marginBottom: 20,
-//   },
-//   btnCheckout: {
-//     backgroundColor: '#26E698',
-//     padding: 14,
-//     alignItems: 'center',
-//     marginTop: 20,
-//     borderRadius: 10,
-//   },
-//   txtCheckout: {
-//     fontSize: 15,
-//     color: '#FFFFFF',
-//   },
-//   row: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//   },
-//   text1: {
-//     fontSize: 11,
-//     color: '#959595',
-//   },
-//   text2: {
-//     fontSize: 15,
-//     color: '#1F1F1F',
-//     fontWeight: 'bold',
-//   },
-//   line: {
-//     width: '100%',
-//     borderWidth: 1,
-//     borderStyle: 'dashed',
-//     borderColor: '#E0E0E0',
-//     marginVertical: 20,
-//   },
+const styles = StyleSheet.create({
+    text: {
+        fontSize: 15
+    }
 
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#FFFFFF',
-//   },
-
-//   flexView: {
-//     flex: 1,
-//   },
-
-//   headerContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingHorizontal: 16,
-//   },
-//   imageButton: {
-//     width: 36,
-//     height: 36,
-//   },
-//   headerText: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   middle: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//   },
-
-//   title: {
-//     fontSize: 22,
-//     fontWeight: 'bold',
-//     color: '#121212',
-//     marginTop: 27,
-//   },
-
-//   scrollView: {
-//     flex: 1,
-//     paddingHorizontal: 16,
-//   },
-// });
+})

@@ -1,5 +1,70 @@
 import { getOrderByID } from "./Api";
 
+export const area=[
+    {
+        "areaId": 1,
+        "address": "10Bis",
+        "districtDtoAreaResponseModel": {
+            "districtId": 9,
+            "districtName": "Quận 9"
+        },
+        "areaName": "First Area ke"
+    },
+    {
+        "areaId": 2,
+        "address": "11Bis",
+        "districtDtoAreaResponseModel": {
+            "districtId": 2,
+            "districtName": "Quận 2"
+        },
+        "areaName": "Second Area"
+    }
+]
+
+export const mealinsession =[
+		{
+			"mealSessionId": 9,
+			"mealDtoForMealSession": {
+				"mealId": 20,
+				"name": "dori-hihi",
+				"image": "https://homemealtaste.blob.core.windows.net/meal-image/ff3c7e7b-3739-4a9b-9791-35a33c2a99e2_meal-image",
+				"kitchenId": 1,
+				"createDate": "11/17/2023 12:00:00 AM",
+				"description": "ngon qua"
+			},
+			"sessionDtoForMealSession": {
+				"sessionId": 11,
+				"createDate": "10/31/2023 12:00:00 AM",
+				"startTime": "10/31/2023 5:00:00 PM",
+				"endTime": "10/31/2023 5:00:00 PM",
+				"endDate": "10/31/2023 12:00:00 AM",
+				"userId": 1,
+				"status": true,
+				"sessionType": "Lunch",
+				"areaDtoForMealSession": {
+					"areaId": 1,
+					"address": "Quận Bình Tân Thái Văn Cơ",
+					"areaName": "Quận 12",
+					"districtDtoForMealSession": {
+						"districtId": 13,
+						"districtName": "Quận Tân Bình"
+					}
+				}
+			},
+			"price": 95000.0,
+			"quantity": 15,
+			"remainQuantity": 8,
+			"status": "REJECTED",
+			"createDate": "11/17/2023 12:00:00 AM",
+			"kitchenDtoForMealSession": {
+				"kitchenId": 1,
+				"userId": 1,
+				"name": "TriKitchen",
+				"address": "TPHCM"
+			}
+		}
+	]
+
 export const colors = {
 	COLOR_PRIMARY: "#f96163",
 	COLOR_LIGHT: "#fff",
@@ -9,36 +74,84 @@ export const colors = {
 
 //  Data for categories filter
 
-export const Option=[
+export const Option = [
 	{
-		id:"1",
-		name :"Add monney"
+		id: "1",
+		name: "Add monney"
 	},
 	{
-		id:"2",
-		name :"Add monney"
-	},{
-		id:"3",
-		name :"Add monney"
-	},{
-		id:"4",
-		name :"Add monney"
+		id: "2",
+		name: "Add monney"
+	}, {
+		id: "3",
+		name: "Add monney"
+	}, {
+		id: "4",
+		name: "Add monney"
 	},
 ]
 
-export const order = [{
-	id: "01",
-	sessionmeal: "02",
-	orderid: "02",
-	totalamount: "30,000",
-	quantity: 1
-}]
+export const order = [
+	{
+		"orderId": 4,
+		image: require("../assets/images/tuna.png"),
+		"customerDto2": {
+			"customerId": 2,
+			"userId": 13,
+			"name": "Truong",
+			"phone": "0384619027",
+			"districtId": 5,
+			"areaId": 2
+		},
+		"status": "PAID",
+		"mealSessionDto2": {
+			"mealSessionId": 7,
+			"mealDto2": {
+				"mealId": 8,
+				"name": "Mâm cơm mùa hè",
+				"image": "https://media.istockphoto.com/id/1082421544/vi/anh/b%E1%BB%AFa-%C4%83n-%E1%BA%A9m-th%E1%BB%B1c-th%C3%A1i-lan-theo-phong-c%C3%A1ch-mi%E1%BB%81n-b%E1%BA%AFc.jpg?s=2048x2048&w=is&k=20&c=rxf7CjAPAIWGaysKPKLd-C26yXcAzYrus6849yF5ZYo=",
+				"kitchenDto2": {
+					"kitchenId": 1,
+					"userId": 3,
+					"name": "TriKitchen",
+					"address": "TPHCM",
+					"areaId": 1
+				},
+				"createDate": "21-11-2023",
+				"description": "tat ca la do cong san"
+			},
+			"sessionDto2": {
+				"sessionId": 27,
+				"createDate": "2023-11-13",
+				"startTime": "Nov 13 2023  5:00PM",
+				"endTime": "Nov 13 2023  7:00PM",
+				"endDate": "2023-11-13",
+				"userId": 2,
+				"status": true,
+				"sessionType": "Dinner",
+				"areaId": 1
+			},
+			"price": 75000,
+			"quantity": 1,
+			"remainQuantity": 1,
+			"status": "REJECTED",
+			"createDate": "21-11-2023"
+		},
+		"totalPrice": 75000,
+		"quantity": 1,
+		"time": "Nov 14 2023  5:23PM"
+	}
+]
 
-export const user=[{
-	id:"1",
-	name:"Phương Đại Ka",
+
+
+
+
+export const user = [{
+	id: "1",
+	name: "Phương Đại Ka",
 	image: require("../assets/images/avatar.jpg"),
-	wallet:"150.000"
+	wallet: "150.000"
 
 }]
 
@@ -115,22 +228,22 @@ const foods = [
 		id: '1',
 		name: 'Mâm Salad',
 		ingredients: 'Mixed Pizza',
-		quantity:"5",
+		quantity: "5",
 		price: '30000',
 		image: require("../assets/images/tuna.png"),
 	},
-	
+
 
 ];
 export default foods;
-export const session =[
+export const session = [
 	{
 		id: '1',
-		sessionname:'Lunch'
+		sessionname: 'Lunch'
 	},
 	{
 		id: '2',
-		sessionname:'Dinner'
+		sessionname: 'Dinner'
 	}
 ]
 
@@ -139,32 +252,32 @@ export const recipeList = [
 	{
 		id: "01",
 		name: "Mâm Salad",
-		session:"Lunch",
+		session: "Lunch",
 		image: require("../assets/images/pizza.png"),
 		rating: "4.2",
 		price: "2 point",
 		area: "sky9",
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 
@@ -176,28 +289,28 @@ export const recipeList = [
 		rating: "3.6",
 		price: "2 point",
 		area: "Home Meal",
-		session:"Dinner",
+		session: "Dinner",
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 	},
@@ -208,29 +321,29 @@ export const recipeList = [
 		rating: "4.6",
 		price: "2 point",
 		area: "sky9",
-		session:"Lunch",
+		session: "Lunch",
 
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 
@@ -242,29 +355,29 @@ export const recipeList = [
 		rating: "3.6",
 		price: "2 point",
 		area: "Grand Park",
-		session:"Lunch",
+		session: "Lunch",
 
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 
@@ -276,29 +389,29 @@ export const recipeList = [
 		rating: "2.2",
 		price: "2 point",
 		area: "Grand Park",
-		session:"Dinner",
+		session: "Dinner",
 
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 
@@ -310,29 +423,29 @@ export const recipeList = [
 		rating: "5.0",
 		price: "2 point",
 		area: "sky9",
-		session:"Lunch",
+		session: "Lunch",
 
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 	},
@@ -343,28 +456,28 @@ export const recipeList = [
 		rating: "4.8",
 		price: "2 point",
 		area: "sky9",
-		session:"Dinner",
+		session: "Dinner",
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 	},
@@ -375,28 +488,28 @@ export const recipeList = [
 		rating: "4.2",
 		price: "2 point",
 		area: "sky9",
-		session:"Dinner",
+		session: "Dinner",
 		dishes: [
 			{
-			   id: 1,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 1,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 2,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 2,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 			{
-			   id: 3,
-			   name: 'pizza',
-			   description: 'cheezy garlic pizza',
-			   price: 10,
-			   image:  require('../assets/images/pizzaDish.png')
+				id: 3,
+				name: 'pizza',
+				description: 'cheezy garlic pizza',
+				price: 10,
+				image: require('../assets/images/pizzaDish.png')
 			},
 		]
 	},
