@@ -91,3 +91,13 @@ export const getMealInSessionBySessionId = async (id) => {
     console.log("get all meal in session by session id");
   }
 };
+export const getAllMealSession = async () => {
+  try {
+    const response = await axios.get(
+      "https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session"
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get all meal ss", error);
+  }
+};

@@ -4,70 +4,83 @@ import * as Icon from "react-native-feather";
 import { Ionicons } from '@expo/vector-icons';
 import DishCard from '../components/DishCard';
 import { order } from '../Constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const OrderScreen = ({ navigation }) => {
-
     return (
-            <ScrollView>
-                <View style={{
-                    position: "relative",
-                }}>
-                    <Image
-                        source={order.image}
-                        style={{
-                            width: 500,
-                            height: 360,
-                        }}
-                    />
+        <SafeAreaView>
+            <View style={{
+                position: "relative"
+            }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
-                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginTop: 40, marginLeft: 24, backgroundColor: 'white', borderRadius: 28 }}
+                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
                     >
-                        <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
+                        <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
                     </TouchableOpacity>
-                    <View style={{
-                        position: 'absolute', marginTop: 260,
-                        width: '100%',
-                        backgroundColor: "#fff",
-                        borderTopLeftRadius: 60,
-                        borderTopRightRadius: 50,
-                    }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,marginLeft: 50,}}>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold',  marginTop: 10}}>
-                                {order.name}
+                    <Text style={styles.Text}>
+                        Order Detail
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("OrderCart")}
+                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+                    >
+                        <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
+                    </TouchableOpacity>
+                </View>
+                <View style={{ marginTop: 40, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                    <View style={{ flex: 1, alignItems: 'center', padding: 10, borderWidth: 1, borderTopLeftRadius: 30, borderTopRightRadius: 30 }} >
+                        <TouchableOpacity>
+                            <Text>Order Detail</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', padding: 10, borderWidth: 1, borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
+                        <TouchableOpacity>
+                            <Text>
+                                Order Hitory
                             </Text>
-                            <View style={{marginRight:20}}>
-                            
-                            </View>
-                           
-                        </View>
-                        <View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            <TouchableOpacity
-                                onPress={() => navigation.goBack()}
-                                style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'absolute', marginTop: 24, marginLeft: 24, backgroundColor: 'white', borderRadius: 28 }}
-                            >
-                                <Icon.ArrowLeft style={{ color: 'orange' }} strokeWidth={3} />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'row', marginLeft: 50, paddingBottom: 2, alignItems: 'center' }}>
-                            <Ionicons name='star-outline' size={15} style={{ color: 'orange' }} />
-                            {/* <Text style={styles.text}> {order.rating}</Text> */}
-                            <Text style={styles.text}> Đánh Giá (4.6k review)</Text>
-                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
-            </ScrollView>
+            </View>
+            
+        </SafeAreaView>
     )
 }
 
 export default OrderScreen
 
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 15
-    }
+    Text: {
+        fontWeight: '600',
+        fontSize: 24,
+        textAlign: 'center',
+        color: '#e65332',
+        borderColor: 'white',
+        backgroundColor: '#fab3a2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: 'bold',
+        marginTop: 40,
+        width: '40%',
+        borderRadius: 20,
+        borderWidth: 2
+    },
+    titleText: {
+        fontWeight: '600',
+        justifyContent: 'center',
+        fontSize: 26,
+        alignContent: 'center',
+        textAlign: 'center',
+        color: '#e65332',
+        borderColor: 'white',
+        backgroundColor: '#fab3a2',
+        fontWeight: 'bold',
+        marginTop: 40,
+        width: '40%',
+        borderRadius: 20,
+        borderWidth: 2
+    },
 
 })

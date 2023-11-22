@@ -1,69 +1,111 @@
 import { getOrderByID } from "./Api";
 
-export const area=[
-    {
-        "areaId": 1,
-        "address": "10Bis",
-        "districtDtoAreaResponseModel": {
-            "districtId": 9,
-            "districtName": "Quận 9"
-        },
-        "areaName": "First Area ke"
-    },
-    {
-        "areaId": 2,
-        "address": "11Bis",
-        "districtDtoAreaResponseModel": {
-            "districtId": 2,
-            "districtName": "Quận 2"
-        },
-        "areaName": "Second Area"
-    }
+
+
+export const item = [
+	{
+		"createDate": "11/15/2023 12:00:00 AM",
+		"kitchenDtoForMealSession":
+		{
+			"address": "TPHCM",
+			"kitchenId": 1,
+			"name": "TriKitchen",
+			"userId": 1
+		},
+		"mealDtoForMealSession":
+		{
+			"createDate": "11/15/2023 12:00:00 AM",
+			"description": "tat ca la do cong san",
+			"image": "https://homemealtaste.blob.core.windows.net/meal-image/80f4cc34-2a0f-476a-9c92-c95e0d89a663_meal-image",
+			"kitchenId": 1,
+			"mealId": 14,
+			"name": "dory fish"
+		},
+		"mealSessionId": 8,
+		"price": 85000,
+		"quantity": 100,
+		"remainQuantity": 96,
+		"sessionDtoForMealSession":
+		{
+			"areaDtoForMealSession": [Object],
+			"createDate": "11/13/2023 12:00:00 AM",
+			"endDate": "11/13/2023 12:00:00 AM",
+			"endTime": "11/13/2023 7:00:00 PM",
+			"sessionId": 27,
+			"sessionType": "Dinner",
+			"startTime": "11/13/2023 5:00:00 PM",
+			"status": true,
+			"userId": 2
+		},
+		"status": "APPROVED"
+	}
 ]
 
-export const mealinsession =[
-		{
-			"mealSessionId": 9,
-			"mealDtoForMealSession": {
-				"mealId": 20,
-				"name": "dori-hihi",
-				"image": "https://homemealtaste.blob.core.windows.net/meal-image/ff3c7e7b-3739-4a9b-9791-35a33c2a99e2_meal-image",
-				"kitchenId": 1,
-				"createDate": "11/17/2023 12:00:00 AM",
-				"description": "ngon qua"
-			},
-			"sessionDtoForMealSession": {
-				"sessionId": 11,
-				"createDate": "10/31/2023 12:00:00 AM",
-				"startTime": "10/31/2023 5:00:00 PM",
-				"endTime": "10/31/2023 5:00:00 PM",
-				"endDate": "10/31/2023 12:00:00 AM",
-				"userId": 1,
-				"status": true,
-				"sessionType": "Lunch",
-				"areaDtoForMealSession": {
-					"areaId": 1,
-					"address": "Quận Bình Tân Thái Văn Cơ",
-					"areaName": "Quận 12",
-					"districtDtoForMealSession": {
-						"districtId": 13,
-						"districtName": "Quận Tân Bình"
-					}
-				}
-			},
-			"price": 95000.0,
-			"quantity": 15,
-			"remainQuantity": 8,
-			"status": "REJECTED",
+
+export const area = [
+	{
+		"areaId": 1,
+		"address": "10Bis",
+		"districtDtoAreaResponseModel": {
+			"districtId": 9,
+			"districtName": "Quận 9"
+		},
+		"areaName": "First Area ke"
+	},
+	{
+		"areaId": 2,
+		"address": "11Bis",
+		"districtDtoAreaResponseModel": {
+			"districtId": 2,
+			"districtName": "Quận 2"
+		},
+		"areaName": "Second Area"
+	}
+]
+
+export const mealinsession = [
+	{
+		"mealSessionId": 9,
+		"mealDtoForMealSession": {
+			"mealId": 20,
+			"name": "dori-hihi",
+			"image": "https://homemealtaste.blob.core.windows.net/meal-image/ff3c7e7b-3739-4a9b-9791-35a33c2a99e2_meal-image",
+			"kitchenId": 1,
 			"createDate": "11/17/2023 12:00:00 AM",
-			"kitchenDtoForMealSession": {
-				"kitchenId": 1,
-				"userId": 1,
-				"name": "TriKitchen",
-				"address": "TPHCM"
+			"description": "ngon qua"
+		},
+		"sessionDtoForMealSession": {
+			"sessionId": 11,
+			"createDate": "10/31/2023 12:00:00 AM",
+			"startTime": "10/31/2023 5:00:00 PM",
+			"endTime": "10/31/2023 5:00:00 PM",
+			"endDate": "10/31/2023 12:00:00 AM",
+			"userId": 1,
+			"status": true,
+			"sessionType": "Lunch",
+			"areaDtoForMealSession": {
+				"areaId": 1,
+				"address": "Quận Bình Tân Thái Văn Cơ",
+				"areaName": "Quận 12",
+				"districtDtoForMealSession": {
+					"districtId": 13,
+					"districtName": "Quận Tân Bình"
+				}
 			}
+		},
+		"price": 95000.0,
+		"quantity": 15,
+		"remainQuantity": 8,
+		"status": "REJECTED",
+		"createDate": "11/17/2023 12:00:00 AM",
+		"kitchenDtoForMealSession": {
+			"kitchenId": 1,
+			"userId": 1,
+			"name": "TriKitchen",
+			"address": "TPHCM"
 		}
-	]
+	}
+]
 
 export const colors = {
 	COLOR_PRIMARY: "#f96163",

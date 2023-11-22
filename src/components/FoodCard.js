@@ -14,14 +14,11 @@ import { colors, recipeList } from "../Constant";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const FoodCard = () => {
+const FoodCard = ({item}) => {
 	const navigation = useNavigation();
+	console.log("ben food cart",item.mealDtoForMealSession.image)
 	return (
 		<View style={{justifyContent:"center"}}>
-			<FlatList 
-			 	horizontal
-				data={recipeList}
-				renderItem={({ item }) => (
 					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 					<Pressable
 						onPress={() => navigation.navigate("MealDetail", { item: item })}
@@ -40,20 +37,17 @@ const FoodCard = () => {
 							marginRight:20
 						}}
 					>
-						<Image
-							source={item.image}
-							style={{ width: 150, height: 100, resizeMode: "center", borderRadius:15 }}
-						/>
+						{/* //uri // */}
+						<Image source={{uri: item.mealDtoForMealSession.image}} style={{width:100,height:100,position:'relative'}}></Image>
 						<Text>{item.name}</Text>
 						<View style={{ flexDirection: "row", marginTop: 8 }}>
 							<Text>{item.price} </Text>
-							<Text>{item.area}</Text>
+							<Text>{item.mealDtoForMealSession?.name}</Text>
+							<Text>{item.mealDtoForMealSession?.description}</Text>
 						</View>
 					</Pressable>
 					</ScrollView>
-				)}
-				showsVerticalScrollIndicator={false}
-			/>
+
 		</View>
 	);
 };

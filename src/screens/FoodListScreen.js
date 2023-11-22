@@ -7,6 +7,7 @@ import FoodCard from "../components/FoodCard";
 import { recipeList, colors } from "../Constant";
 import { getAllMealInSessionID, getAllSessionByAreaId } from "../Api";
 import { getAllArea } from "../Api";
+import MealSessionCard from "../components/MealSessionCard";
 
 const FoodListScreen = ({ navigation }) => {
 	const [area, setArea] = useState([])
@@ -69,9 +70,9 @@ const FoodListScreen = ({ navigation }) => {
 	// 	fetchAllMealInSessionBySessionId()
 	// }, [sessionId])
 
-	const fetchAllMealInSessionBySessionId = () => {
-		getAllMealInSessionID
-	}
+	// const fetchAllMealInSessionBySessionId = () => {
+	// 	getAllMealInSessionID
+	// }
 
 
 	return (
@@ -128,7 +129,7 @@ const FoodListScreen = ({ navigation }) => {
 									<TouchableOpacity onPress={() => {
 										console.log(area.areaId)
 										setAreaId(area.areaId)
-										console.log(mealInSession)
+										// console.log(mealInSession)
 									}}>
 										<Text style={{ fontSize: 16 }}>
 											{area.areaName}
@@ -139,29 +140,16 @@ const FoodListScreen = ({ navigation }) => {
 							);
 						})}
 					</ScrollView>
-				</View>
-			</View>
-			<FlatList
-				data={session}
-				renderItem={({ item }) => {
-					let array = []
-					getAllMealInSessionID(item.sessionId).then((res) => {
-						array.push(res)
-						console.log("Hien res item", res)
-						console.log("array :: ", array)
-					})
-					// console.log("array :: ",array)
-					return (
 						<View>
-							<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
+					
 							{/* <View>data={item}</View> */}
 							{/* <Text>{item.sessionId}</Text> */}
 							<FlatList
-								horizontal
-								data={array}
+								
+								data={session}
 								renderItem={({ item }) => (
-									<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-										<Pressable
+									<ScrollView showsHorizontalScrollIndicator={false}>
+										{/* <Pressable
 											onPress={() => navigation.navigate("MealDetail", { item: item })}
 											style={{
 												backgroundColor: colors.COLOR_LIGHT,
@@ -177,22 +165,23 @@ const FoodListScreen = ({ navigation }) => {
 												paddingVertical: 26,
 												marginRight: 20
 											}}
-										>
-											<Text>{item.mealDtoForMealSession?.name}</Text>
-
+										> */}
+												<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
+											<MealSessionCard sessionId={item.sessionId}/>
 											<View style={{ flexDirection: "row", marginTop: 8 }}>
 											</View>
-										</Pressable>
+										{/* </Pressable> */}
 									</ScrollView>
 								)}
 								showsVerticalScrollIndicator={false}
 							/>
 						</View>
-					)
-				}
-				}
-				showsVerticalScrollIndicator={false}
-			/>
+					
+				
+		
+				</View>
+			</View>
+			
 
 			{/* </View> */}
 			< View >

@@ -4,8 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import FoodListScreen from "./FoodListScreen";
 import OrderCartScreen from "./OrderCartScreen";
-import WalletScreen from "./WalletScreen";
 import UserProfileScreen from "./UserProfileScreen";
+import OrderScreen from "./OrderScreen";
+
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
@@ -38,7 +39,7 @@ const BottomTabNavigator = () => {
           ),
         }}
         name="Order"
-        component={WalletScreen}
+        component={OrderScreen}
       />
       <Tab.Screen
         options={{
