@@ -25,9 +25,9 @@ export const getOrderByID = (id) => {
     }
 }
 
-export const getAllMealInSessionID = (id) => {
+export const getAllMealInSessionID =async (id) => {
     try {
-        const repose = axios.get(`https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-by-session-id?sessionid=${id}`)
+        const repose =  await axios.get(`https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-by-session-id?sessionid=${id}`)
         return repose.data
     } catch (error) {
         console.log("err in get all meal in sesion id")
