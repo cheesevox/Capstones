@@ -1,9 +1,9 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 
-const SearchFilter = ({ icon, placeholder }) => {
+const SearchFilter = ({ placeholder }) => {
 	return (
 		<View
 			style={{
@@ -11,24 +11,28 @@ const SearchFilter = ({ icon, placeholder }) => {
 				backgroundColor: "#fff",
 				paddingVertical: 16,
 				borderRadius: 8,
-				width: '100%',
 				paddingHorizontal: 16,
 				marginVertical: 16,
-				justifyContent: "space-between",
 				shadowColor: "#000",
+				width: "100%",
 				shadowOffset: { width: 0, height: 4 },
 				shadowOpacity: 0.1,
 				shadowRadius: 7,
+				justifyContent: "space-between",
+				alignItems: "center"
 			}}
 		>
-			<FontAwesome name={icon} size={20} color="#f96163" />
-			<TextInput placeholder="enter your food" style={{ fontSize: 16, color: "#808080", paddingRight: 200 }}>
-				{/* {placeholder} */}
-			</TextInput>
-			<View style={{ flexDirection: "row-reverse", paddingBottom: 2 }}>
-				<Ionicons name="arrow-down-circle-outline" size={25} color={'red'} />
-				<Text style={{ flexDirection: "row-reverse", fontSize: 16, justifyContent: "center", alignItems: "center" }}> Quan 0 </Text>
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<Ionicons name="search-outline" size={15} />
+				<TextInput placeholder=" Mon Ngon Me Lam" style={{ paddingLeft: 10, fontSize: 16, color: "#808080", }}>
+					{/* {placeholder} */}
+				</TextInput>
 			</View>
+			<TouchableOpacity>
+				<Ionicons name="location-outline" size={15} >
+					<Text>Quan Binh Thanh</Text>
+				</Ionicons>
+			</TouchableOpacity>
 		</View>
 
 

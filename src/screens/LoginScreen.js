@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -61,7 +62,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{}}>
+    <SafeAreaView style={{}}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <ToastMessage
           type={toastType}
@@ -199,7 +200,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

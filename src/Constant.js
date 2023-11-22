@@ -1,6 +1,8 @@
 import { getOrderByID } from "./Api";
 
-
+export const imageorder ={
+		image: require("../assets/images/pizza.png"),
+}
 
 export const item = [
 	{

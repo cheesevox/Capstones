@@ -4,12 +4,14 @@ import SearchFilter from "../components/SearchFilter";
 import React, { useState, useEffect } from "react";
 // import CategoriesFilter from "../components/CategoriesFilter";
 import FoodCard from "../components/FoodCard";
-import { recipeList, colors } from "../Constant";
+import { colors } from "../Constant";
 import { getAllMealInSessionID, getAllSessionByAreaId } from "../Api";
 import { getAllArea } from "../Api";
 import MealSessionCard from "../components/MealSessionCard";
 
 const FoodListScreen = ({ navigation }) => {
+	const [touch, setTouch] =useState(0)
+
 	const [area, setArea] = useState([])
 	const [areaId, setAreaId] = useState()
 	const [session, setSession] = useState([])
@@ -98,7 +100,7 @@ const FoodListScreen = ({ navigation }) => {
 
 
 			{/* Search Filter */}
-			<SearchFilter icon="search" />
+			<SearchFilter placeholder=" Món Ngon Mẹ Làm "/>
 
 			{/* sessiion filter */}
 
@@ -127,6 +129,7 @@ const FoodListScreen = ({ navigation }) => {
 									}}
 								>
 									<TouchableOpacity onPress={() => {
+										key={areaId}
 										console.log(area.areaId)
 										setAreaId(area.areaId)
 										// console.log(mealInSession)
@@ -141,11 +144,7 @@ const FoodListScreen = ({ navigation }) => {
 						})}
 					</ScrollView>
 						<View>
-					
-							{/* <View>data={item}</View> */}
-							{/* <Text>{item.sessionId}</Text> */}
 							<FlatList
-								
 								data={session}
 								renderItem={({ item }) => (
 									<ScrollView showsHorizontalScrollIndicator={false}>
@@ -166,7 +165,7 @@ const FoodListScreen = ({ navigation }) => {
 												marginRight: 20
 											}}
 										> */}
-												<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
+											<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
 											<MealSessionCard sessionId={item.sessionId}/>
 											<View style={{ flexDirection: "row", marginTop: 8 }}>
 											</View>
@@ -194,4 +193,7 @@ const FoodListScreen = ({ navigation }) => {
 
 export default FoodListScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	touchactive: {backgroundColor:'#f96163'},
+	textAreaActive:{backgroundColor:'#f96163'}
+});

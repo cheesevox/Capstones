@@ -1,13 +1,11 @@
 import { ScrollView,StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState, useEffect } from "react";
-import { categories, colors } from "../Constant";
+import { colors } from "../Constant";
 import { getAllArea } from "../Api";
 
-const changePicker =({index})=>{
-
-}
 
 const CategoriesFilter = () => {
+	const [active, setActive] = useState(1)
 	const [area, setArea] = useState([])
 	const [areaId,setAreaId] = useState(area[0]?.areaId)
 	const [session,setSession] =useState([])
@@ -25,8 +23,8 @@ const CategoriesFilter = () => {
 						<View
 							key={index}
 							style={{
-								backgroundColor: colors.COLOR_LIGHT,
-									// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+								backgroundColor: 
+									active === index ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
 								marginRight: 10,
 								borderRadius: 8,
 								paddingHorizontal: 16,
@@ -39,8 +37,10 @@ const CategoriesFilter = () => {
 								marginVertical: 16,
 							}}
 						>
-							<TouchableOpacity onPress={()=>setAreaId(area.areaId)}>
-								<Text style={{fontSize:16}}>
+							<TouchableOpacity onPress={()=>setAreaId(area.areaId) && setActive(index)}>
+								<Text style={{fontSize:16 ,
+									color:  active === index && colors.COLOR_LIGHT,
+								}}>
 								{area.areaName}
 								</Text>
 							</TouchableOpacity>

@@ -1,86 +1,111 @@
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import * as Icon from "react-native-feather";
 import { Ionicons } from '@expo/vector-icons';
 import DishCard from '../components/DishCard';
 import { order } from '../Constant';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CartCard from '../components/CartCard';
+
 
 const OrderScreen = ({ navigation }) => {
+    const [activeMenu, setActiveMenu] = useState('Order');
+
     return (
-        <SafeAreaView>
-            <View style={{
-                position: "relative"
-            }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        // <SafeAreaView>
+        <View style={styles.container}>
+            <View style={styles.headder}>
+                <View style={{
+                    // padding:30
+                    flexDirection: 'row', marginTop: 25,
+                }}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
-                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+                        style={{
+                            justifyContent: "center", alignItems: "center",
+                            width: '10%', height: '100%', backgroundColor: 'orange', borderRadius: 28,
+                            position: 'relative'
+                        }}
                     >
                         <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
                     </TouchableOpacity>
-                    <Text style={styles.Text}>
-                        Order Detail
-                    </Text>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("OrderCart")}
-                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
-                    >
-                        <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
-                    </TouchableOpacity>
-                </View>
-                <View style={{ marginTop: 40, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <View style={{ flex: 1, alignItems: 'center', padding: 10, borderWidth: 1, borderTopLeftRadius: 30, borderTopRightRadius: 30 }} >
-                        <TouchableOpacity>
-                            <Text>Order Detail</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'center', padding: 10, borderWidth: 1, borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
-                        <TouchableOpacity>
-                            <Text>
-                                Order Hitory
-                            </Text>
-                        </TouchableOpacity>
+                    <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
+                        <Text style={{
+                            alignItems: 'center', width: '60%', textAlign: 'center',
+                            fontWeight: 'bold', fontSize: 26, borderRadius: 5, borderWidth: 1
+                        }}>Order Detail</Text>
                     </View>
                 </View>
             </View>
-            
-        </SafeAreaView>
+            <View style={styles.secsion1}>
+                <View style={{
+                    flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
+                    padding: 5, backgroundColor: ' white'
+                }}>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: activeMenu == 'Order' ? '#1d5eff' : '#fff',
+                            borderRadius: 5,
+                            // elevation: clickActive == 'Order History' ? 2 : 0
+                        }}
+                        onPress={() => setActiveMenu('Order')}
+                    >
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            // color : 'white'
+                            color: activeMenu == 'Order' ? '#FFFFFF' : '#9ea3b0'
+                        }}>Order History</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                        backgroundColor: activeMenu == 'FeedBack' ? '#1d5eff' : '#fff',
+                        borderRadius: 5,
+                        
+                    }}
+                        onPress={() => setActiveMenu('FeedBack') && navigation.natigate("FeedbackScreen")}
+                    >
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            color: activeMenu == 'FeedBack' ? '#FFFFFF' : '#9ea3b0'
+                        }}>Review</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={styles.body}>
+                <ScrollView>
+                    <CartCard />
+                </ScrollView>
+            </View>
+            <View style={styles.footer}>
+            </View>
+        </View>
     )
 }
 
 export default OrderScreen
 
 const styles = StyleSheet.create({
-    Text: {
-        fontWeight: '600',
-        fontSize: 24,
-        textAlign: 'center',
-        color: '#e65332',
-        borderColor: 'white',
-        backgroundColor: '#fab3a2',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontWeight: 'bold',
-        marginTop: 40,
-        width: '40%',
-        borderRadius: 20,
-        borderWidth: 2
+    container: {
+        flex: 1,
+        gap: 4
     },
-    titleText: {
-        fontWeight: '600',
-        justifyContent: 'center',
-        fontSize: 26,
-        alignContent: 'center',
-        textAlign: 'center',
-        color: '#e65332',
-        borderColor: 'white',
-        backgroundColor: '#fab3a2',
-        fontWeight: 'bold',
-        marginTop: 40,
-        width: '40%',
-        borderRadius: 20,
-        borderWidth: 2
+    headder: {
+        flex: 1,
     },
-
+    secsion1: {
+        flex: 0.4,
+    },
+    body: {
+        flex: 6,
+        display: 'flex'
+    },
+    footer: {
+        flex: 1,
+        backgroundColor: 'red'
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    }
 })
