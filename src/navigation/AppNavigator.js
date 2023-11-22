@@ -12,30 +12,42 @@ import UserProfileScreen from "../screens/UserProfileScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import FeedBackScreen from "../screens/FeedBackScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from '@expo/vector-icons';
+import Ionicons from "@expo/vector-icons";
 import BottomTabNavigator from "../screens/BottomTabNavigation";
+import ChefHomeScreen from "../screens/ChefHome";
+import DishManagement from "../screens/DishManagement";
+import { RouteName } from "../Constant";
 
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-	return (
-		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="CustomerHome" component={BottomTabNavigator} />
-				<Stack.Screen name="Login" component={LoginScreen} />
-				<Stack.Screen name="FoodList" component={FoodListScreen} />
-				<Stack.Screen name="FoodDetail" component={FoodDetailsScreen} />
-				<Stack.Screen name="OrderCart" component={OrderCartScreen} />
-				<Stack.Screen name="Wallet" component={WalletScreen} />
-				<Stack.Screen name="Payment" component={PaymentScreen} />
-				<Stack.Screen name="UserProfile" component={UserProfileScreen} />
-				<Stack.Screen name="Regiter" component={RegisterScreen} />
-				{/* <Stack.Screen name="Order" component={OrderScreen} /> */}
-				<Stack.Screen name="Feedback" component={FeedBackScreen} />
-			</Stack.Navigator>
-			{/* <Tab.Navigator
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="CustomerHome" component={BottomTabNavigator} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="FoodList" component={FoodListScreen} />
+        <Stack.Screen name="FoodDetail" component={FoodDetailsScreen} />
+        <Stack.Screen name="OrderCart" component={OrderCartScreen} />
+        <Stack.Screen name="Wallet" component={WalletScreen} />
+        <Stack.Screen name="Payment" component={PaymentScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="Regiter" component={RegisterScreen} />
+        {/* <Stack.Screen name="Order" component={OrderScreen} /> */}
+        <Stack.Screen name="Feedback" component={FeedBackScreen} />
+        <Stack.Screen name="ChefHome" component={BottomTabNavigator} />
+        <Stack.Screen name="KitchenScreen" component={BottomTabNavigator} />
+        <Stack.Screen
+          name={RouteName.DISH_MANAGEMENT}
+          component={DishManagement}
+        />
+      </Stack.Navigator>
+      {/* <Tab.Navigator
 				initialRouteName="FoodList"
 				screenOptions={({ router }) => ({
 					tabBarIcon: ({ focused, color, size }) => {
@@ -55,13 +67,12 @@ const AppNavigator = () => {
 				})}>
 					<Tab.Screen name="FoodList" component={FoodListScreen} options={{ tabBarBadge: 3 }} />
 					{/* <Tab.Screen name="FoodList" component={FoodListScreen}/> */}
-					<Tab.Screen name="Order" component={OrderCartScreen}/>
-					<Tab.Screen name="Wallet" component={WalletScreen}/>
-					<Tab.Screen name="UserProfile" component={UserProfileScreen}/>
-			{/* </Tab.Navigator> */} 
-
-		</NavigationContainer>
-	);
+      <Tab.Screen name="Order" component={OrderCartScreen} />
+      <Tab.Screen name="Wallet" component={WalletScreen} />
+      <Tab.Screen name="UserProfile" component={UserProfileScreen} />
+      {/* </Tab.Navigator> */}
+    </NavigationContainer>
+  );
 };
 export default AppNavigator;
 
