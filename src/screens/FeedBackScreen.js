@@ -4,7 +4,7 @@ import * as Icon from "react-native-feather";
 import { imageorder } from '../Constant';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function FeedBackScreen() {
+export default function FeedBackScreen({navigation , item}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headder}>
@@ -25,23 +25,31 @@ export default function FeedBackScreen() {
           <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
             <Text style={{
               alignItems: 'center', width: '60%', textAlign: 'center',
-              fontWeight: 'bold', fontSize: 26, borderRadius: 5, borderWidth: 1
-            }}>Order Detail</Text>
+              fontWeight: 'bold', fontSize: 26
+            }}>Review</Text>
           </View>
         </View>
       </View>
       <View style={styles.body}>
-        <View style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginHorizontal: 40, backgroundColor: 'green' }}>
-          <Image source={imageorder.image} style={{ height: 250, width: 400, resizeMode: 'center', borderRadius: 10 }}></Image>
+        <View style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginHorizontal: 40}}>
+          <Image source={{}} style={{ height: 250, width: 400, resizeMode: 'center', borderRadius: 10 }}></Image>
         </View>
         <View style={{ marginHorizontal: 40 }}>
+          {/* name */}
           <Text style={{ fontWeight: 'bold', fontSize: 26 }}>Pizza</Text>
-          <Text style={{ fontWeight: 200, fontSize: 15 }}>( ID:#912328 )</Text>
+          {/* order id */}
+          <Text style={{ fontWeight: 200, fontSize: 15 }}>{item}</Text>
+          {/* price */}
           <Text style={{ color: 'green', fontSize: 17 }}>Price: 25000vnd</Text>
+          {/* addres */}
           <Text><Ionicons name='location-outline' size={20}>Address: Go Vap</Ionicons></Text>
         </View>
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'grey', borderRadius: 30, paddingVertical: 16, width: '80%' }}>
+          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', 
+          backgroundColor: 'grey', borderRadius: 30, paddingVertical: 16, width: '80%' 
+          }}
+          onPress={()=>navigation.navigate("OrderCart")}
+          >
             <Text style={{ color: 'white' }}>Re-Order</Text>
           </TouchableOpacity>
         </View>

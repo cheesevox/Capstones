@@ -6,28 +6,45 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "react-native-feather";
 import { Ionicons } from "@expo/vector-icons";
 import DishCard from "../components/DishCard";
-
+import { getDishByMealId } from "../Api";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../slices/cartSlice";
 const MealDetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch()
   const { item } = route.params;
   const { qty, setQty } = React.useState(1);
   console.log(item);
+  const [meal, setMeal] = useState()
+  const [dish, setDish] = useState([])
+  const fetchAllDish = () => {
+    getDishByMealId(item.mealSessionId).then((res) => {
+      console.log("----------------", res)
+      setMeal(res)
+      setDish(res.dishDto)
+    })
+  }
+
+  useEffect(() => {
+    fetchAllDish()
+  }, [item.mealSessionId])
   return (
-    <View>
+    <View style={{flex:1}}>
       <ScrollView>
         <View
           style={{
-            position: "relative",
+            // position: "relative",
           }}
         >
           <Image
-            source={item.image}
+            source={{ uri: item?.mealDtoForMealSession?.image }}
             style={{
               width: 500,
               height: 200,
+              resizeMode: "center",
             }}
           />
           <TouchableOpacity
@@ -57,23 +74,31 @@ const MealDetailScreen = ({ navigation, route }) => {
               padding: 20,
             }}
           >
+            <View>
+            <TouchableOpacity onPress={()=>navigation.navigate("ChefHome")}>
             <Text
               style={{
                 fontSize: 30,
                 fontWeight: "bold",
+                padding:5,
               }}
             >
-              {item.name}
+              {item?.mealDtoForMealSession?.name}
+            {/* <Icon name="restaurantfast-food-outline-outline" size={25} > </Icon> */}
             </Text>
+            </TouchableOpacity>
+            </View>
+            
             <TouchableOpacity
               // onPress={() => navigation.navigate("MealDetail", { item: item })}
-              onPress={() => navigation.navigate("OrderCart")}
+              onPress={() => {
+                dispatch(addToCart(item))
+                navigation.navigate("OrderCart", {item})}}
               style={{
                 width: 50,
                 height: 50,
                 backgroundColor: "orange",
                 borderRadius: 28,
-                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -106,11 +131,8 @@ const MealDetailScreen = ({ navigation, route }) => {
               <Icon.ArrowLeft style={{ color: "orange" }} strokeWidth={3} />
             </TouchableOpacity>
           </View>
-          <View>
-            <Text></Text>
-          </View>
-
-          <View style={{ backgroundColor: "white", padding: 20, gap: 10 }}>
+          {/* menu */}
+          <View style={{ padding: 20, gap: 10, minHeight:600 }}>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
@@ -120,189 +142,28 @@ const MealDetailScreen = ({ navigation, route }) => {
                   fontSize: 26,
                   paddingBottom: 36,
                   marginLeft: 30,
-                  marginTop: 30,
                 }}
               >
-                Menu Dish
+                Dish List
               </Text>
               <Text
                 style={{
-                  marginRight: 10,
                   fontWeight: "bold",
-                  fontSize: 20,
+                  fontSize: 26,
                   paddingBottom: 36,
                   marginLeft: 30,
-                  marginTop: 36,
                   color: "red",
                 }}
               >
-                {/* {item.price}vnd
-                 */}
-                35000 VND
+                {item?.price}vnd
               </Text>
             </View>
-            {item.dishes.map((dish, index) => (
+            <ScrollView style={{display:"flex"}}>
+            {dish?.map((dish, index) => (
               <DishCard item={{ ...dish }} key={index} />
             ))}
+            </ScrollView>
           </View>
-        </View>
-        return (
-        <View>
-          <ScrollView>
-            <View
-              style={{
-                position: "relative",
-              }}
-            >
-              <Image
-                source={item.image}
-                style={{
-                  width: 500,
-                  height: 360,
-                }}
-              />
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: 40,
-                  height: 40,
-                  position: "absolute",
-                  marginTop: 40,
-                  marginLeft: 24,
-                  backgroundColor: "white",
-                  borderRadius: 28,
-                }}
-              >
-                <Icon.ArrowLeft style={{ color: "orange" }} strokeWidth={3} />
-              </TouchableOpacity>
-              <View
-                style={{
-                  position: "absolute",
-                  marginTop: 260,
-                  width: "100%",
-                  backgroundColor: "#fff",
-                  borderTopLeftRadius: 60,
-                  borderTopRightRadius: 50,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginLeft: 50,
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 30, fontWeight: "bold", marginTop: 10 }}
-                  >
-                    {item.name}
-                  </Text>
-                  <View style={{ marginRight: 20 }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate("OrderCart", { item: item })
-                      }
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: 50,
-                        height: 50,
-                        marginTop: 15,
-                        backgroundColor: "orange",
-                        borderRadius: 28,
-                      }}
-                    >
-                      <Ionicons name="cart-outline" color={"white"} size={25} />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View></View>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: 40,
-                      height: 40,
-                      position: "absolute",
-                      marginTop: 24,
-                      marginLeft: 24,
-                      backgroundColor: "white",
-                      borderRadius: 28,
-                    }}
-                  >
-                    <Icon.ArrowLeft
-                      style={{ color: "orange" }}
-                      strokeWidth={3}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    marginLeft: 50,
-                    paddingBottom: 2,
-                    alignItems: "center",
-                  }}
-                >
-                  <Ionicons
-                    name="star-outline"
-                    size={15}
-                    style={{ color: "orange" }}
-                  />
-                  <Text style={styles.text}> {item.rating}</Text>
-                  <Text style={styles.text}> Đánh Giá (4.6k review)</Text>
-                </View>
-                <View>
-                  <Text></Text>
-                </View>
-              </View>
-              <View style={{ paddingBottom: 36, backgroundColor: "white" }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: 26,
-                      paddingBottom: 36,
-                      marginLeft: 30,
-                      marginTop: 30,
-                    }}
-                  >
-                    Menu Dish
-                  </Text>
-                  <Text
-                    style={{
-                      marginRight: 10,
-                      fontWeight: "bold",
-                      fontSize: 20,
-                      paddingBottom: 36,
-                      marginLeft: 30,
-                      marginTop: 36,
-                    }}
-                  >
-                    {item.price}vnd
-                  </Text>
-                </View>
-                {item.dishes.map((dish, index) => (
-                  <DishCard item={{ ...dish }} key={index} />
-                ))}
-              </View>
-            </View>
-          </ScrollView>
         </View>
       </ScrollView>
     </View>

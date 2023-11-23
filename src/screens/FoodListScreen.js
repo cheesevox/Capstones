@@ -165,7 +165,7 @@ const FoodListScreen = ({ navigation }) => {
 												marginRight: 20
 											}}
 										> */}
-											<Text style={{ fontSize: 20, fontWeight: "bold" }}>Session {item.sessionType}</Text>
+											<Text style={{ fontSize: 25, fontWeight: "bold",elevation:2 }}>Session {item.sessionType}</Text>
 											<MealSessionCard sessionId={item.sessionId}/>
 											<View style={{ flexDirection: "row", marginTop: 8 }}>
 											</View>

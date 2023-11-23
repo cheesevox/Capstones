@@ -6,12 +6,13 @@ const DishCard = ({ item }) => {
     <View style={styles.cartcard}>
       <Image
         style={{
-          width: "30%",
-          height: "100%",
+          width: 100,
+          height: 100,
           marginLeft: 20,
           borderRadius: 20,
+        
         }}
-        source={item.image}
+			source={{ uri: item?.image }}
       />
       <View
         style={{
@@ -22,7 +23,8 @@ const DishCard = ({ item }) => {
         }}
       >
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.name}</Text>
-        <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.type}</Text>
+
+        <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.dishType.name}</Text>
       </View>
     </View>
   );
@@ -36,11 +38,12 @@ const styles = StyleSheet.create({
     minHeight: 100,
     display: "flex",
     flexDirection: "row",
-    borderWidth: 1,
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
     justifyContent: "space-between",
     alignItems: "center",
     borderColor: "gray",
+    marginVertical:10,
+    elevation:4,
   },
 });

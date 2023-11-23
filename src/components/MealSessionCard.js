@@ -14,7 +14,7 @@ export default function MealSessionCard({ sessionId }) {
     <View>
       {allMeal?.map((item, index) => (
         // <Text key={index}>{item.mealDtoForMealSession?.name}</Text>
-        <FoodCard item={item}/>
+        <FoodCard  key={index} item={item}/>
       ))}
     </View>
   );

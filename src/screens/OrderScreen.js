@@ -1,15 +1,30 @@
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Icon from "react-native-feather";
 import { Ionicons } from '@expo/vector-icons';
 import DishCard from '../components/DishCard';
-import { order } from '../Constant';
+import { item, order } from '../Constant';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CartCard from '../components/CartCard';
+import { getAllOrderByCutomerId } from '../Api';
+import { useSelector } from 'react-redux';
 
 
 const OrderScreen = ({ navigation }) => {
+    const [order, setOrder] = useState([])
     const [activeMenu, setActiveMenu] = useState('Order');
+    const user = useSelector((state) => state.user.user)
+    const fectOrderByCustomerId = () => {
+        getAllOrderByCutomerId(user.userId).then((res) => {
+            console.log("Ress order by cutoer", res)
+            setOrder(res)
+        })
+        console.log("111111111111111:", user.userId)
+    }
+    useEffect(() => {
+        fectOrderByCustomerId()
+    }, [user.userId])
+
 
     return (
         // <SafeAreaView>
@@ -32,7 +47,7 @@ const OrderScreen = ({ navigation }) => {
                     <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
                         <Text style={{
                             alignItems: 'center', width: '60%', textAlign: 'center',
-                            fontWeight: 'bold', fontSize: 26, borderRadius: 5, borderWidth: 1
+                            fontWeight: 'bold', fontSize: 26
                         }}>Order Detail</Text>
                     </View>
                 </View>
@@ -44,7 +59,7 @@ const OrderScreen = ({ navigation }) => {
                 }}>
                     <TouchableOpacity
                         style={{
-                            backgroundColor: activeMenu == 'Order' ? '#1d5eff' : '#fff',
+                            // backgroundColor: activeMenu == 'Order' ? '#1d5eff' : '#fff',
                             borderRadius: 5,
                             // elevation: clickActive == 'Order History' ? 2 : 0
                         }}
@@ -53,12 +68,15 @@ const OrderScreen = ({ navigation }) => {
                         <Text style={{
                             fontSize: 16,
                             fontWeight: 'bold',
+                            textDecorationLine: 'underline',
+
                             // color : 'white'
-                            color: activeMenu == 'Order' ? '#FFFFFF' : '#9ea3b0'
+                            color: activeMenu == 'Order' ? 'green' : '#9ea3b0'
                         }}>Order History</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        backgroundColor: activeMenu == 'FeedBack' ? '#1d5eff' : '#fff',
+
+                    {/* <TouchableOpacity style={{
+                        // backgroundColor: activeMenu == 'FeedBack' ? '#1d5eff' : '#fff',
                         borderRadius: 5,
                         
                     }}
@@ -67,14 +85,22 @@ const OrderScreen = ({ navigation }) => {
                         <Text style={{
                             fontSize: 16,
                             fontWeight: 'bold',
-                            color: activeMenu == 'FeedBack' ? '#FFFFFF' : '#9ea3b0'
+                            textDecorationLine: 'underline',
+                            color: activeMenu == 'FeedBack' ? 'green' : '#9ea3b0'
                         }}>Review</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+
                 </View>
             </View>
             <View style={styles.body}>
                 <ScrollView>
-                    <CartCard />
+                    {
+                        order.map((item) => (
+                            <CartCard key={item.orderId} item={item} />
+                        )
+                        )
+                    }
+
                 </ScrollView>
             </View>
             <View style={styles.footer}>
@@ -100,10 +126,7 @@ const styles = StyleSheet.create({
         flex: 6,
         display: 'flex'
     },
-    footer: {
-        flex: 1,
-        backgroundColor: 'red'
-    },
+   
     text: {
         fontSize: 16,
         fontWeight: 'bold',

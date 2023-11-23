@@ -12,8 +12,11 @@ import { Ionicons } from "@expo/vector-icons";
 import ToastMessage from "../components/ToastMessage";
 import { useRef } from "react";
 import { login } from "../Api";
+import { useDispatch } from "react-redux";
+import { getUserInfor } from "../../slices/userSlice";
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
   // collect data
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -22,10 +25,11 @@ const LoginScreen = ({ navigation }) => {
     password: null,
   });
   const Login = () => {
-    console.log("vao dc day khong");
     login(values, navigation)
-      .then((res) => console.log("thnah cong"))
-      .catch((res) => console.log("that bai", res));
+      .then((res) => {
+        dispatch(getUserInfor(res))
+      })
+      .catch((res) => console.log("that bai get api", res));
   };
   //create toast message ref
   const [toastType, setToastType] = useState("success");

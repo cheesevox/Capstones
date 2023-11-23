@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
 export const login = async (values, navigation) => {
   try {
     const response = await axios.post(
@@ -7,8 +8,10 @@ export const login = async (values, navigation) => {
     );
     const { roleId } = response.data;
     if (response.data) {
+  
       if (roleId == 2) {
         navigation.navigate("CustomerHome");
+        return response.data
       } else {
         navigation.navigate("chay toi trang chef");
       }
@@ -101,3 +104,28 @@ export const getAllMealSession = async () => {
     console.log("get all meal ss", error);
   }
 };
+export const getDishByMealId = async (id)=>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Meal/get-single-meal-by-meal-id?mealid=${id}`)
+    return response.data
+  } catch (error) {
+      console.log("get dish by mela id", error)
+  }
+}
+export const createOrderUser = async(values)=>{
+  console.log("values creaorder ///////////////",values)
+  try {
+    const response =await axios.post("https://homemealtaste.azurewebsites.net/api/Order/create-order",values)
+  } catch (error) {
+    console.log("create order",error)
+  }
+}
+
+export const getAllOrderByCutomerId = async(id)=>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Order/get-order-by-customer-id?id=${id}`)
+    return response.data
+  } catch (error) {
+    console.log("erroe all order by cutomer id" ,error)
+  }
+}

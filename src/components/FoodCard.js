@@ -22,7 +22,7 @@ const FoodCard = ({ item }) => {
 		<View style={{ justifyContent: "center" }}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Pressable
-					onPress={() => navigation.navigate("MealDetail", {})}
+					onPress={() => navigation.navigate("MealDetail", {item})}
 					style={{
 						backgroundColor: colors.COLOR_LIGHT,
 						shadowColor: "#000",
@@ -41,15 +41,15 @@ const FoodCard = ({ item }) => {
 				>
 					{/* //uri // */}
 					<View style={{ alignItems: "center" }}>
-						<Image source={{ uri: item.mealDtoForMealSession.image }} style={{ width: 100, height: 100, position: 'relative' }}></Image>
+						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{ width: 100, height: 100, position: 'relative' }}></Image>
 					</View>
 					{/* <Text>{item.name}</Text> */}
 					<View style={{ flexDirection: "row", marginTop: 8 }}>
 						<Text style={{ fontWeight: "bold", fontSize:20}}>{item.mealDtoForMealSession?.name}</Text>
 					</View>
 					<View>
-						<Text >{item.price} vnd </Text>
-						<Text>{item.mealDtoForMealSession?.description}</Text>
+						<Text >{item?.price} vnd </Text>
+						<Text>{item?.mealDtoForMealSession?.description}</Text>
 					</View>
 				</Pressable>
 			</ScrollView>

@@ -16,6 +16,7 @@ import Ionicons from '@expo/vector-icons';
 import BottomTabNavigator from "../screens/BottomTabNavigation";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import OrderScreen from "../screens/OrderScreen";
+import ChefScreen from "../screens/ChefScreen/ChefScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,8 @@ const AppNavigator = () => {
 				<Stack.Screen name="UserProfile" component={UserProfileScreen} />
 				<Stack.Screen name="Regiter" component={RegisterScreen} />
 				<Stack.Screen name="Feedback" component={FeedBackScreen} />
+				<Stack.Screen name="ChefHome" component={ChefScreen} />
+
 			</Stack.Navigator>
 			{/* <Tab.Navigator
 				initialRouteName="FoodList"
