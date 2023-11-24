@@ -39,7 +39,6 @@ const AppNavigator = () => {
 				<Stack.Screen name="Regiter" component={RegisterScreen} />
 				<Stack.Screen name="Feedback" component={FeedBackScreen} />
 				<Stack.Screen name="ChefHome" component={ChefScreen} />
-
 			</Stack.Navigator>
 			{/* <Tab.Navigator
 				initialRouteName="FoodList"

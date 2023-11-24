@@ -15,7 +15,7 @@ const SearchFilter = ({ placeholder }) => {
 				paddingHorizontal: 16,
 				marginVertical: 16,
 				shadowColor: "#000",
-				width: "100%",
+				width: "60%",
 				shadowOffset: { width: 0, height: 4 },
 				shadowOpacity: 0.1,
 				shadowRadius: 7,

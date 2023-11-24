@@ -50,6 +50,7 @@ const FoodCard = ({ item }) => {
 					<View>
 						<Text >{item?.price} vnd </Text>
 						<Text>{item?.mealDtoForMealSession?.description}</Text>
+						<Text>quantity {item?.remainQuantity}</Text>
 					</View>
 				</Pressable>
 			</ScrollView>

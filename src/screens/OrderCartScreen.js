@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
@@ -8,32 +8,36 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createOrderUser } from '../Api'
 
 const OrderCartScreen = ({ navigation, route }) => {
-  const { item } = route.params;
-  console.log(" CArt SCreen : ",item);
-  const user = useSelector((state)=>state.user.user)
-  console.log("USER NEWEEEEEEEEEEE",user)
-  const [quantity,setQuantity] = useState(1)
-  const [values,setValues] = useState({
-    customerId:user.userId,
-    mealSessionId:item.mealSessionId,
-    quantity:quantity,
+  const { item } = route.params || {};
+  console.log("itemmmmmmmmmmmmmmmmmmm : ", item);
+  const user = useSelector((state) => state.user.user)
+  console.log("USER NEWEEEEEEEEEEE", user)
+  const [quantity, setQuantity] = useState(1)
+  const [values, setValues] = useState({
+    customerId: user.userId,
+    mealSessionId: item?.mealSessionId,
+    quantity: quantity,
 
   })
-  const createOrder = ()=>{
-    createOrderUser({...values,quantity:quantity})
+  const createOrder = () => {
+    createOrderUser({ ...values, quantity: quantity })
   }
-  const increase = ()=>{
-    setQuantity(quantity+1)
-  }
-  const decrease = ()=>{
-    if(quantity >0){
-      setQuantity(quantity-1)
+  const increase = () => {
+    if(quantity < item.remainQuantity){
+      setQuantity(quantity + 1) 
     }else{
+      setQuantity(item.remainQuantity)
+    }
+  }
+  const decrease = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1)
+    } else {
       setQuantity(0)
     }
   }
   const CartCard = ({ item }) => {
-    console.log("+++++++++++",item)
+    console.log("+++++++++++", item)
     return <View style={styles.cartcard}>
       <View style={{
         height: 100,
@@ -43,12 +47,13 @@ const OrderCartScreen = ({ navigation, route }) => {
       }}>
         <View style={{ flexDirection: 'row' }}>
           <Image
-            source={{uri: item?.mealDtoForMealSession?.image}}
+            source={{ uri: item?.mealDtoForMealSession?.image }}
             style={{ width: 50, height: 50, resizeMode: "cover" }}
           />
           <View style={{ justifyContent: 'center', flexDirection: 'column', marginLeft: 20 }}>
             <Text style={styles.textItem}>{item?.mealDtoForMealSession?.name}</Text>
             <Text style={styles.textItem}>Description: {item?.mealDtoForMealSession.description}</Text>
+            <Text>Remain quantiy : {item.remainQuantity}</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {/* <Text style={styles.textItem}>Price: {item.price}</Text> */}
             </View>
@@ -57,12 +62,14 @@ const OrderCartScreen = ({ navigation, route }) => {
       </View>
       <View style={{ alignItems: 'center' }}>
         <View style={styles.actionButton}>
-          <TouchableOpacity onPress={()=>increase()}>
-          <Ionicons name="add-circle-outline" size={25} color={Colors.black}></Ionicons>
+          <TouchableOpacity onPress={() => increase()}>
+            <Ionicons name="add-circle-outline" size={25} color={Colors.black}></Ionicons>
           </TouchableOpacity>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>{quantity}</Text>
-          <TouchableOpacity onPress={()=>decrease()}>
-          <Ionicons name="remove-circle-outline" size={25} color={Colors.black}></Ionicons>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>
+            {quantity}
+            </Text>
+          <TouchableOpacity onPress={() => decrease()}>
+            <Ionicons name="remove-circle-outline" size={25} color={Colors.black}></Ionicons>
           </TouchableOpacity>
         </View>
       </View>
@@ -86,29 +93,29 @@ const OrderCartScreen = ({ navigation, route }) => {
         </Text>
       </View>
       <View style={{ padding: 30, backgroundColor: '#f7e4ad' }}>
-        <TouchableOpacity style={{ flexDirection: 'row-reverse', justifyContent:'space-between' }}>
+        <TouchableOpacity style={{ flexDirection: 'row-reverse', justifyContent: 'space-between' }}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#de8407' }}>Change</Text>
-          <Text style={{fontSize:16, marginLeft:40}}>Chef is prepare food for 30minus</Text>
+          <Text style={{ fontSize: 16, marginLeft: 40 }}>Chef is prepare food for 30minus</Text>
         </TouchableOpacity>
       </View>
-      
+
       <ScrollView>
         {
-          quantity == 0 ? null :<CartCard item={item}/>
+          item === undefined ? null : (quantity === 0 ? "" : <CartCard item={item} />) 
         }
       </ScrollView>
-      <View style={{ }}>
+      <View>
         <View
           style={{
-            width:'100%',
+            width: '100%',
             backgroundColor: '#f7e4ad',
             borderTopLeftRadius: 36,
             borderTopRightRadius: 36,
-            padding:20,
-            paddingTop:30,
-            display : quantity == 0 ? 'none' : 'block'
+            padding: 20,
+            paddingTop: 30,
+            display: item === undefined ? 'none' : (quantity === 0 ? 'none' : 'block') 
           }}>
-            {/* <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+          {/* <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
               <Text>
                 Subtotal
               </Text>
@@ -116,35 +123,36 @@ const OrderCartScreen = ({ navigation, route }) => {
                 {item.price}
               </Text>
             </View> */}
-            <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-              <Text style={{fontWeight:'bold', fontSize:20}}>
-                Order Total
-              </Text>
-              <Text style={{fontWeight:'bold', fontSize:20}}>
-                {item.price*quantity}
-              </Text>
-            </View>
-            <View style={{justifyContent:'center', alignItems:'center'}}>
-            <TouchableOpacity
-            onPress={() => {
-              createOrder()  
-              navigation.navigate("FoodList")}
-            }
-            style={{
-              backgroundColor: "#f96163",
-              borderRadius: 29,
-              paddingVertical: 18,
-              marginTop:30,
-              width: "80%",
-              alignItems: "center",
-            }}
-            disabled={quantity === 0 }
-          >
-            <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-              Place Holder
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+              Order Total
             </Text>
-          </TouchableOpacity>
-            </View>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+              {item?.price * quantity} vnd
+            </Text>
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => {
+                createOrder()
+                navigation.navigate("FoodList")
+              }
+              }
+              style={{
+                backgroundColor: "#f96163",
+                borderRadius: 29,
+                paddingVertical: 18,
+                marginTop: 30,
+                width: "80%",
+                alignItems: "center",
+              }}
+              disabled={quantity === 0}
+            >
+              <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
+                Place Holder
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

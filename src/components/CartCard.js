@@ -29,7 +29,6 @@ const CartCard = ({ item }) => {
               borderRadius:5,
               borderColor:'gray',
               textAlign:'center',
-              
             }}>{item?.status}</Text>
           </View>
         </View>

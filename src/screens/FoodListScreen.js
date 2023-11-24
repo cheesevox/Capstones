@@ -3,11 +3,13 @@ import Header from "../components/Header";
 import SearchFilter from "../components/SearchFilter";
 import React, { useState, useEffect } from "react";
 // import CategoriesFilter from "../components/CategoriesFilter";
-import { colors, item } from "../Constant";
-import { getAllMealInSessionID, getAllSessionByAreaId } from "../Api";
+import { colors, item, user } from "../Constant";
+import { getAllAreaByDistrictId, getAllDistrict, getAllMealInSessionID, getAllSessionByAreaId } from "../Api";
 import { getAllArea } from "../Api";
 import MealSessionCard from "../components/MealSessionCard";
 import { Dropdown } from 'react-native-element-dropdown';
+import { AlignCenter } from "react-native-feather";
+import { useSelector } from "react-redux";
 
 
 const FoodListScreen = ({ navigation }) => {
@@ -17,6 +19,13 @@ const FoodListScreen = ({ navigation }) => {
 	const [session, setSession] = useState([])
 	const [mealInSession, setMealInSession] = useState([])
 	const [mealInSessionId, setMealInSessionId] = useState([])
+	const districtDefault = useSelector(state=>state.user.user?.districtId)
+	console.log("district defaulttttttttttttttttt",districtDefault)
+	const [district, setDistrict] = useState([])
+	// const [districtId, setDistrictId] = useState([])
+	const [districtId, setDistrictId] = useState();
+
+	const [isFocus, setIsFocus] = useState(false);
 
 	const fetchAllSessionByAreaId = () => {
 		getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
@@ -24,39 +33,33 @@ const FoodListScreen = ({ navigation }) => {
 			setSession(res)
 		}).catch(error => console.log(error))
 	}
-	useEffect(() => {
-		getAllArea().then((ref) => {
-			console.log(ref)
-			setArea(ref)
-		})
-		console.log("area id", area[0]?.areaId)
-	}, [])
+
+	const fectchAllAreaByDistrictId =() =>{
+		getAllAreaByDistrictId(districtId ? districtId : districtDefault).then((res) =>{
+			console.log("quan 12 neeeeeeeeeeeeeeeeeeeeeeeeee",res)
+			console.log("district by id" ,res)
+			setArea(res)
+		}).catch(error => console.log(error))
+	}
+
 	useEffect(() => {
 		fetchAllSessionByAreaId()
 	}, [areaId])
 
+	useEffect(()=>{
+		fectchAllAreaByDistrictId()
+		console.log("co vao dc day khong")
+	},[districtId])
 
-	const datas = [
-		{ label: 'Go Vap', value: '1' },
-		{ label: 'Binh Thanh', value: '2' },
-		{ label: 'Tan Binh', value: '3' },
-		{ label: 'Quan 12', value: '4' },
-		{ label: 'Quan 5', value: '5' },
-	];
+	useEffect(()=>{
+		getAllDistrict().then((ref)=>{
+			console.log(ref)
+			setDistrict(ref)
+		})
+	}, [])
 
-	const [value, setValue] = useState(null);
-	const [isFocus, setIsFocus] = useState(false);
 
-	const renderLabel = () => {
-		if (value || isFocus) {
-			return (
-				<Text style={[styles.label, isFocus && { color: 'blue' }]}>
-					Dropdown label
-				</Text>
-			);
-		}
-		return null;
-	};
+
 
 	return (
 
@@ -72,7 +75,6 @@ const FoodListScreen = ({ navigation }) => {
 						>
 							<Header headerIcon={"user"} style={{}} />
 							<Header headerText={"Hello user"} />
-
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -82,29 +84,34 @@ const FoodListScreen = ({ navigation }) => {
 
 
 			{/* Search Filter */}
-			<SearchFilter placeholder=" Món Ngon Mẹ Làm "
-			// item={item}
-			/>
-			<View style={styles.container}>
-				{renderLabel()}
-				<Dropdown
-					style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-					placeholderStyle={styles.placeholderStyle}
-					selectedTextStyle={styles.selectedTextStyle}
-					inputSearchStyle={styles.inputSearchStyle}
-					data={datas}
-					labelField="label"
-					valueField="value"
-					placeholder={!isFocus ? 'Select District' : '...'}
-					searchPlaceholder="Search..."
-					value={value}
-					onFocus={() => setIsFocus(true)}
-					onBlur={() => setIsFocus(false)}
-					onChange={item => {
-						setValue(item.value);
-						setIsFocus(false);
-					}}
+			<View style={{ flexDirection: "row" }}>
+
+				<SearchFilter placeholder="Fuck Did You WA'NN Food"
+				// item={item}
 				/>
+				<View style={{ backgroundColor: 'white', borderRadius: 10, width: '35%', elevation: 5, shadowColor: 'black', height: 60, top: 15, left: 15, justifyContent: "center", padding: 5 }}>
+					<View style={styles.container}>
+						<Dropdown
+							style={[styles.dropdown]}
+							placeholderStyle={styles.placeholderStyle}
+							selectedTextStyle={styles.selectedTextStyle}
+							inputSearchStyle={styles.inputSearchStyle}
+							data={district}
+							labelField="districtName"
+							valueField="districtId"
+							placeholder={!isFocus ? 'District' : ''}
+							searchPlaceholder="Search..."
+							value={districtDefault}
+							onFocus={() => setIsFocus(true)}
+							onBlur={() => setIsFocus(false)}
+							onChange={(value) => {
+								console.log("99999999999999999",value.districtId)
+								setDistrictId(value.districtId);
+								setIsFocus(false);
+							}}
+						/>
+					</View>
+				</View>
 			</View>
 
 			{/* sessiion filter */}
@@ -114,7 +121,7 @@ const FoodListScreen = ({ navigation }) => {
 				{/* district list */}
 				<View>
 					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-						{area.map((area, index) => {
+						{area?.map((area, index) => {
 							return (
 								<View
 									key={index}
@@ -148,28 +155,56 @@ const FoodListScreen = ({ navigation }) => {
 							);
 						})}
 					</ScrollView>
+					<Text>SESSEION</Text>
+					<ScrollView showsHorizontalScrollIndicator={false}>
+									<Text style={{ fontSize: 25, fontWeight: "bold", elevation: 2 }}>{session?.sessionType}</Text>
+									<MealSessionCard sessionId={session?.sessionId} />
+									<View style={{ flexDirection: "row", marginTop: 8 }}>
+									</View>
+									{/* </Pressable> */}
+								</ScrollView>
+					{/* <View>
+						{/* <ScrollView>
+						{session.map((sessiion, index) => {
+							return (
+								<View
+									key={index}
+									style={{
+										backgroundColor: colors.COLOR_LIGHT,
+										// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+										marginRight: 10,
+										borderRadius: 8,
+										paddingHorizontal: 16,
+										paddingVertical: 10,
+										shadowColor: "#000",
+										shadowOffset: { width: 0, height: 4 },
+										shadowOpacity: 0.1,
+										shadowRadius: 7,
+										width: "auto",
+										marginVertical: 16,
+									}}
+								>
+									<TouchableOpacity onPress={() => {
+										key = { sessionId }
+										console.log(sessiion.sessionId)
+										setAreaId(sessiion.sessionId)
+										// console.log(mealInSession)
+									}}>
+										<Text style={{ fontSize: 16 }}>
+											{sessiion.sessionType}
+											{/* {area.session} */}
+										{/* </Text>
+									</TouchableOpacity>
+								</View>
+							);
+						})}
+						</ScrollView> */}
+					{/* </View> */} 
 					<View>
 						<FlatList
 							data={session}
 							renderItem={({ item }) => (
 								<ScrollView showsHorizontalScrollIndicator={false}>
-									{/* <Pressable
-											onPress={() => navigation.navigate("MealDetail", { item: item })}
-											style={{
-												backgroundColor: colors.COLOR_LIGHT,
-												shadowColor: "#000",
-												shadowOffset: { width: 0, height: 4 },
-												shadowOpacity: 0.1,
-												shadowRadius: 7,
-												elevation: 5,
-												borderRadius: 16,
-												marginVertical: 16,
-												alignItems: "center",
-												paddingHorizontal: 8,
-												paddingVertical: 26,
-												marginRight: 20
-											}}
-										> */}
 									<Text style={{ fontSize: 25, fontWeight: "bold", elevation: 2 }}>Session {item.sessionType}</Text>
 									<MealSessionCard sessionId={item.sessionId} />
 									<View style={{ flexDirection: "row", marginTop: 8 }}>
@@ -177,7 +212,6 @@ const FoodListScreen = ({ navigation }) => {
 									{/* </Pressable> */}
 								</ScrollView>
 							)}
-							showsVerticalScrollIndicator={false}
 						/>
 					</View>
 
@@ -198,39 +232,36 @@ export default FoodListScreen;
 
 const styles = StyleSheet.create({
 	touchactive: { backgroundColor: '#f96163' },
-	textAreaActive: { backgroundColor: '#f96163',
-	container: {
-		backgroundColor: 'white',
-		padding: 16,
-	  },
-	  dropdown: {
-		height: 50,
-		borderColor: 'gray',
-		borderWidth: 0.5,
-		borderRadius: 8,
-		paddingHorizontal: 8,
-	  },
-	  icon: {
-		marginRight: 5,
-	  },
-	  label: {
-		position: 'relative',
-		backgroundColor: 'white',
-		left: 22,
-		top: 8,
-		paddingHorizontal: 8,
-		fontSize: 14,
-	  },
-	  placeholderStyle: {
-		fontSize: 16,
-	  },
-	  selectedTextStyle: {
-		fontSize: 16,
-	  },
-	  inputSearchStyle: {
-		height: 40,
-		fontSize: 16,
-	  },
+	textAreaActive: {
+		backgroundColor: '#f96163',
+		container: {
+			backgroundColor: 'white',
+			padding: 16,
+		},
+		dropdown: {
+			height: 50,
+			borderColor: 'gray',
+			borderWidth: 0.5,
+			borderRadius: 8,
+			paddingHorizontal: 8,
+		},
+		icon: {
+			marginRight: 5,
+		},
+		label: {
+			backgroundColor: 'white',
+			paddingHorizontal: 8,
+			justifyContent: 'center',
+		},
+		placeholderStyle: {
+			fontSize: 12,
+		},
+		selectedTextStyle: {
+			fontSize: 10, AlignItem: 'center'
+		},
+		inputSearchStyle: {
+			fontSize: 12,
+		},
 
-}
+	}
 });

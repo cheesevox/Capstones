@@ -8,7 +8,6 @@ export const login = async (values, navigation) => {
     );
     const { roleId } = response.data;
     if (response.data) {
-  
       if (roleId == 2) {
         navigation.navigate("CustomerHome");
         return response.data
@@ -133,8 +132,26 @@ export const getAllOrderByCutomerId = async(id)=>{
 export const getAllAreaByDistrictId = async(id) =>{
   try {
     const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Area/get-area-by-district-id?districtid=${id}`)
+    console.log("tra ve area cho kaooooooooooo",response.data)
     return response.data
   } catch (error) {
     console.log("error in getall area by district")
+  }
+}
+export const getAllDistrict = async () => {
+  try {
+    const repose = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/District/get-all-district`
+    );
+    return repose.data;
+  } catch (error) {}
+};
+
+export const getUserByID = async (id)=>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/User/get-user-by-id?id=${id}`)
+    return response.data
+  } catch (error) {
+    console.log("error user by id " ,error)
   }
 }

@@ -188,10 +188,12 @@ export const order = [
 ]
 
 
+export const images=[{
+	image: require("../assets/images/avatar.jpg")
+}]
 
 
-
-export const user = [{
+export const userimage = [{
 	id: "1",
 	name: "Phương Đại Ka",
 	image: require("../assets/images/avatar.jpg"),

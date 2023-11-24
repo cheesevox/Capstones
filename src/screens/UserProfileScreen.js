@@ -1,15 +1,33 @@
-import { FlatList, Image,ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { user } from '../Constant'
+import { FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { images } from '../Constant'
 import * as Icon from "react-native-feather";
 import UserCard from '../components/UserCard'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons/build/Icons';
+import { useSelector } from 'react-redux';
+import { getUserByID } from '../Api';
 
 const UserProfileScreen = ({ navigation }) => {
+  const user = useSelector(state => state.user.user)
+  const [profile, setProfile] = useState('')
+
+  const fectProfileByCustomerId = () => {
+    getUserByID(user.userId).then((res) => {
+      console.log("Res by customer ID", res)
+      setProfile(res)
+    })
+    console.log("111111111111111:", user.userId)
+  }
+  useEffect(() => {
+    fectProfileByCustomerId()
+  }, [user.userId])
+
+
+  console.log("UDSESDDDD", profile)
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flexDirection: 'row' , justifyContent:'space-around' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
@@ -26,11 +44,46 @@ const UserProfileScreen = ({ navigation }) => {
           <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
         </TouchableOpacity>
       </View>
-
-      <FlatList
-        data={user}
+      <ScrollView>
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginHorizontal: 30 }}>
+          <Image
+          source={images.image}
+            style={{ borderRadius: 50, width: 200, height: 200, resizeMode: "cover" }}
+          />
+          <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 26, color: 'orange' }}>{profile.name}</Text>
+          <View style={styles.cartcard}>
+            <View style={{
+              height: 250,
+              marginLeft: 10,
+              paddingVertical: 25,
+              marginHorizontal: 20,
+              justifyContent: 'space-between',
+              fontWeight: "",
+              flex: 1
+            }}>
+              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Address : {profile.address}</Ionicons>
+              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Phone : {profile.phone} </Ionicons>
+              <TouchableOpacity>
+                <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Email : {profile.email}</Ionicons>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Wallet")}
+              >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+                >
+                  <Ionicons
+                    name='wallet-outline' size={20} paddingHorizontal={5}> Wallet
+                  </Ionicons>
+                  <Text style={{ fontSize: 20 }}>{profile.walletDto}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      {/* <FlatList
+        data={profile}
         renderItem={({ item }) =>
-          // <UserCard item={item} />
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginHorizontal: 30 }}>
             <Image
               source={item.image}
@@ -47,6 +100,15 @@ const UserProfileScreen = ({ navigation }) => {
                 fontWeight: "",
                 flex: 1
               }}>
+                <TouchableOpacity>
+                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Name {item.name} </Ionicons>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Help {item.email} </Ionicons>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Term & Policy {item.phone}</Ionicons>
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Wallet")}
                 >
@@ -55,25 +117,15 @@ const UserProfileScreen = ({ navigation }) => {
                     <Ionicons
                       name='wallet-outline' size={25} paddingHorizontal={5}> Wallet
                     </Ionicons>
-                    <Text style={{ fontSize: 20 }}>{item.wallet}</Text>
+                    <Text style={{ fontSize: 20 }}>{item.walletDto}</Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Setting </Ionicons>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Help </Ionicons>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionicons name='wallet-outline' size={25} paddingHorizontal={5}> Term & Policy</Ionicons>
-                </TouchableOpacity>
               </View>
-
             </View>
           </View>
         }
       >
-      </FlatList>
+      </FlatList> */}
       <View style={{
         justifyContent: 'center',
         alignItems: "center",
@@ -93,7 +145,7 @@ const UserProfileScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 const styles = StyleSheet.create({
@@ -104,8 +156,8 @@ const styles = StyleSheet.create({
     color: '#e65332',
     borderColor: 'white',
     backgroundColor: '#fab3a2',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     fontWeight: 'bold',
     marginTop: 40,
     width: '40%',
@@ -122,6 +174,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center'
-},
+  },
 })
 export default UserProfileScreen
