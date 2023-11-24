@@ -36,7 +36,7 @@ const CartCard = ({ item }) => {
       </View>
       <View style={{ marginRight: 20, alignItems: 'center',  padding: 10, borderRadius: 25, backgroundColor: '#79c989' }}>
         <View>
-          <TouchableOpacity onPress={()=>navigation.navigate("Feedback", item={})}>
+          <TouchableOpacity onPress={()=>navigation.navigate("Feedback", item={item})}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 , color:'white'}}>Review</Text>
           </TouchableOpacity>
         </View>

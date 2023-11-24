@@ -32,7 +32,7 @@ export default function FeedBackScreen({navigation , item}) {
       </View>
       <View style={styles.body}>
         <View style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginHorizontal: 40}}>
-          <Image source={{}} style={{ height: 250, width: 400, resizeMode: 'center', borderRadius: 10 }}></Image>
+          <Image source={{uri: item?.mealSessionDto2?.mealDto2?.image}} style={{ height: 250, width: 400, resizeMode: 'center', borderRadius: 10 }}></Image>
         </View>
         <View style={{ marginHorizontal: 40 }}>
           {/* name */}

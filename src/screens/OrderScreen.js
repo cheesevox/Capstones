@@ -25,7 +25,6 @@ const OrderScreen = ({ navigation }) => {
         fectOrderByCustomerId()
     }, [user.userId])
 
-
     return (
         // <SafeAreaView>
         <View style={styles.container}>

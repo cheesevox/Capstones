@@ -129,3 +129,12 @@ export const getAllOrderByCutomerId = async(id)=>{
     console.log("erroe all order by cutomer id" ,error)
   }
 }
+
+export const getAllAreaByDistrictId = async(id) =>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Area/get-area-by-district-id?districtid=${id}`)
+    return response.data
+  } catch (error) {
+    console.log("error in getall area by district")
+  }
+}
