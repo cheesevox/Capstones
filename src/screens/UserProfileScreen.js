@@ -1,6 +1,6 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { images } from '../Constant'
+import { images, item } from '../Constant'
 import * as Icon from "react-native-feather";
 import UserCard from '../components/UserCard'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -38,10 +38,10 @@ const UserProfileScreen = ({ navigation }) => {
           User Profile
         </Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("OrderCart")}
-          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+          // onPress={() => navigation.navigate("OrderCart")}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
         >
-          <Icon.CreditCard style={{ color: 'white' }} strokeWidth={3} />
+          <Icon.CreditCard style={{}} strokeWidth={3} />
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -67,14 +67,15 @@ const UserProfileScreen = ({ navigation }) => {
                 <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Email : {profile.email}</Ionicons>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Wallet")}
+                // onPress={() => navigation.navigate("Wallet", item={profile})}
+                onPress={() => navigation.navigate("Wallet", { item: profile })}
               >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+                <View style={{ flexDirection: 'row', alignItems:'center' }}
                 >
                   <Ionicons
-                    name='wallet-outline' size={20} paddingHorizontal={5}> Wallet
+                    name='wallet-outline' size={20} paddingHorizontal={5}> Wallet : 
                   </Ionicons>
-                  <Text style={{ fontSize: 20 }}>{profile.walletDto}</Text>
+                  <Text style={{ fontSize: 20 }}>{profile?.walletDto?.balance} vnd</Text>
                 </View>
               </TouchableOpacity>
             </View>

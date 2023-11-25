@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{}}>
+    <SafeAreaView style={{flex:1}}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <ToastMessage
           type={toastType}

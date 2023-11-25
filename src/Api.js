@@ -42,9 +42,9 @@ export const loginUser = () => {
     console.log("login error in here");
   }
 };
-export const getOrderByID = (id) => {
+export const getOrderByID = async (id) => {
   try {
-    const repose = axios.get(
+    const repose = await axios.get(
       `https://homemealtaste.azurewebsites.net/api/Order/get-order-by-order-id?id=${id}`
     );
     return repose.data;
@@ -153,5 +153,32 @@ export const getUserByID = async (id)=>{
     return response.data
   } catch (error) {
     console.log("error user by id " ,error)
+  }
+}
+
+export const createFeedBackOrder = async(values)=>{
+  console.log("values create feedback///////////////",values)
+  try {
+    const response = await axios.post("https://homemealtaste.azurewebsites.net/api/Feedback/create-feedback",values)
+  } catch (error) {
+    console.log("create feedback",error)
+  }
+}
+
+export const getAllFeedbackByKitchenId = async (id) =>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Feedback/get-feedback-by-kitchen-id?kitchenid=${id}`)
+    return response.data
+  } catch (error) {
+    console.log("error feedback", error)
+  }
+}
+
+export const createPayment = async(values)=>{
+  console.log("values create Payemnet$$$$$",values)
+  try {
+    const response = await axios.post("https://homemealtaste.azurewebsites.net/api/Payment",values)
+  } catch (error) {
+    console.log("create payment $$$$",error)
   }
 }

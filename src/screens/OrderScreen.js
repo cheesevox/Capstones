@@ -2,9 +2,6 @@ import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList }
 import React, { useEffect, useState } from 'react'
 import * as Icon from "react-native-feather";
 import { Ionicons } from '@expo/vector-icons';
-import DishCard from '../components/DishCard';
-import { item, order } from '../Constant';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import CartCard from '../components/CartCard';
 import { getAllOrderByCutomerId } from '../Api';
 import { useSelector } from 'react-redux';
@@ -99,7 +96,6 @@ const OrderScreen = ({ navigation }) => {
                         )
                         )
                     }
-
                 </ScrollView>
             </View>
             <View style={styles.footer}>
@@ -125,7 +121,7 @@ const styles = StyleSheet.create({
         flex: 6,
         display: 'flex'
     },
-   
+
     text: {
         fontSize: 16,
         fontWeight: 'bold',

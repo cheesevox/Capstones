@@ -17,7 +17,7 @@ const MealDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { item } = route.params;
   const { qty, setQty } = React.useState(1);
-  console.log(item);
+  console.log("item meal",item);
   const [meal, setMeal] = useState()
   const [dish, setDish] = useState([])
   const fetchAllDish = () => {

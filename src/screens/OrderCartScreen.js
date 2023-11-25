@@ -17,7 +17,6 @@ const OrderCartScreen = ({ navigation, route }) => {
     customerId: user.userId,
     mealSessionId: item?.mealSessionId,
     quantity: quantity,
-
   })
   const createOrder = () => {
     createOrderUser({ ...values, quantity: quantity })
@@ -135,7 +134,7 @@ const OrderCartScreen = ({ navigation, route }) => {
             <TouchableOpacity
               onPress={() => {
                 createOrder()
-                navigation.navigate("FoodList")
+                navigation.navigate("CustomerHome")
               }
               }
               style={{
