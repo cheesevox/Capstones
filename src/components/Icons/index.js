@@ -8,6 +8,8 @@ import KitchenIcon from "./KitchenIcon";
 import OrderIcon from "./OrderIcon";
 import BackIcon from "./BackIcon";
 import AddIcon from "./AddIcon";
+import CameraIcon from "./CameraIcon";
+import MinusIcon from "./MinusIcon";
 
 export default Icons = {
   BellIcon,
@@ -20,4 +22,6 @@ export default Icons = {
   OrderIcon,
   BackIcon,
   AddIcon,
+  CameraIcon,
+  MinusIcon,
 };

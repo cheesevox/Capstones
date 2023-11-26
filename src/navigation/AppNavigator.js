@@ -17,6 +17,9 @@ import BottomTabNavigator from "../screens/BottomTabNavigation";
 import ChefHomeScreen from "../screens/ChefHome";
 import DishManagement from "../screens/DishManagement";
 import { RouteName } from "../Constant";
+import formDish from "../screens/DishManagement/components/form-dish";
+import MealManagement from "../screens/MealManagement";
+import formMeal from "../screens/MealManagement/components/form-meal";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,12 +43,29 @@ const AppNavigator = () => {
         <Stack.Screen name="Regiter" component={RegisterScreen} />
         {/* <Stack.Screen name="Order" component={OrderScreen} /> */}
         <Stack.Screen name="Feedback" component={FeedBackScreen} />
-        <Stack.Screen name="ChefHome" component={BottomTabNavigator} />
-        <Stack.Screen name="KitchenScreen" component={BottomTabNavigator} />
+
+        {/*Chef role*/}
+        <Stack.Screen
+          name={RouteName.CHEF_HOME}
+          component={BottomTabNavigator}
+        />
+        <Stack.Screen name={RouteName.KITCHEN} component={BottomTabNavigator} />
+        <Stack.Screen
+          name={RouteName.POST_LIST}
+          component={BottomTabNavigator}
+        />
         <Stack.Screen
           name={RouteName.DISH_MANAGEMENT}
           component={DishManagement}
         />
+        <Stack.Screen name={RouteName.FORM_DISH} component={formDish} />
+
+        <Stack.Screen
+          name={RouteName.MEAL_MANAGEMENT}
+          component={MealManagement}
+        />
+        <Stack.Screen name={RouteName.FORM_MEAL} component={formMeal} />
+        {/*Chef role*/}
       </Stack.Navigator>
       {/* <Tab.Navigator
 				initialRouteName="FoodList"

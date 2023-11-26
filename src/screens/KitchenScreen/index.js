@@ -1,29 +1,23 @@
 import React from "react";
-import BellIcon from "../../components/Icons/BellIcon";
-import MessageIcon from "../../components/Icons/MessageIcon";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import DishIcon from "../../components/Icons/DishIcon";
 import MealIcon from "../../components/Icons/MealIcon";
 import { RouteName } from "../../Constant";
+import HeaderComp from "../../screens/HeaderComp";
 
 const KitchenScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <BellIcon />
-        <MessageIcon />
-      </View>
-      <View style={{ alignItems: "center" }}>
-        <View style={styles.titleHeaderContainer}>
-          <Text style={styles.titleText}>{"Kitchen"}</Text>
-        </View>
-      </View>
+      <HeaderComp
+        label={"Kitchen"}
+        isHasBackIcon={false}
+        isHasBellIcon={true}
+        isHasMessageIcon={true}
+      />
       <View
         style={{
-          backgroundColor: "#d8feec",
           paddingVertical: 36,
           paddingHorizontal: 18,
-          borderRadius: 30,
           gap: 36,
         }}
       >
@@ -40,6 +34,7 @@ const KitchenScreen = ({ navigation }) => {
         >
           <DishIcon />
           <Text style={styles.buttonText}>{"Dish"}</Text>
+          <Text style={styles.buttonText}>{"Let’s see your dish now"}</Text>
         </Pressable>
         <Pressable
           style={({ pressed }) => [
@@ -48,9 +43,13 @@ const KitchenScreen = ({ navigation }) => {
             },
             styles.button,
           ]}
+          onPress={() => {
+            navigation.navigate(RouteName.MEAL_MANAGEMENT);
+          }}
         >
           <MealIcon />
           <Text style={styles.buttonText}>{"Meal"}</Text>
+          <Text style={styles.buttonText}>{"Let’s see your meal now"}</Text>
         </Pressable>
       </View>
     </View>
@@ -59,16 +58,9 @@ const KitchenScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    paddingTop: 50,
-    paddingHorizontal: 20,
     gap: 20,
     backgroundColor: "#FFF",
     height: "100%",
-  },
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   titleHeaderContainer: {
     backgroundColor: "#EFE6DA",
@@ -88,20 +80,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   buttonText: {
-    color: "#000",
+    color: "#FFF",
     textAlign: "center",
     fontFamily: "Poppins",
     fontSize: 20,
     fontWeight: "700",
   },
   button: {
-    backgroundColor: "#EFDBD3",
-    borderRadius: 30,
+    backgroundColor: "#FFAB01",
+    borderRadius: 40,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     gap: 12,
-    paddingVertical: 20,
+    paddingVertical: 50,
   },
 });
 
