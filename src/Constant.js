@@ -3,6 +3,11 @@ import { getOrderByID } from "./Api";
 export const RouteName = {
   CHEF_HOME: "ChefHome",
   DISH_MANAGEMENT: "DishManagement",
+  KITCHEN: "KitchenScreen",
+  POST_LIST: "PostListScreen",
+  FORM_DISH: "FormDish",
+  MEAL_MANAGEMENT: "MealManagement",
+  FORM_MEAL: "FormMeal",
 };
 
 export const colors = {

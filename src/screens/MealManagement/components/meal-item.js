@@ -1,8 +1,9 @@
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { View } from "react-native";
 import { RouteName } from "../../../Constant";
 
-const Dish = (props) => {
+const MealItem = (props) => {
   const { data, navigation } = props;
   return (
     <View style={styles.container}>
@@ -29,9 +30,12 @@ const Dish = (props) => {
         style={{ flex: 1, paddingLeft: 10, gap: 4, justifyContent: "center" }}
       >
         <Text style={styles.nameText}>{data?.name}</Text>
-        <Text
-          style={{ ...styles.nameText, fontSize: 12 }}
-        >{`Type: ${data?.type}`}</Text>
+        <Text style={{ ...styles.nameText, fontSize: 12 }}>
+          {`Type: ${data?.type}`}
+        </Text>
+        <Text style={{ ...styles.nameText, fontSize: 12 }}>
+          {`Description: ${data?.description}`}
+        </Text>
       </View>
       <View
         style={{
@@ -43,7 +47,7 @@ const Dish = (props) => {
       >
         <Pressable
           onPress={() => {
-            navigation.navigate(RouteName.FORM_DISH, {
+            navigation.navigate(RouteName.FORM_MEAL, {
               id: data.id,
             });
           }}
@@ -64,25 +68,6 @@ const Dish = (props) => {
             }
           >
             {"Edit"}
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => {}}
-          style={({ pressed }) => [
-            {
-              opacity: pressed ? 0.5 : 1,
-              backgroundColor: "#E64B17",
-            },
-            styles.buttonStyle,
-          ]}
-        >
-          <Text
-            style={{
-              color: "white",
-              ...styles.buttonText,
-            }}
-          >
-            {"Remove"}
           </Text>
         </Pressable>
       </View>
@@ -116,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Dish);
+export default React.memo(MealItem);

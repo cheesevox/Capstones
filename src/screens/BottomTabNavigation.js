@@ -12,6 +12,7 @@ import KitchenIcon from "../components/Icons/KitchenIcon";
 import OrderIcon from "../components/Icons/OrderIcon";
 import KitchenScreen from "./KitchenScreen";
 import { RouteName } from "../Constant";
+import PostListScreen from "./PostListScreen";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
@@ -82,7 +83,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <PostIcon size={24} color={color} />,
         }}
         name="Post"
-        component={OrderCartScreen}
+        component={PostListScreen}
       />
       <Tab.Screen
         options={{

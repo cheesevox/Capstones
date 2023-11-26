@@ -11,8 +11,9 @@ const Item = (props) => {
         {item.item.id !== "" ? (
           <Image
             source={
-              item.item.thubnail ??
-              require("../../../../assets/images/splashimage.jpg")
+              item.item.thubnail
+                ? { uri: item.item.thubnail }
+                : require("../../../../assets/images/splashimage.jpg")
             }
             style={styles.imageStyle}
             resizeMode="cover"

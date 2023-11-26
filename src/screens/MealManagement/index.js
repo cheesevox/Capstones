@@ -1,80 +1,89 @@
 import React from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import Dish from "./components/dish";
-import AddIcon from "../../components/Icons/AddIcon";
+import { FlatList, Pressable, StyleSheet, View, Text } from "react-native";
+import MealItem from "./components/meal-item";
 import HeaderComp from "../HeaderComp";
+import AddIcon from "../../components/Icons/AddIcon";
 import { RouteName } from "../../Constant";
 
-const DishManagement = ({ navigation }) => {
-  const dishes = [
+const MealManagement = ({ navigation }) => {
+  const meals = [
     {
       id: 1,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 2,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 3,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 4,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 5,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 6,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 7,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 8,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
     {
       id: 9,
       name: "Ramen Noodles",
       type: "Noodles",
+      description: "description",
       thubnail: undefined,
     },
   ];
 
   const renderItem = (item) => {
-    return <Dish data={item.item} navigation={navigation} />;
+    return <MealItem data={item.item} navigation={navigation} />;
   };
 
   const handleClickAdd = () => {
-    navigation.navigate(RouteName.FORM_DISH);
+    navigation.navigate(RouteName.FORM_MEAL);
   };
 
   return (
     <View>
       <HeaderComp
-        label={"Manage Dish"}
+        label={"Manage Meal"}
         onBack={() => {
           navigation.goBack();
         }}
@@ -87,7 +96,7 @@ const DishManagement = ({ navigation }) => {
           }}
         >
           <FlatList
-            data={dishes}
+            data={meals}
             keyExtractor={(item) => item.id}
             renderItem={(item) => renderItem(item)}
             showsHorizontalScrollIndicator={false}
@@ -160,4 +169,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
 });
-export default React.memo(DishManagement);
+
+export default React.memo(MealManagement);
