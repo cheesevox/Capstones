@@ -26,26 +26,43 @@ const OrderScreen = ({ navigation }) => {
         // <SafeAreaView>
         <View style={styles.container}>
             <View style={styles.headder}>
-                <View style={{
-                    // padding:30
-                    flexDirection: 'row', marginTop: 25,
-                }}>
+                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
-                        style={{
-                            justifyContent: "center", alignItems: "center",
-                            width: '10%', height: '100%', backgroundColor: 'orange', borderRadius: 28,
-                            position: 'relative'
-                        }}
+                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'relative', backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
                     >
                         <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
-                        <Text style={{
-                            alignItems: 'center', width: '60%', textAlign: 'center',
-                            fontWeight: 'bold', fontSize: 26
-                        }}>Order Detail</Text>
-                    </View>
+                    <Text style={styles.walletText}>
+                        Wallet
+                    </Text>
+                    <TouchableOpacity
+                        // onPress={() => navigation.navigate("OrderCart")}
+                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'relative', borderRadius: 28, marginTop: 42 }}
+                    >
+                        <Icon.CreditCard style={{}} strokeWidth={3} />
+                    </TouchableOpacity>
+                </View> */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop:12 }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={{ justifyContent: "center", alignItems: "center",
+                         width: 40, height: 40, backgroundColor: 'orange', 
+                         borderRadius: 28, marginTop: 42 }}
+                    >
+                        <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+                    </TouchableOpacity>
+                    <Text style={styles.Text}>
+                        User Order
+                    </Text>
+                    <TouchableOpacity
+                        // onPress={() => navigation.navigate("OrderCart")}
+                        style={{ justifyContent: "center", 
+                        alignItems: "center", width: 40, 
+                        height: 40, borderRadius: 28, marginTop: 42 }}
+                    >
+                        <Icon.CreditCard style={{}} strokeWidth={3} />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.secsion1}>
@@ -71,20 +88,19 @@ const OrderScreen = ({ navigation }) => {
                         }}>Order History</Text>
                     </TouchableOpacity>
 
-                    {/* <TouchableOpacity style={{
+                    <TouchableOpacity style={{
                         // backgroundColor: activeMenu == 'FeedBack' ? '#1d5eff' : '#fff',
                         borderRadius: 5,
-                        
                     }}
-                        onPress={() => setActiveMenu('FeedBack') && navigation.natigate("FeedbackScreen")}
+                        onPress={() => setActiveMenu('FeedBack') }
                     >
                         <Text style={{
                             fontSize: 16,
                             fontWeight: 'bold',
                             textDecorationLine: 'underline',
                             color: activeMenu == 'FeedBack' ? 'green' : '#9ea3b0'
-                        }}>Review</Text>
-                    </TouchableOpacity> */}
+                        }}>Re-Charge History</Text>
+                    </TouchableOpacity>
 
                 </View>
             </View>
@@ -109,7 +125,7 @@ export default OrderScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: 4
+        gap: 4, marginTop:10
     },
     headder: {
         flex: 1,
@@ -125,5 +141,46 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         fontWeight: 'bold',
-    }
+    },
+    textItem: {
+        fontWeight: 'bold', fontSize: 17,
+    },
+
+    header: {
+        paddingVertical: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 20,
+        flex: 1
+    },
+    walletText: {
+        fontWeight: '600',
+        justifyContent: 'center',
+        fontSize: 26,
+        alignContent: 'center',
+        textAlign: 'center',
+        color: '#e65332',
+        borderColor: 'white',
+        backgroundColor: '#fab3a2',
+        fontWeight: 'bold',
+        marginTop: 40,
+        width: '40%',
+        borderRadius: 20,
+        borderWidth: 2
+    },
+    Text: {
+        fontWeight: '600',
+        fontSize: 24,
+        textAlign: 'center',
+        color: '#e65332',
+        borderColor: 'white',
+        backgroundColor: '#fab3a2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: 'bold',
+        marginTop: 40,
+        width: '40%',
+        borderRadius: 20,
+        borderWidth: 2
+      },
 })

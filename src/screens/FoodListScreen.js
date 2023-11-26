@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Pressable, Image, useWindowDimensions } from "react-native";
 import Header from "../components/Header";
 import SearchFilter from "../components/SearchFilter";
 import React, { useState, useEffect } from "react";
@@ -8,8 +8,10 @@ import { getAllAreaByDistrictId, getAllDistrict, getAllMealInSessionID, getAllSe
 import { getAllArea } from "../Api";
 import MealSessionCard from "../components/MealSessionCard";
 import { Dropdown } from 'react-native-element-dropdown';
-import { AlignCenter } from "react-native-feather";
 import { useSelector } from "react-redux";
+import { TabView, SceneMap } from 'react-native-tab-view';
+import TabViewSession from "../components/TabViewSession";
+import { Card } from 'react-native-paper';
 
 
 const FoodListScreen = ({ navigation }) => {
@@ -19,54 +21,72 @@ const FoodListScreen = ({ navigation }) => {
 	const [session, setSession] = useState([])
 	const [mealInSession, setMealInSession] = useState([])
 	const [mealInSessionId, setMealInSessionId] = useState([])
-	const districtDefault = useSelector(state=>state.user.user?.districtId)
-	console.log("district defaulttttttttttttttttt",districtDefault)
+	const districtDefault = useSelector(state => state.user.user?.districtId)
+	console.log("district defaulttttttttttttttttt", districtDefault)
 	const [district, setDistrict] = useState([])
 	// const [districtId, setDistrictId] = useState([])
-	const [districtId, setDistrictId] = useState();
+	const [districtId, setDistrictId] = useState(districtDefault);
 
 	const [isFocus, setIsFocus] = useState(false);
 
-	const fetchAllSessionByAreaId = () => {
+	const fetchAllSessionByAreaId = (id) => {
 		getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
-			console.log("session", res)
+			console.log("tra ve session tao tesrtttttttttttttttttttt",res)
 			setSession(res)
 		}).catch(error => console.log(error))
 	}
 
-	const fectchAllAreaByDistrictId =() =>{
-		getAllAreaByDistrictId(districtId ? districtId : districtDefault).then((res) =>{
-			console.log("quan 12 neeeeeeeeeeeeeeeeeeeeeeeeee",res)
-			console.log("district by id" ,res)
+	const fectchAllAreaByDistrictId = () => {
+		getAllAreaByDistrictId(districtId ? districtId : districtDefault).then((res) => {
+			console.log("chay area id tra ve cho koa", res[0].areaId)
 			setArea(res)
+			setAreaId(res[0].areaId)
 		}).catch(error => console.log(error))
 	}
 
+	const fetchAllMealSessionBySessionId = () => {
+		getAllMealInSessionID().then((res) => {
+		})
+	}
 	useEffect(() => {
 		fetchAllSessionByAreaId()
 	}, [areaId])
 
-	useEffect(()=>{
+	useEffect(() => {
 		fectchAllAreaByDistrictId()
-		console.log("co vao dc day khong")
-	},[districtId])
+		console.log("co vao dc day de doi area hay khong", districtId)
+	}, [districtId])
 
-	useEffect(()=>{
-		getAllDistrict().then((ref)=>{
+	useEffect(() => {
+		getAllDistrict().then((ref) => {
 			console.log(ref)
 			setDistrict(ref)
 		})
 	}, [])
 
+	useEffect(() => {
 
+		// Fetch food data when the component mounts or when navigating back to it
+		const unsubscribe = navigation.addListener('focus', () => {
+			// fetchAllSessionByAreaId(area[0].areaId);
+			// fetchAllMealSessionBySessionId()
+			fectchAllAreaByDistrictId(districtId)
+			fetchAllSessionByAreaId(districtId)
+			fectchAllAreaByDistrictId(districtId)
+			setDistrictId(districtId)
+			// fectchAllAreaByDistrictId();
+		});
 
-
+		return unsubscribe; // Cleanup function to unsubscribe from the event
+	}, [navigation]);
+	// console.log("TRA ve session typr", item.sessionType)
+	// const router = useRouter(); 
 	return (
 
-		<SafeAreaView style={{ flex: 1, marginHorizontal: 16, marginTop: 40 }}>
+		<SafeAreaView style={{ flex: 1, marginHorizontal: 16 }}>
 			{/* render header */}
 
-			<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+			<View style={{ flexDirection: "row", justifyContent: "space-between", marginTop:50 }}>
 				<View style={{}}>
 					<View style={{}}>
 						<TouchableOpacity
@@ -101,14 +121,15 @@ const FoodListScreen = ({ navigation }) => {
 							valueField="districtId"
 							placeholder={!isFocus ? 'District' : ''}
 							searchPlaceholder="Search..."
-							value={districtDefault}
+							value={districtId}
+						
 							onFocus={() => setIsFocus(true)}
 							onBlur={() => setIsFocus(false)}
 							onChange={(value) => {
-								console.log("99999999999999999",value.districtId)
 								setDistrictId(value.districtId);
-								setIsFocus(false);
+								// router.refesh
 							}}
+							
 						/>
 					</View>
 				</View>
@@ -116,109 +137,60 @@ const FoodListScreen = ({ navigation }) => {
 
 			{/* sessiion filter */}
 
-			<View style={{ marginTop: 22 }}>
+			<View>
 				<Text style={{ fontSize: 22, fontWeight: "bold" }}>Area</Text>
 				{/* district list */}
 				<View>
-					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-						{area?.map((area, index) => {
+					<ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ margin: 5 }}>
+						{area.map((area, index) => {
 							return (
 								<View
 									key={index}
 									style={{
 										backgroundColor: colors.COLOR_LIGHT,
 										// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
-										marginRight: 10,
 										borderRadius: 8,
-										paddingHorizontal: 16,
-										paddingVertical: 10,
-										shadowColor: "#000",
-										shadowOffset: { width: 0, height: 4 },
-										shadowOpacity: 0.1,
-										shadowRadius: 7,
-										width: "auto",
-										marginVertical: 16,
+										margin: 5
+
 									}}
 								>
 									<TouchableOpacity onPress={() => {
-										key = { areaId }
 										console.log(area.areaId)
 										setAreaId(area.areaId)
-										// console.log(mealInSession)
 									}}>
-										<Text style={{ fontSize: 16 }}>
+										<Text style={{ fontSize: 16, padding: 10 }}>
 											{area.areaName}
-											{/* {area.session} */}
 										</Text>
 									</TouchableOpacity>
 								</View>
 							);
 						})}
+						{/* <TabViewSession /> */}
 					</ScrollView>
-					<Text>SESSEION</Text>
-					<ScrollView showsHorizontalScrollIndicator={false}>
-									<Text style={{ fontSize: 25, fontWeight: "bold", elevation: 2 }}>{session?.sessionType}</Text>
-									<MealSessionCard sessionId={session?.sessionId} />
-									<View style={{ flexDirection: "row", marginTop: 8 }}>
-									</View>
-									{/* </Pressable> */}
-								</ScrollView>
-					{/* <View>
-						{/* <ScrollView>
-						{session.map((sessiion, index) => {
-							return (
-								<View
-									key={index}
-									style={{
-										backgroundColor: colors.COLOR_LIGHT,
-										// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
-										marginRight: 10,
-										borderRadius: 8,
-										paddingHorizontal: 16,
-										paddingVertical: 10,
-										shadowColor: "#000",
-										shadowOffset: { width: 0, height: 4 },
-										shadowOpacity: 0.1,
-										shadowRadius: 7,
-										width: "auto",
-										marginVertical: 16,
-									}}
-								>
-									<TouchableOpacity onPress={() => {
-										key = { sessionId }
-										console.log(sessiion.sessionId)
-										setAreaId(sessiion.sessionId)
-										// console.log(mealInSession)
-									}}>
-										<Text style={{ fontSize: 16 }}>
-											{sessiion.sessionType}
-											{/* {area.session} */}
-										{/* </Text>
-									</TouchableOpacity>
-								</View>
-							);
-						})}
-						</ScrollView> */}
-					{/* </View> */} 
-					<View>
-						<FlatList
-							data={session}
-							renderItem={({ item }) => (
-								<ScrollView showsHorizontalScrollIndicator={false}>
-									<Text style={{ fontSize: 25, fontWeight: "bold", elevation: 2 }}>Session {item.sessionType}</Text>
-									<MealSessionCard sessionId={item.sessionId} />
-									<View style={{ flexDirection: "row", marginTop: 8 }}>
-									</View>
-									{/* </Pressable> */}
-								</ScrollView>
-							)}
-						/>
-					</View>
-
+					{/* <View style={{height:"50%"}}>
+					<TabViewSession session={session}/>
+					</View> */}
+					{session?.map((item, index) => (
+						<ScrollView key={index}>
+							{
+							item.status  == true &&
+							 (
+								<View>
+								<Text
+								style={{
+									fontSize: 25,
+									fontWeight: "bold",
+									elevation: 2
+								}}>Session {item.sessionType}</Text>
+							 <MealSessionCard key={index} sessionId={item.sessionId} />
+							 </View>
+							 )
+							}
+						</ScrollView>
+					))
+					}
 				</View>
 			</View>
-
-
 			{/* </View> */}
 			< View >
 				<Text>

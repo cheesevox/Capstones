@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons/build/Icons';
 import { useSelector } from 'react-redux';
 import { getUserByID } from '../Api';
+import TabViewSession from '../components/TabViewSession';
 
 const UserProfileScreen = ({ navigation }) => {
   const user = useSelector(state => state.user.user)
@@ -44,13 +45,14 @@ const UserProfileScreen = ({ navigation }) => {
           <Icon.CreditCard style={{}} strokeWidth={3} />
         </TouchableOpacity>
       </View>
+      {/* <TabViewSession/> */}
       <ScrollView>
         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginHorizontal: 30 }}>
           <Image
-          source={images.image}
+          source={require('../../assets/images/avatar.jpg')}
             style={{ borderRadius: 50, width: 200, height: 200, resizeMode: "cover" }}
           />
-          <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 26, color: 'orange' }}>{profile.name}</Text>
+          <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 26, color: 'orange' }}>{profile.name} #{profile.userId}</Text>
           <View style={styles.cartcard}>
             <View style={{
               height: 250,

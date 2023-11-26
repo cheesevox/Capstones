@@ -11,7 +11,7 @@ const OrderCartScreen = ({ navigation, route }) => {
   const { item } = route.params || {};
   console.log("itemmmmmmmmmmmmmmmmmmm : ", item);
   const user = useSelector((state) => state.user.user)
-  console.log("USER NEWEEEEEEEEEEE", user)
+  console.log("USER NEWEEEEEEEEEEE", user.userId)
   const [quantity, setQuantity] = useState(1)
   const [values, setValues] = useState({
     customerId: user.userId,
@@ -24,8 +24,6 @@ const OrderCartScreen = ({ navigation, route }) => {
   const increase = () => {
     if(quantity < item.remainQuantity){
       setQuantity(quantity + 1) 
-    }else{
-      setQuantity(item.remainQuantity)
     }
   }
   const decrease = () => {
@@ -148,7 +146,7 @@ const OrderCartScreen = ({ navigation, route }) => {
               disabled={quantity === 0}
             >
               <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-                Place Holder
+                Order This Meal
               </Text>
             </TouchableOpacity>
           </View>

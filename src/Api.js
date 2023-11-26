@@ -60,7 +60,7 @@ export const getAllMealInSessionID = async (id) => {
     );
     return repose.data;
   } catch (error) {
-    console.log("err in get all meal in sesion id");
+    console.log("err in get all meal in sesion id",error);
   }
 };
 

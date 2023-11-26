@@ -2,20 +2,29 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getAllMealInSessionID } from "../Api";
 import FoodCard from "./FoodCard";
+import { ScrollView } from "react-native";
+import { item } from "../Constant";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default function MealSessionCard({ sessionId }) {
+export default function MealSessionCard({sessionId}) {
   const [allMeal, setAllMeal] = useState([]);
-  useEffect(() => {
-    getAllMealInSessionID(sessionId).then((res) => {
-      setAllMeal(res);
-    });
-  }, [sessionId]);
+  const fetchAllMeal = ()=>{
+    getAllMealInSessionID(sessionId).then((res)=>{
+      console.log("trong trang meal sesison carddddd",sessionId)
+      setAllMeal(res)
+    })
+  }
+  useEffect(()=>{
+    fetchAllMeal()
+  },[])
   return (
-    <View>
-      {allMeal?.map((item, index) => (
         // <Text key={index}>{item.mealDtoForMealSession?.name}</Text>
-        <FoodCard  key={index} item={item}/>
-      ))}
-    </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {
+          allMeal?.map((item,index)=>(
+            <FoodCard item={item} key={index}/>
+          ))
+          }
+        </ScrollView>
   );
 }

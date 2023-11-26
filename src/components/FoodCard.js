@@ -45,12 +45,12 @@ const FoodCard = ({ item }) => {
 					</View>
 					{/* <Text>{item.name}</Text> */}
 					<View style={{ flexDirection: "row", marginTop: 8 }}>
-						<Text style={{ fontWeight: "bold", fontSize:20}}>{item.mealDtoForMealSession?.name}</Text>
+						<Text style={{ fontWeight: "bold", fontSize:20}}>{item?.mealDtoForMealSession?.name}</Text>
 					</View>
 					<View>
-						<Text >{item?.price} vnd </Text>
+						<Text >Price: {item?.price} vnd </Text>
 						<Text>{item?.mealDtoForMealSession?.description}</Text>
-						<Text>quantity {item?.remainQuantity}</Text>
+						<Text>Quantity : {item?.remainQuantity}</Text>
 					</View>
 				</Pressable>
 			</ScrollView>

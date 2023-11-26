@@ -100,7 +100,7 @@ const WalletScreen = ({ navigation, route }) => {
           </View>
           <Text style={{ padding: 10, fontWeight: 'bold', fontSize: 18 }}>Input For Reacharge</Text>
           <View style={{ borderWidth: 2, padding: 20, borderRadius: 30, width: '60%', marginTop: 10 }}>
-            <TextInput onChangeText={handleDescriptionChange} value={balance}></TextInput>
+            <TextInput placeholder='Input monney incomming' onChangeText={handleDescriptionChange} value={balance}></TextInput>
           </View>
         </View>
       </View>
