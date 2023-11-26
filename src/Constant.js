@@ -4,7 +4,7 @@ export const RouteName = {
   CHEF_HOME: "ChefHome",
   DISH_MANAGEMENT: "DishManagement",
   KITCHEN: "KitchenScreen",
-  POST_LIST: "PostListScreen",
+  MARKET_SCREEN: "MarketScreen",
   FORM_DISH: "FormDish",
   MEAL_MANAGEMENT: "MealManagement",
   FORM_MEAL: "FormMeal",

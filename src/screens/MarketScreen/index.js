@@ -3,7 +3,7 @@ import { FlatList, Image, StyleSheet, View } from "react-native";
 import Session from "./components/session";
 import HeaderComp from "../HeaderComp";
 
-const PostListScreen = () => {
+const MarketScreen = () => {
   const posts = [
     {
       id: 1,
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PostListScreen);
+export default React.memo(MarketScreen);

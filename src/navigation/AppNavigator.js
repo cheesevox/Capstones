@@ -51,7 +51,7 @@ const AppNavigator = () => {
         />
         <Stack.Screen name={RouteName.KITCHEN} component={BottomTabNavigator} />
         <Stack.Screen
-          name={RouteName.POST_LIST}
+          name={RouteName.MARKET_SCREEN}
           component={BottomTabNavigator}
         />
         <Stack.Screen
