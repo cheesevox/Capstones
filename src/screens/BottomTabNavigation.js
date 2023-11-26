@@ -12,6 +12,7 @@ import KitchenIcon from "../components/Icons/KitchenIcon";
 import OrderIcon from "../components/Icons/OrderIcon";
 import KitchenScreen from "./KitchenScreen";
 import { RouteName } from "../Constant";
+import ChefOrderScreen from "./ChefScreen/ChefOrderScreen";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
@@ -98,7 +99,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <OrderIcon size={24} color={color} />,
         }}
         name="Order"
-        component={OrderCartScreen}
+        component={ChefOrderScreen}
       />
       <Tab.Screen
         options={{

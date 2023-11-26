@@ -17,6 +17,7 @@ import BottomTabNavigator from "../screens/BottomTabNavigation";
 import ChefHomeScreen from "../screens/ChefHome";
 import DishManagement from "../screens/DishManagement";
 import { RouteName } from "../Constant";
+import ChefOrderDetailScreen from "../screens/ChefScreen/ChefOrderDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +41,15 @@ const AppNavigator = () => {
         <Stack.Screen name="Regiter" component={RegisterScreen} />
         {/* <Stack.Screen name="Order" component={OrderScreen} /> */}
         <Stack.Screen name="Feedback" component={FeedBackScreen} />
-        <Stack.Screen name="ChefHome" component={BottomTabNavigator} />
+        <Stack.Screen
+          name="ChefHome"
+          component={BottomTabNavigator}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="ChefOrderDetail"
+          component={ChefOrderDetailScreen}
+        />
+
         <Stack.Screen name="KitchenScreen" component={BottomTabNavigator} />
         <Stack.Screen
           name={RouteName.DISH_MANAGEMENT}

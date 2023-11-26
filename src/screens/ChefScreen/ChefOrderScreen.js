@@ -7,26 +7,40 @@ import {
   Image,
 } from "react-native";
 import React from "react";
+import foods from "../../Constant";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
-import foods, { colors } from "../Constant";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { ArrowDownLeft } from "react-native-feather";
+import { faArrowLeft, faMugSaucer } from "@fortawesome/free-solid-svg-icons";
+import ChefOrderDetailScreen from "./ChefOrderDetailScreen";
+import BottomTabNavigator from "../BottomTabNavigation";
+import ChefHomeScreen from "../ChefHome";
 
-const OrderCartScreen = ({ navigation }) => {
+const ChefOrderScreen = ({ navigation }) => {
   const plus = ({ item }) => {};
 
   const CartCard = ({ item }) => {
     return (
-      <View style={styles.cartcard}>
+      <TouchableOpacity
+        style={styles.cartcard}
+        onPress={() => navigation.navigate("ChefOrderDetail")}
+      >
         <View
           style={{
             height: 100,
-            marginLeft: 10,
-            paddingVertical: 20,
+            paddingVertical: 10,
             flex: 1,
           }}
         >
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomWidth: 1,
+              padding: 5,
+            }}
+          >
             <Image
               source={item.image}
               style={{ width: 50, height: 50, resizeMode: "cover" }}
@@ -41,17 +55,47 @@ const OrderCartScreen = ({ navigation }) => {
               <Text style={styles.textItem}>{item.name}</Text>
               <Text style={styles.textItem}>Quantity: {item.quantity}</Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={styles.textItem}>Price: {item.price}</Text>
-                <Text
-                  style={{ fontSize: 17, fontWeight: "bold", marginLeft: 30 }}
-                >
+                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
                   Total: {item.price}
                 </Text>
               </View>
             </View>
           </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                padding: 1,
+                marginVertical: 2,
+                borderRadius: 5,
+                width: "20%",
+                display: "flex",
+                backgroundColor: "#FFD580",
+                justifyContent: "center",
+                alignItems: "center",
+                elevation: 5,
+              }}
+            >
+              <Text>Post</Text>
+            </TouchableOpacity>
+            <View
+            //   style={{
+            //     padding: 3,
+            //     backgroundColor: "#FFD580",
+            //     borderRadius: 10,
+            //   }}
+            >
+              <Text>Status:PROCESSING</Text>
+            </View>
+          </View>
         </View>
-        <View style={{ alignItems: "center" }}>
+        {/* <View style={{ alignItems: "center" }}>
           <View style={styles.actionButton}>
             <Ionicons
               name="add-circle-outline"
@@ -59,7 +103,11 @@ const OrderCartScreen = ({ navigation }) => {
               color={Colors.black}
             ></Ionicons>
             <Text
-              style={{ fontWeight: "bold", fontSize: 18, textAlign: "center" }}
+              style={{
+                fontWeight: "bold",
+                fontSize: 18,
+                textAlign: "center",
+              }}
             >
               1
             </Text>
@@ -69,45 +117,32 @@ const OrderCartScreen = ({ navigation }) => {
               color={Colors.black}
             ></Ionicons>
           </View>
-        </View>
-      </View>
+        </View> */}
+      </TouchableOpacity>
     );
   };
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
-      <View
-        style={{
-          marginBottom: 30,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.titleText}>Cart</Text>
+      <View>
+        <View style={styles.topNavigate}>
+          <View>
+            <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+              Order
+            </Text>
+          </View>
+        </View>
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
         data={foods}
+        contentContainerStyle={{
+          margin: 10,
+          borderRadius: 20,
+          backgroundColor: "#FFD580",
+          elevation: 5,
+        }}
         renderItem={({ item }) => <CartCard item={item} />}
       />
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Wallet")}
-        style={{
-          backgroundColor: "#f96163",
-          borderRadius: 29,
-          paddingVertical: 18,
-          width: "80%",
-          alignContent: "center",
-          marginVertical: 30,
-          marginLeft: 40,
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-          Check out
-        </Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -115,7 +150,7 @@ const OrderCartScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   textItem: {
     fontWeight: "bold",
-    fontSize: 17,
+    fontSize: 12,
   },
 
   header: {
@@ -129,6 +164,7 @@ const styles = StyleSheet.create({
     elevation: 15,
     borderRadius: 10,
     backgroundColor: Colors.white,
+    // backgroundColor: "black",
     marginHorizontal: 20,
     marginVertical: 10,
     paddingHorizontal: 10,
@@ -158,5 +194,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignContent: "center",
   },
+  topNavigate: {
+    height: 50,
+    backgroundColor: "#FFAB01",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
 });
-export default OrderCartScreen;
+export default ChefOrderScreen;

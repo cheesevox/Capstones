@@ -2,8 +2,14 @@ import { FlatList, StyleSheet, Text, View, ScrollView } from "react-native";
 import BellIcon from "../../components/Icons/BellIcon";
 import MessageIcon from "../../components/Icons/MessageIcon";
 import Item from "./components/Item";
+import { useEffect, useState } from "react";
+import { getAllDishByKitchenId, getAllMealByKitchenId } from "../../Api";
+import Dish from "../DishManagement/components/dish";
+import DishItem from "./components/DishItem";
 
 const ChefHomeScreen = () => {
+  const [meal, setMeal] = useState([]);
+  const [dish, setDish] = useState([]);
   const dishes = [
     {
       id: 1,
@@ -51,11 +57,29 @@ const ChefHomeScreen = () => {
       thubnail: undefined,
     },
   ];
+  const fetchAllMealByKitchenId = () => {
+    getAllMealByKitchenId(1).then((res) => {
+      console.log(res);
+      setMeal(res);
+    });
+  };
+  const fetchAllDishByKitchenId = () => {
+    getAllDishByKitchenId(1).then((res) => {
+      console.log("dish laaaaaaaaaaaa", res);
+      setDish(res);
+    });
+  };
 
   const renderItem = (item) => {
     return <Item item={item} />;
   };
-
+  const renderDishItem = (item) => {
+    return <DishItem item={item} />;
+  };
+  useEffect(() => {
+    fetchAllMealByKitchenId();
+    fetchAllDishByKitchenId();
+  }, []);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -71,9 +95,9 @@ const ChefHomeScreen = () => {
       <Text style={styles.titleStyle}>{"Dish of Kitchen"}</Text>
       <View style={styles.listDishStyle}>
         <FlatList
-          data={dishes}
+          data={dish}
           keyExtractor={(item) => item.id}
-          renderItem={(item) => renderItem(item)}
+          renderItem={(item) => renderDishItem(item)}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
@@ -82,8 +106,8 @@ const ChefHomeScreen = () => {
       <Text style={styles.titleStyle}>{"Meal of Kitchen"}</Text>
       <View style={styles.listDishStyle}>
         <FlatList
-          data={dishes}
-          keyExtractor={(item) => item.id}
+          data={meal}
+          keyExtractor={(item) => item.mealId}
           renderItem={(item) => renderItem(item)}
           horizontal
           showsHorizontalScrollIndicator={false}

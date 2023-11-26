@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
 
-const Item = (props) => {
+const DishItem = (props) => {
   const { item } = props;
-  console.log("itemmmmmmmmmmmmm", item.item.mealId);
+  console.log("itemmmmmmmmmmmmm sao undifinde", item.item.dishId);
   return (
     <View style={styles.itemContainer}>
       <View style={styles.imageContainerStyle}>
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Item);
+export default React.memo(DishItem);
