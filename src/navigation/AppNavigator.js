@@ -18,6 +18,7 @@ import MealDetailScreen from "../screens/MealDetailScreen";
 import OrderScreen from "../screens/OrderScreen";
 import ChefScreen from "../screens/ChefScreen/ChefScreen";
 import MealSession from "../screens/MealSession";
+import linking from "../linking";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
 	return (
-		<NavigationContainer>
+		<NavigationContainer linking={linking} >
 			<Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="CustomerHome" component={BottomTabNavigator} />
 				<Stack.Screen name="Login" component={LoginScreen} />

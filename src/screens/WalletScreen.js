@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createPayment } from '../Api';
 import { userimage } from '../Constant';
 import { CheckBox } from 'react-native-elements'
+import { rows } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 const WalletScreen = ({ navigation, route }) => {
   const { item } = route.params;
@@ -122,7 +123,7 @@ const WalletScreen = ({ navigation, route }) => {
             alignItems: 'center',
             justifyContent: 'space-between'
           }}>
-            <View>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
               <Image style={{ width: 40, height: 40 }} source={require("../../assets/images/Icon.png")}></Image>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}> VN Pay</Text>
             </View>
