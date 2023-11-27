@@ -10,7 +10,11 @@ import OrderScreen from "./OrderScreen";
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+    // screenOptions={({route})=>{
+    //   tabBarStyle: styles.tabbar
+    // }}
+    >
       <Tab.Screen
         options={{
           headerShown: false,
@@ -60,4 +64,12 @@ const BottomTabNavigator = () => {
 };
 export default BottomTabNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+  tabbar:{
+    borderTopLeftRadius:30,
+    borderTopRightRadius:30,
+    backgroundColor:'orange'
+  }
+
+});

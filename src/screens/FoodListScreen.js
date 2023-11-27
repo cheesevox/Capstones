@@ -12,13 +12,13 @@ import { useSelector } from "react-redux";
 import { TabView, SceneMap } from 'react-native-tab-view';
 import TabViewSession from "../components/TabViewSession";
 import { Card } from 'react-native-paper';
+import { Bold } from "react-native-feather";
 
 
 const FoodListScreen = ({ navigation }) => {
 	const [touch, setTouch] = useState(0)
 	const [area, setArea] = useState([])
 	const [areaId, setAreaId] = useState()
-	const [session, setSession] = useState([])
 	const [mealInSession, setMealInSession] = useState([])
 	const [mealInSessionId, setMealInSessionId] = useState([])
 	const districtDefault = useSelector(state => state.user.user?.districtId)
@@ -38,7 +38,7 @@ const FoodListScreen = ({ navigation }) => {
 
 	const fectchAllAreaByDistrictId = () => {
 		getAllAreaByDistrictId(districtId ? districtId : districtDefault).then((res) => {
-			console.log("chay area id tra ve cho koa", res[0].areaId)
+			console.log("chay area id tra ve cho koa", res[0])
 			setArea(res)
 			setAreaId(res[0].areaId)
 		}).catch(error => console.log(error))
@@ -48,6 +48,7 @@ const FoodListScreen = ({ navigation }) => {
 		getAllMealInSessionID().then((res) => {
 		})
 	}
+
 	useEffect(() => {
 		fetchAllSessionByAreaId()
 	}, [areaId])
@@ -66,7 +67,7 @@ const FoodListScreen = ({ navigation }) => {
 
 	useEffect(() => {
 
-		// Fetch food data when the component mounts or when navigating back to it
+		// Fetch when the component mounts 
 		const unsubscribe = navigation.addListener('focus', () => {
 			// fetchAllSessionByAreaId(area[0].areaId);
 			// fetchAllMealSessionBySessionId()
@@ -77,7 +78,7 @@ const FoodListScreen = ({ navigation }) => {
 			// fectchAllAreaByDistrictId();
 		});
 
-		return unsubscribe; // Cleanup function to unsubscribe from the event
+		return unsubscribe; // Cleanup 
 	}, [navigation]);
 	// console.log("TRA ve session typr", item.sessionType)
 	// const router = useRouter(); 
@@ -140,27 +141,33 @@ const FoodListScreen = ({ navigation }) => {
 			<View>
 				<Text style={{ fontSize: 22, fontWeight: "bold" }}>Area</Text>
 				{/* district list */}
-				<View>
-					<ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ margin: 5 }}>
+				<View style={{}}>
+					<ScrollView 
+					// horizontal showsHorizontalScrollIndicator={false} style={{ margin: 5}}
+					>
 						{area.map((area, index) => {
 							return (
 								<View
 									key={index}
 									style={{
-										backgroundColor: colors.COLOR_LIGHT,
-										// index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+										elevation:5,
+										width:'100%',
 										borderRadius: 8,
-										margin: 5
-
+										marginVertical:10,
 									}}
 								>
-									<TouchableOpacity onPress={() => {
-										console.log(area.areaId)
-										setAreaId(area.areaId)
-									}}>
-										<Text style={{ fontSize: 16, padding: 10 }}>
+									<TouchableOpacity onPress={() => navigation.navigate("MealSession",{ areaId: area.areaId }) 
+									// {
+									// 	console.log(area.areaId)
+										&& setAreaId(area.areaId)
+									// }
+									}>
+										<View style={{padding: 50}}>
+										<Text style={{ fontSize: 23,  fontWeight:"bold",textAlign:"center", paddingHorizontal:10 }}>
 											{area.areaName}
 										</Text>
+										<Text style={{textAlign:"center", fontSize:15}}>Address :{area.address} </Text>
+										</View>
 									</TouchableOpacity>
 								</View>
 							);
@@ -170,7 +177,7 @@ const FoodListScreen = ({ navigation }) => {
 					{/* <View style={{height:"50%"}}>
 					<TabViewSession session={session}/>
 					</View> */}
-					{session?.map((item, index) => (
+					{/* {session?.map((item, index) => (
 						<ScrollView key={index}>
 							{
 							item.status  == true &&
@@ -188,7 +195,7 @@ const FoodListScreen = ({ navigation }) => {
 							}
 						</ScrollView>
 					))
-					}
+					} */}
 				</View>
 			</View>
 			{/* </View> */}

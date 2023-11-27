@@ -1,26 +1,51 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { FlatList, StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native'
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Linking } from 'react-native'
 import * as Icon from "react-native-feather";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CheckBox } from 'react-native-elements';
 import { createPayment } from '../Api';
+import { userimage } from '../Constant';
+import { CheckBox } from 'react-native-elements'
 
 const WalletScreen = ({ navigation, route }) => {
   const { item } = route.params;
-  const handleDescriptionChange = (text) => {
-    setDescription(text);
-  };
+  const [link, setLink] = useState('')
+
   console.log("item wallet $$$$$$", item)
   const [balance, setBalance] = useState('')
+  const [isSelected, setSelection] = useState(false);
   const [values, setValues] = useState({
-    customerId: item?.userId,
-    balance: balance
+    userId: item?.userId,
+    balance: null,
   })
-  const createPaymentCustomer = () =>{
-    createPayment({ ...values, description : description})
+  const createPaymentCustomer = () => {
+    createPayment(values).then((res) => {
+      console.log("link vnpayu: ", res)
+      setLink(res)
+    })
+  }
+  console.log("link", link)
+  // console.log("balance", item?.walletDto?.balance)
+
+  const openLink = async () => {
+    const url = link;
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+      console.log(" open succes : ", url);
+    } else {
+      console.error(`Cannot open URL: ${url}`);
     }
-  console.log("balance", item?.walletDto?.balance)
+  };
+
+  const handlePress = async () => {
+    // Call createPaymentCustomer first
+    await createPaymentCustomer();
+    // Then open the link
+    //  openLink();
+    setSelection(!isSelected);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -77,14 +102,19 @@ const WalletScreen = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      <View style={{ flex: 4 }}>
-        <View style={{ margin: 30, flexDirection: 'row', alignItems: 'center' }}>
-          {/* <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>Balance :</Text> */}
-          <Text style={{ fontSize: 21, fontWeight: 'bold', color: 'orange' }}> Balance : {item.walletDto.balance} vnd</Text>
+      <View style={{ flex: 4, marginHorizontal: 30 }}>
+        {/* <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>Balance :</Text> */}
+        <Text style={{ fontSize: 21, fontWeight: 'bold', color: 'orange' }}>
+          Balance : {item.walletDto?.balance} vnd</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Input For Reacharge</Text>
+        <View style={{ borderWidth: 2, padding: 20, borderRadius: 30, width: '100%', marginTop: 10 }}>
+          <TextInput placeholder='Input monney incomming'
+            onChangeText={(text) => setValues({ ...values, balance: text })}
+          ></TextInput>
         </View>
-        <View style={{ justifyContent: 'center', paddingLeft: 10 }}>
+        <View style={{ justifyContent: 'center', marginTop: 10 }}>
           <View style={{
-            width: '60%',
+            width: '100%',
             borderWidth: 2,
             borderRadius: 30,
             padding: 10,
@@ -96,13 +126,17 @@ const WalletScreen = ({ navigation, route }) => {
               <Image style={{ width: 40, height: 40 }} source={require("../../assets/images/Icon.png")}></Image>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}> VN Pay</Text>
             </View>
-            <Ionicons style={{ fontSize: 30 }} name='checkmark-circle-outline'></Ionicons>
-          </View>
-          <Text style={{ padding: 10, fontWeight: 'bold', fontSize: 18 }}>Input For Reacharge</Text>
-          <View style={{ borderWidth: 2, padding: 20, borderRadius: 30, width: '60%', marginTop: 10 }}>
-            <TextInput placeholder='Input monney incomming' onChangeText={handleDescriptionChange} value={balance}></TextInput>
+            {/* <Ionicons style={{ fontSize: 30 }} name='checkmark-circle-outline'></Ionicons> */}
+            <CheckBox
+              checkedIcon='dot-circle-o'
+              uncheckedIcon='circle-o'
+              // checked={this.st.ate.checked}
+              checked={isSelected}
+              onPress={handlePress}
+            />
           </View>
         </View>
+
       </View>
       <View style={{
         flex: 1,
@@ -110,7 +144,7 @@ const WalletScreen = ({ navigation, route }) => {
         alignItems: 'center',
       }}>
         <TouchableOpacity
-          onPress={createPayment()}
+          onPress={openLink}
           style={{
             backgroundColor: "#f96163",
             borderRadius: 29,

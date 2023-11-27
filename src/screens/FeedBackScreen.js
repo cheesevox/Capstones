@@ -58,7 +58,7 @@ export default function FeedBackScreen({ navigation, route }) {
           <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
             <Text style={{
               alignItems: 'center', width: '60%', textAlign: 'center',
-              fontWeight: 'bold', fontSize: 26
+              fontWeight: 'bold', fontSize: 26, justifyContent:'center', borderRadius:30, backgroundColor:'orange', color:'#e65332'
             }}>Review</Text>
           </View>
         </View>
@@ -145,5 +145,20 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  Text: {
+    fontWeight: '600',
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#e65332',
+    borderColor: 'white',
+    backgroundColor: '#fab3a2',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: 'bold',
+    marginTop: 40,
+    width: '40%',
+    borderRadius: 20,
+    borderWidth: 2
+  },
 })

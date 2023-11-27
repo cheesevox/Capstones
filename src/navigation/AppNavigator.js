@@ -17,6 +17,7 @@ import BottomTabNavigator from "../screens/BottomTabNavigation";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import OrderScreen from "../screens/OrderScreen";
 import ChefScreen from "../screens/ChefScreen/ChefScreen";
+import MealSession from "../screens/MealSession";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ const AppNavigator = () => {
 				<Stack.Screen name="Regiter" component={RegisterScreen} />
 				<Stack.Screen name="Feedback" component={FeedBackScreen} />
 				<Stack.Screen name="ChefHome" component={ChefScreen} />
+				<Stack.Screen name="MealSession" component={MealSession} />
 			</Stack.Navigator>
 			{/* <Tab.Navigator
 				initialRouteName="FoodList"
