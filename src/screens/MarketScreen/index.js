@@ -1,41 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import Session from "./components/session";
+import { Dropdown } from "react-native-element-dropdown";
 import HeaderComp from "../HeaderComp";
+import Area from "./components/area";
+import { getAllDistrict, getAreaByDistrictId } from "../../Api";
 
-const PostListScreen = () => {
+const MarketScreen = ({ navigation }) => {
+  const [district, setDistrict] = useState([]);
+  const [districtId, setDistrcitId] = useState();
+  const [area, setArea] = useState([]);
+  const fetchAllDistrict = () => {
+    getAllDistrict().then((res) => {
+      setDistrict(res);
+    });
+  };
+  const fetchAllAreaBySessionId = (id) => {
+    getAreaByDistrictId(id).then((res) => {
+      console.log("all area", res);
+      setArea(res);
+    });
+  };
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
   const posts = [
     {
       id: 1,
-      name: "Breakfast session",
-      startTime: "8h30 AM",
-      endTime: "10h30 AM",
-    },
-    {
-      id: 2,
-      name: "Lunch session",
-      startTime: "11h00 AM",
-      endTime: "5h30 PM",
-    },
-    {
-      id: 3,
-      name: "Dinner session",
-      startTime: "6h00 PM",
-      endTime: "10h00 PM",
+      name: "Binh Tan Area",
+      startTime: " Address 258 TOn Duc Thnag",
+      endTime: "",
     },
   ];
 
+  // const renderItem = ({ item }) => {
+  //   return <Session data={item} navigation={navigation} />;
+  // };
   const renderItem = ({ item }) => {
-    return <Session data={item} navigation={navigation}/>;
+    return <Area data={item} navigation={navigation} />;
   };
-
+  useEffect(() => {
+    fetchAllDistrict();
+  }, []);
+  useEffect(() => {
+    console.log("districtId là", districtId);
+    fetchAllAreaBySessionId(districtId);
+  }, [districtId]);
   return (
     <View>
-      <HeaderComp
-        isHasBackIcon={false}
-        isHasBellIcon={true}
-        isHasMessageIcon={true}
-      />
+      <HeaderComp label={"Area"} isHasBackIcon={false} />
       <View style={styles.container}>
         {/* <View style={{ width: "100%" }}>
         <Image
@@ -44,10 +56,30 @@ const PostListScreen = () => {
           resizeMode="cover"
         />
       </View> */}
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={district}
+          maxHeight={300}
+          labelField="districtName"
+          valueField="districtId"
+          placeholder={!isFocus ? "Select District" : "..."}
+          value={value}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(item) => {
+            setValue(item.value);
+            setDistrcitId(item.districtId);
+            setIsFocus(false);
+          }}
+        ></Dropdown>
         <View style={{ flex: 1 }}>
           <FlatList
-            data={posts}
-            keyExtractor={(item) => item.id}
+            data={area}
+            keyExtractor={(item) => item.areaId}
             renderItem={(item) => renderItem(item)}
             showsHorizontalScrollIndicator={false}
           />
@@ -73,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PostListScreen);
+export default React.memo(MarketScreen);

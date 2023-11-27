@@ -3288,6 +3288,18 @@ expo-font@~11.4.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image-loader@~4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/expo-image-loader/-/expo-image-loader-4.4.0.tgz"
+  integrity sha512-dq88tiRB8aB1U+O/oJI7IY4VU9Nu2iDjEwR8QDfLtD4xWd5lNGoyic5Vh7911E1qNJFqNMSVIVzOD5l1SQ3A6g==
+
+expo-image-picker@^14.5.0:
+  version "14.5.0"
+  resolved "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-14.5.0.tgz"
+  integrity sha512-9icvfQuWMdNKufFqu+FxenKcfybz9ior+XYQCIl/q5+mpHPo2tKq8I30vu2BjsOJ0Cfo7V4vMeN7a9F/3ooUfQ==
+  dependencies:
+    expo-image-loader "~4.4.0"
+
 expo-keep-awake@~12.3.0:
   version "12.3.0"
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.3.0.tgz"
@@ -5490,7 +5502,7 @@ react-is@^18.0.0:
 
 react-native-element-dropdown@^2.10.0:
   version "2.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-element-dropdown/-/react-native-element-dropdown-2.10.0.tgz#f4ec2310b37ff3ba64927286ab775c0ed28b681e"
+  resolved "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.10.0.tgz"
   integrity sha512-aFjw0JbUIKGkqklHxDm8aDCZW6Q1GICP7pIHc0sllvpWpEamItzOwAMV4G1mBIKxED77Mp+nkq9p0Dhsr/faVw==
   dependencies:
     lodash "^4.17.21"
@@ -5502,7 +5514,7 @@ react-native-feather@^1.1.2:
 
 react-native-image-picker@^7.0.3:
   version "7.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-7.0.3.tgz#3d0ab6965a6150e724e3c66cac8fe397097e26e7"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.0.3.tgz"
   integrity sha512-mFbu8AzZ8tysO7xHsQ+TmxYYJYaBCL66s4AujjgCBEAyTufm2nhjhVOw2uq1zvMDVtGoyekzCJfH3JqVmXK/3w==
 
 react-native-reanimated@~3.3.0:

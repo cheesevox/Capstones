@@ -57,7 +57,7 @@ const HeaderComp = (props) => {
         style={{
           color: "#FFF",
           textAlign: "center",
-          fontFamily: "Poppins",
+          // fontFamily: "Poppins",
           fontSize: 20,
           fontWeight: "700",
           flex: 8,

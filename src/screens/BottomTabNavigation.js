@@ -12,7 +12,11 @@ import KitchenIcon from "../components/Icons/KitchenIcon";
 import OrderIcon from "../components/Icons/OrderIcon";
 import KitchenScreen from "./KitchenScreen";
 import { RouteName } from "../Constant";
-import PostListScreen from "./PostListScreen";
+// import PostListScreen from "./PostListScreen";
+import ChefPostSessionScreen from "./ChefScreen/ChefPostSessionScreen";
+import MarketScreen from "./MarketScreen";
+// import session from "./MarketScreen/components/session";
+// import PostList
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
@@ -83,7 +87,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <PostIcon size={24} color={color} />,
         }}
         name="Post"
-        component={PostListScreen}
+        component={MarketScreen}
       />
       <Tab.Screen
         options={{

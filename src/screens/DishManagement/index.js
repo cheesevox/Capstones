@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import Dish from "./components/dish";
 import AddIcon from "../../components/Icons/AddIcon";
 import HeaderComp from "../HeaderComp";
 import { RouteName } from "../../Constant";
-
+import { getAllDishByKitchenId } from "../../Api";
+import { useFocusEffect } from "@react-navigation/core";
 const DishManagement = ({ navigation }) => {
+  const [dish, setDish] = useState([]);
   const dishes = [
     {
       id: 1,
@@ -62,15 +64,24 @@ const DishManagement = ({ navigation }) => {
       thubnail: undefined,
     },
   ];
+  useEffect(() => {
+    getAllDishByKitchenId(1)
+      .then((result) => {
+        console.log(result);
+        setDish(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  const renderItem = (item) => {
-    return <Dish data={item.item} navigation={navigation} />;
+  const renderItem = (item, index) => {
+    return <Dish data={item.item} key={index} navigation={navigation} />;
   };
 
   const handleClickAdd = () => {
     navigation.navigate(RouteName.FORM_DISH);
   };
-
   return (
     <View>
       <HeaderComp
@@ -87,7 +98,7 @@ const DishManagement = ({ navigation }) => {
           }}
         >
           <FlatList
-            data={dishes}
+            data={dish}
             keyExtractor={(item) => item.id}
             renderItem={(item) => renderItem(item)}
             showsHorizontalScrollIndicator={false}

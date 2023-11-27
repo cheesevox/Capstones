@@ -8,6 +8,9 @@ export const RouteName = {
   FORM_DISH: "FormDish",
   MEAL_MANAGEMENT: "MealManagement",
   FORM_MEAL: "FormMeal",
+  SESSION: "Session",
+  AREA: "Area",
+  MARKET: "Market",
 };
 
 export const colors = {

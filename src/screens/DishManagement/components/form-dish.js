@@ -7,34 +7,53 @@ import {
 } from "react-native";
 import HeaderComp from "../../HeaderComp";
 import { Dropdown } from "react-native-element-dropdown";
-import React, { useState } from "react";
-import { colors } from "../../../Constant";
+import React, { useEffect, useState } from "react";
+import { RouteName, colors } from "../../../Constant";
 import * as ImagePicker from "react-native-image-picker";
+import { launchImageLibrary } from "react-native-image-picker";
+// import { launchImageLibraryAsync } from "expo-image-picker";
 import CameraIcon from "../../../components/Icons/CameraIcon";
+import { createNewDish, getAllDishType } from "../../../Api";
 
 const FormDish = (props) => {
   const { navigation, route } = props;
   const id = route.params;
   const [typeOfDish, setTypeOfDish] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  const typeOfDishes = [
-    {
-      id: 1,
-      name: "Type 1",
-    },
-    {
-      id: 2,
-      name: "Type 2",
-    },
-    {
-      id: 3,
-      name: "Type 3",
-    },
-  ];
-
+  const [typeOfDishes, setTypeOfDishes] = useState([]);
+  const [values, setValues] = useState({
+    name: "",
+    image:
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    dishTypeId: "null",
+    kitchenId: 1,
+  });
+  // const typeOfDishes = [
+  //   {
+  //     id: 1,
+  //     name: "Type 1",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Type 2",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Type 3",
+  //   },
+  // ];
+  const fetchAllTypeOfDish = () => {
+    getAllDishType()
+      .then((res) => {
+        console.log(res);
+        setTypeOfDishes(res);
+      })
+      .catch((error) => console.log(error));
+  };
   const initData = () => {};
-
+  const handleCreateNewDish = () => {
+    createNewDish(values);
+  };
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -81,6 +100,9 @@ const FormDish = (props) => {
       }
     );
   };
+  useEffect(() => {
+    fetchAllTypeOfDish();
+  }, []);
 
   return (
     <View style={{ backgroundColor: colors.COLOR_LIGHT, height: "100%" }}>
@@ -104,12 +126,13 @@ const FormDish = (props) => {
             fontSize: 18,
           }}
           labelField="name"
-          valueField="id"
+          valueField="dishTypeId"
           value={typeOfDish}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(value) => {
             setTypeOfDish(value);
+            setValues({ ...values, dishTypeId: value.dishTypeId });
             setIsFocus(false);
           }}
           style={{ ...styles.textInput, paddingRight: 12, paddingVertical: 12 }}
@@ -121,7 +144,8 @@ const FormDish = (props) => {
         <TextInput
           style={styles.textInput}
           placeholder="Name of dish"
-          placeholderTextColor={"#C1C1C1"}
+          placeholderTextColor="#C1C1C1"
+          onChangeText={(text) => setValues({ ...values, name: text })}
         />
 
         <TouchableOpacity
@@ -152,7 +176,8 @@ const FormDish = (props) => {
             borderRadius: 20,
           }}
           onPress={() => {
-            //call api
+            handleCreateNewDish();
+            navigation.navigate(RouteName.DISH_MANAGEMENT);
           }}
         >
           <Text style={styles.buttonTextStyle}>{"Save"}</Text>

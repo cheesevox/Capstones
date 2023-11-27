@@ -4,7 +4,6 @@ import DishIcon from "../../components/Icons/DishIcon";
 import MealIcon from "../../components/Icons/MealIcon";
 import { RouteName } from "../../Constant";
 import HeaderComp from "../../screens/HeaderComp";
-
 const KitchenScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>

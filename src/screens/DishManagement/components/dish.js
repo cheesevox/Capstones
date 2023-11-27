@@ -1,9 +1,15 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { RouteName } from "../../../Constant";
+import { deleteDishByDishId } from "../../../Api";
 
 const Dish = (props) => {
   const { data, navigation } = props;
+  const handleDelete = (id) => {
+    deleteDishByDishId(id)
+      .then((res) => console.log("Delete dish successfully."))
+      .catch((error) => console.log(error));
+  };
   return (
     <View style={styles.container}>
       <View
@@ -12,11 +18,7 @@ const Dish = (props) => {
         }}
       >
         <Image
-          source={
-            data?.thubnail
-              ? { uri: data?.thubnail }
-              : require("../../../../assets/images/dish-default.png")
-          }
+          source={{ uri: data?.image }}
           style={{
             width: 100,
             height: 100,
@@ -31,7 +33,7 @@ const Dish = (props) => {
         <Text style={styles.nameText}>{data?.name}</Text>
         <Text
           style={{ ...styles.nameText, fontSize: 12 }}
-        >{`Type: ${data?.type}`}</Text>
+        >{`Type: ${data?.dishTypeResponse.name}`}</Text>
       </View>
       <View
         style={{
@@ -67,7 +69,7 @@ const Dish = (props) => {
           </Text>
         </Pressable>
         <Pressable
-          onPress={() => {}}
+          onPress={() => handleDelete(data?.dishId)}
           style={({ pressed }) => [
             {
               opacity: pressed ? 0.5 : 1,

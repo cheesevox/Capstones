@@ -1,6 +1,5 @@
 import {
   FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,18 +9,31 @@ import {
 } from "react-native";
 import HeaderComp from "../../HeaderComp";
 import { MultiSelect } from "react-native-element-dropdown";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../../Constant";
 import * as ImagePicker from "react-native-image-picker";
 import CameraIcon from "../../../components/Icons/CameraIcon";
 import MinusIcon from "../../../components/Icons/MinusIcon";
 import AddIcon from "../../../components/Icons/AddIcon";
+import { getMealById } from "../../../Api";
+import { Image } from "react-native";
+import dish from "../../DishManagement/components/dish";
 
 const FromMeal = (props) => {
   const { navigation, route } = props;
   const id = route.params;
   const [selected, setSelected] = useState([]);
-
+  const [meal, setMeal] = useState([]);
+  const fetchMealById = async () => {
+    // getMealById(8)
+    //   .then((res) => {
+    //     setMeal(res);
+    //   })
+    //   .catch((error) => console.log(error));
+    // const response = await getMealById(8);
+    // setMeal(response);
+    console.log("-----------------------------");
+  };
   const dishes = [
     {
       id: 1,
@@ -49,7 +61,7 @@ const FromMeal = (props) => {
     },
   ];
 
-  const initData = () => {};
+  // const initData = () => {};
 
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
@@ -97,8 +109,11 @@ const FromMeal = (props) => {
       }
     );
   };
-
+  // useEffect(() => {
+  //   fetchMealById();
+  // }, []);
   const renderDishItem = (dish, unSelect = undefined) => {
+    // console.log("dish neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", dish);
     return (
       <View
         style={
@@ -113,11 +128,7 @@ const FromMeal = (props) => {
           }}
         >
           <Image
-            source={
-              dish?.thubnail
-                ? { uri: dish?.thubnail }
-                : require("../../../../assets/images/dish-default.png")
-            }
+            source={{ uri: dish?.image }}
             style={{
               width: 50,
               height: 50,
@@ -132,7 +143,7 @@ const FromMeal = (props) => {
           <Text style={styles.nameText}>{dish?.name}</Text>
           <Text
             style={{ ...styles.nameText, fontSize: 12 }}
-          >{`Type: ${dish?.type}`}</Text>
+          >{`Type: ${dish.dishType?.name}`}</Text>
         </View>
         {unSelect && (
           <TouchableOpacity onPress={() => unSelect && unSelect(dish)}>
@@ -162,21 +173,24 @@ const FromMeal = (props) => {
           style={styles.textInput}
           placeholder="Name of dish"
           placeholderTextColor={"#C1C1C1"}
+          defaultValue={meal?.name}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Description"
           placeholderTextColor={"#C1C1C1"}
+          defaultValue={meal?.description}
         />
 
         <TouchableOpacity
           style={styles.uploadImages}
           onPress={() => onSelectAvatar()}
         >
-          <CameraIcon />
-          <Text>{"Post picture of dish"}</Text>
+          <View style={styles.cameraIconContainer}>
+            <CameraIcon />
+            <Text>{"Post picture of dish"}</Text>
+          </View>
         </TouchableOpacity>
-
         <View
           style={{
             backgroundColor: "#f2ebe1",
@@ -215,7 +229,7 @@ const FromMeal = (props) => {
                 color: "#89703e",
                 paddingHorizontal: 4,
               }}
-              data={dishes}
+              data={meal?.dishDto}
               labelField="name"
               valueField="id"
               key={(item) => item.id}
@@ -306,7 +320,7 @@ const styles = StyleSheet.create({
   buttonTextStyle: {
     color: "#FFF",
     textAlign: "center",
-    fontFamily: "Inter",
+    // fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "500",
     letterSpacing: 0.6,

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View, Text } from "react-native";
 import MealItem from "./components/meal-item";
 import HeaderComp from "../HeaderComp";
 import AddIcon from "../../components/Icons/AddIcon";
 import { RouteName } from "../../Constant";
+import { getAllMealByKitchen } from "../../Api";
 
 const MealManagement = ({ navigation }) => {
+  const [meal, setMeal] = useState([]);
   const meals = [
     {
       id: 1,
@@ -71,6 +73,14 @@ const MealManagement = ({ navigation }) => {
       thubnail: undefined,
     },
   ];
+  const fetchAllMealByKitchenId = () => {
+    getAllMealByKitchen(1)
+      .then((res) => {
+        console.log(res);
+        setMeal(res);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const renderItem = (item) => {
     return <MealItem data={item.item} navigation={navigation} />;
@@ -79,7 +89,9 @@ const MealManagement = ({ navigation }) => {
   const handleClickAdd = () => {
     navigation.navigate(RouteName.FORM_MEAL);
   };
-
+  useEffect(() => {
+    fetchAllMealByKitchenId();
+  }, []);
   return (
     <View>
       <HeaderComp
@@ -96,8 +108,8 @@ const MealManagement = ({ navigation }) => {
           }}
         >
           <FlatList
-            data={meals}
-            keyExtractor={(item) => item.id}
+            data={meal}
+            keyExtractor={(item) => item.mealId}
             renderItem={(item) => renderItem(item)}
             showsHorizontalScrollIndicator={false}
           />
@@ -162,7 +174,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: "#E88C80",
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 20,
     fontWeight: "700",
     paddingVertical: 12,

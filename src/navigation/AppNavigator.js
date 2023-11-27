@@ -20,6 +20,7 @@ import { RouteName } from "../Constant";
 import formDish from "../screens/DishManagement/components/form-dish";
 import MealManagement from "../screens/MealManagement";
 import formMeal from "../screens/MealManagement/components/form-meal";
+import session from "../screens/MarketScreen/components/session";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,8 @@ const AppNavigator = () => {
           component={MealManagement}
         />
         <Stack.Screen name={RouteName.FORM_MEAL} component={formMeal} />
+        <Stack.Screen name={RouteName.SESSION} component={session} />
+
         {/*Chef role*/}
       </Stack.Navigator>
       {/* <Tab.Navigator

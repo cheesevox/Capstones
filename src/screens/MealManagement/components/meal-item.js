@@ -13,11 +13,7 @@ const MealItem = (props) => {
         }}
       >
         <Image
-          source={
-            data?.thubnail
-              ? { uri: data?.thubnail }
-              : require("../../../../assets/images/dish-default.png")
-          }
+          source={{ uri: data?.image }}
           style={{
             width: 100,
             height: 100,
@@ -30,9 +26,9 @@ const MealItem = (props) => {
         style={{ flex: 1, paddingLeft: 10, gap: 4, justifyContent: "center" }}
       >
         <Text style={styles.nameText}>{data?.name}</Text>
-        <Text style={{ ...styles.nameText, fontSize: 12 }}>
+        {/* <Text style={{ ...styles.nameText, fontSize: 12 }}>
           {`Type: ${data?.type}`}
-        </Text>
+        </Text> */}
         <Text style={{ ...styles.nameText, fontSize: 12 }}>
           {`Description: ${data?.description}`}
         </Text>
@@ -48,7 +44,7 @@ const MealItem = (props) => {
         <Pressable
           onPress={() => {
             navigation.navigate(RouteName.FORM_MEAL, {
-              id: data.id,
+              id: data?.mealId,
             });
           }}
           style={({ pressed }) => [
