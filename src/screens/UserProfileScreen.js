@@ -22,6 +22,15 @@ const UserProfileScreen = ({ navigation ,route}) => {
     fectProfileByCustomerId()
   }, [])
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fectProfileByCustomerId();
+      console.log("Data refreshed!");
+    });
+
+    // Clean up the listener when the component is unmounted
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

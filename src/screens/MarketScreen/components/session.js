@@ -50,7 +50,7 @@ const Session = (props) => {
               styles.buttonStyle,
             ]}
             onPress={() => {
-              // navigation.navigate()
+              navigation.navigate("SessionManagement", { session: item });
             }}
           >
             <Text style={styles.buttonText}>{"Join"}</Text>

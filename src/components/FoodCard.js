@@ -16,8 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const FoodCard = ({ item }) => {
 	const navigation = useNavigation();
-	// console.log("ben food cart", item.mealDtoForMealSession.image)
-	// console.log("mealID: ", item.mealDtoForMealSession.mealId)
+	console.log("ITEM FOOOODDDD", item);
 	return (
 		<View style={{ justifyContent: "center" }}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>

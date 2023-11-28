@@ -22,6 +22,17 @@ const OrderScreen = ({ navigation }) => {
         fectOrderByCustomerId()
     }, [user.userId])
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+          fectOrderByCustomerId();
+          console.log("Data refreshed!");
+        });
+    
+        // Clean up the listener when the component is unmounted
+        return unsubscribe;
+      }, [navigation]);
+    
+
     return (
         // <SafeAreaView>
         <View style={styles.container}>

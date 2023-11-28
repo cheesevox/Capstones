@@ -2,6 +2,7 @@ import axios from "axios";
 // <<<<<<< HEAD
 import { useDispatch } from "react-redux";
 import { RouteName } from "./Constant";
+import { id } from "deprecated-react-native-prop-types/DeprecatedTextPropTypes";
 export const login = async (values, navigation) => {
   console.log(values);
   try {
@@ -299,9 +300,9 @@ export const getAllMealByKitchen = async (id) => {
 //         const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Dish/get-dish-id-by-meal-id?mealid=${id}`)
 
 //     } catch (error) {
-
 //     }
 // }
+
 export const getMealById = async (id) => {
   try {
     const response = await axios.get(
@@ -331,3 +332,36 @@ export const postStatusPaidToCompleted = async (id)=>{
     console.log("post status paid to complete errror", error)
   }
 }
+export const getAllMealSessionWithStatus = async () => {
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-with-status-APPROVED-and-REMAINQUANTITY->-0`)
+    return response.data
+  } catch (error) {
+    console.log("err log all meal with approve ", error)
+  }
+}
+// export const getAllMealByKitchen = async (id) => {
+//   console.log(id);
+//   try {
+//     const response = await axios.get(
+//       https://homemealtaste.azurewebsites.net/api/Meal/get-all-meal-by-kitchen-id?id=${id}
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log("get all meal by kitchen error", error);
+//   }
+// };
+export const createMealSession = async (values) => {
+  console.log(values);
+  try {
+    const response = await axios.post(
+      "https://homemealtaste.azurewebsites.net/api/MealSession",
+      values
+    );
+    if (response.status == 200) {
+      console.log("Create meal session successfully.");
+    }
+  } catch (error) {
+    console.log("create meal session", error);
+  }
+};

@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import * as Icon from "react-native-feather";
-import { getAllSessionByAreaId } from '../Api';
+import { getAllMealSessionWithStatus, getAllSessionByAreaId } from '../Api';
 import MealSessionCard from '../components/MealSessionCard';
+// import { err } from 'react-native-svg/lib/typescript/xml';
 
 const MealSession = ({ navigation, route }) => {
     const { areaId } = route.params;
     console.log("meall session page : ", areaId)
     const [session, setSession] = useState([])
-
     const fetchAllSessionByAreaId = (id) => {
         getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
             console.log("tra ve session tao tesrtttttttttttttttttttt", res)
@@ -20,7 +20,17 @@ const MealSession = ({ navigation, route }) => {
         fetchAllSessionByAreaId()
     }, [areaId])
 
-
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+          fetchAllSessionByAreaId();
+          console.log("Data refreshed!");
+        });
+    
+        // Clean up the listener when the component is unmounted
+        return unsubscribe;
+      }, [navigation]);
+    
+   
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -42,9 +52,9 @@ const MealSession = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.body}>
+            <ScrollView style={styles.body}>
                 {session?.map((item, index) => (
-                    <ScrollView key={index}>
+                    <ScrollView style={{}} key={index}>
                         {
                             item.status == true &&
                             (
@@ -62,7 +72,7 @@ const MealSession = ({ navigation, route }) => {
                     </ScrollView>
                 ))
                 }
-            </View>
+            </ScrollView>
             <View style={styles.footer}>
 
             </View>
@@ -81,8 +91,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     body: {
-        flex: 5,
-        // backgroundColor: 'green'
+        // backgroundColor: 'green',
+        height:'75%'
     },
     Text: {
         fontWeight: '600',
@@ -100,10 +110,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingVertical: 5
     },
-    footer: {
-        flex: 1,
-        // backgroundColor: 'blue'
-    }
+    // footer: {
+    //     flex: 1,
+    //     // backgroundColor: 'blue'
+    // }
 
 
 })

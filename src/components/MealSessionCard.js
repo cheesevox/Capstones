@@ -5,8 +5,10 @@ import FoodCard from "./FoodCard";
 import { ScrollView } from "react-native";
 import { item } from "../Constant";
 import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 
 export default function MealSessionCard({sessionId}) {
+  const navigation = useNavigation();
   const [allMeal, setAllMeal] = useState([]);
   const fetchAllMeal = ()=>{
     getAllMealInSessionID(sessionId).then((res)=>{
@@ -17,6 +19,17 @@ export default function MealSessionCard({sessionId}) {
   useEffect(()=>{
     fetchAllMeal()
   },[])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchAllMeal();
+      console.log("Data refreshed!");
+    });
+
+    // Clean up the listener when the component is unmounted
+    return unsubscribe;
+  }, [navigation]);
+
   return (
         // <Text key={index}>{item.mealDtoForMealSession?.name}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
