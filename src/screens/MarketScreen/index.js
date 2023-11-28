@@ -5,8 +5,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import HeaderComp from "../HeaderComp";
 import Area from "./components/area";
 import { getAllDistrict, getAreaByDistrictId } from "../../Api";
-
-<<<<<<< HEAD
 const MarketScreen = ({ navigation }) => {
   const [district, setDistrict] = useState([]);
   const [districtId, setDistrcitId] = useState();
@@ -24,9 +22,6 @@ const MarketScreen = ({ navigation }) => {
   };
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-=======
-const MarketScreen = () => {
->>>>>>> 870770aec7fcb10c62bb0d787bd8590e98080457
   const posts = [
     {
       id: 1,
@@ -108,5 +103,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
 export default React.memo(MarketScreen);
