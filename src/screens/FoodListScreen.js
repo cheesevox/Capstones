@@ -29,12 +29,12 @@ const FoodListScreen = ({ navigation }) => {
 
 	const [isFocus, setIsFocus] = useState(false);
 
-	// const fetchAllSessionByAreaId = (id) => {
-	// 	getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
-	// 		console.log("tra ve session tao tesrtttttttttttttttttttt",res)
-	// 		setSession(res)
-	// 	}).catch(error => console.log(error))
-	// }
+	const fetchAllSessionByAreaId = (id) => {
+		getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
+			console.log("tra ve session tao tesrtttttttttttttttttttt",res)
+			setSession(res)
+		}).catch(error => console.log(error))
+	}
 
 	const fectchAllAreaByDistrictId = () => {
 		getAllAreaByDistrictId(districtId ? districtId : districtDefault).then((res) => {

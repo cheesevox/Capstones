@@ -58,7 +58,7 @@ export default function FeedBackScreen({ navigation, route }) {
           <View style={{ flexDirection: 'row-reverse', margin: 'auto' }}>
             <Text style={{
               alignItems: 'center', width: '60%', textAlign: 'center',
-              fontWeight: 'bold', fontSize: 26, justifyContent:'center', borderRadius:30, backgroundColor:'orange', color:'#e65332'
+              fontWeight: 'bold', fontSize: 26, justifyContent: 'center', borderRadius: 30, backgroundColor: 'orange', color: '#e65332'
             }}>Review</Text>
           </View>
         </View>
@@ -79,15 +79,15 @@ export default function FeedBackScreen({ navigation, route }) {
           <Text style={{ fontSize: 22 }}><Ionicons name='location-outline' size={20}>Kitchen :</Ionicons>
             {item?.mealSessionDto2?.mealDto2?.kitchenDto2?.name}</Text>
 
-            <View style={{ width:'100%',padding: 10, borderRadius: 20, marginTop: 10,display:'flex',flexDirection:'row',justifyContent:'space-around' ,elevation:5}}>
-            <Image style={{ width: 100, height: 100, borderRadius: 10, resizeMode: 'cover', }} source={{uri : item?.mealSessionDto2?.mealDto2?.image}} />
-              <View>
+          <View style={{ width: '100%', padding: 10, borderRadius: 20, marginTop: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', elevation: 5 }}>
+            <Image style={{ width: 150, height: 150, borderRadius: 10, resizeMode: 'cover' }} source={{ uri: item?.mealSessionDto2?.mealDto2?.image }} />
+            <View style={{width:'auto', padding:10}}>
               <Text>Meal Session : {item?.mealSessionDto2?.mealDto2?.name}</Text>
-              <Text>Description : {item?.mealSessionDto2?.mealDto2?.description}</Text>
+              <Text style={{width:'60%'}}>Description : {item?.mealSessionDto2?.mealDto2?.description}</Text>
               <Text>Time : {item?.time}</Text>
               <Text>Quantity Order : {item?.quantity}</Text>
               <Text>Status Order : {item?.status}</Text>
-              </View>
+            </View>
           </View>
 
 

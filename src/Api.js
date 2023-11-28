@@ -1,26 +1,34 @@
 import axios from "axios";
+// <<<<<<< HEAD
 import { useDispatch } from "react-redux";
+import { RouteName } from "./Constant";
 export const login = async (values, navigation) => {
+  console.log(values);
   try {
     const response = await axios.post(
       `https://homemealtaste.azurewebsites.net/api/User/login`,
       values
     );
-    const { roleId } = response.data;
+
     if (response.data) {
-      if (roleId == 2) {
-        navigation.navigate("CustomerHome");
-        return response.data
+      console.log("role",response.data.roleId)
+      const roleId = response.data.roleId;
+      const userId = response.data.userId
+      if (roleId === 2) {
+        navigation.navigate("CustomerHome", {user:response.data});
+      } else if (roleId === 3) {
+        navigation.navigate(`${RouteName.KITCHEN}`, {user:response.data});
       } else {
-        navigation.navigate("chay toi trang chef");
+        console.log("Unknown roleId:", roleId);
       }
     } else {
-      console.log("loi login");
+      console.log("No data in the response");
     }
   } catch (error) {
-    console.log("loi login", error);
+    console.log("Error in login", error);
   }
 };
+
 
 export const getOrderByUserID = (id) => {
   try {
@@ -42,16 +50,23 @@ export const loginUser = () => {
     console.log("login error in here");
   }
 };
-export const getOrderByID = async (id) => {
+// <<<<<<< HEAD
+// export const getOrderByID = async (id) => {
+//   try {
+//     const repose = await axios.get(
+// =======
+export const getOrderByID = (id) => {
   try {
-    const repose = await axios.get(
-      `https://homemealtaste.azurewebsites.net/api/Order/get-order-by-order-id?id=${id}`
+    const repose = axios.get(
+// >>>>>>> CaoVanTruong/chef
+//       `https://homemealtaste.azurewebsites.net/api/Order/get-order-by-order-id?id=${id}`
     );
     return repose.data;
   } catch (error) {
     console.log("error by id get order");
   }
 };
+// <<<<<<< HEAD
 
 export const getAllMealInSessionID = async (id) => {
   try {
@@ -70,7 +85,29 @@ export const getAllArea = async () => {
       `https://homemealtaste.azurewebsites.net/api/Area/get-all-area`
     );
     return repose.data;
-  } catch (error) {}
+  } catch (error) {}}
+// =======
+// distrct,area
+export const getAllDistrict = async () => {
+  try {
+    const response = await axios.get(
+      "https://homemealtaste.azurewebsites.net/api/District/get-all-district"
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Error get all district", error);
+  }
+};
+export const getAreaByDistrictId = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/Area/get-area-by-district-id?districtid=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Get area by district id", error);
+  }
+// >>>>>>> CaoVanTruong/chef
 };
 export const getAllSessionByAreaId = async (id) => {
   try {
@@ -82,6 +119,7 @@ export const getAllSessionByAreaId = async (id) => {
     console.log("get all session by area Id", error);
   }
 };
+// <<<<<<< HEAD
 
 export const getMealInSessionBySessionId = async (id) => {
   try {
@@ -138,14 +176,14 @@ export const getAllAreaByDistrictId = async(id) =>{
     console.log("error in getall area by district")
   }
 }
-export const getAllDistrict = async () => {
-  try {
-    const repose = await axios.get(
-      `https://homemealtaste.azurewebsites.net/api/District/get-all-district`
-    );
-    return repose.data;
-  } catch (error) {}
-};
+// export const getAllDistrict = async () => {
+//   try {
+//     const repose = await axios.get(
+//       `https://homemealtaste.azurewebsites.net/api/District/get-all-district`
+//     );
+//     return repose.data;
+//   } catch (error) {}
+// };
 
 export const getUserByID = async (id)=>{
   try {
@@ -181,5 +219,115 @@ export const createPayment = async (values)=>{
     return response.data
   } catch (error) {
     console.log("create payment $$$$",error)
+  }
+}
+// =======
+// chef dish
+export const getAllDishByKitchenId = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/Dish/get-dish-by-kitchen-id?kitchenid=${id}`
+    );
+    return response.data;
+  } catch (error) {}
+};
+export const deleteDishByDishId = async (id) => {
+  try {
+    await axios.delete(
+      `https://homemealtaste.azurewebsites.net/api/Dish?id=${id}`
+    );
+    console.log("Delete successfully.");
+  } catch (error) {
+    console.log("delete dish", error);
+  }
+};
+export const createNewDish = async (values) => {
+  console.log("values là", values);
+  try {
+    const headers = {
+      accept: "application/json",
+      "content-type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+    const response = await axios.post(
+      "https://homemealtaste.azurewebsites.net/api/Dish",
+      formData,
+      { headers }
+    );
+    if (response.status === 200) {
+      console.log("Create new dish successfully.");
+      console.log(response.data);
+    }
+  } catch (error) {
+    console.error("Error creating new dish:", error.message);
+    console.error("Error details:", error.response);
+
+    // Log the entire error object for more information
+    console.error("Full error object:", error);
+
+    // If error.response is not available, log the entire error object
+    if (!error.response) {
+      console.error("Error object without response:", error);
+    }
+  }
+};
+export const getAllDishType = async () => {
+  try {
+    const response = await axios.get(
+      "https://homemealtaste.azurewebsites.net/api/DishType/get-all-dish-type"
+    );
+    return response.data.data;
+  } catch (error) {
+    console.log("get all dishtype error", error);
+  }
+};
+export const getAllMealByKitchen = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/Meal/get-all-meal-by-kitchen-id?id=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get all meal by kitchen error", error);
+  }
+};
+// export const getDishByMealId = async (id)=>{
+//     try {
+//         const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Dish/get-dish-id-by-meal-id?mealid=${id}`)
+
+//     } catch (error) {
+
+//     }
+// }
+export const getMealById = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/Meal/get-single-meal-by-meal-id?mealid=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get meal by id", error);
+  }
+};
+// >>>>>>> CaoVanTruong/chef
+
+// kitchen
+export const getOrderByKitchenId = async (id)=>{
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/Order/get-order-by-kitchen-id?kitchenid=${id}`)
+    return response.data
+  } catch (error) {
+    console.log("get order by kitchen id",error)
+  }
+}
+export const postStatusPaidToCompleted = async (id)=>{
+  try {
+    console.log(id)
+     await axios.patch(`https://homemealtaste.azurewebsites.net/api/Order/change-status-order-to-COMPLETED?orderid=${id}`)
+  } catch (error) {
+    console.log("post status paid to complete errror", error)
   }
 }

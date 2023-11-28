@@ -9,9 +9,7 @@ import { createOrderUser } from '../Api'
 
 const OrderCartScreen = ({ navigation, route }) => {
   const { item } = route.params || {};
-  console.log("itemmmmmmmmmmmmmmmmmmm : ", item);
   const user = useSelector((state) => state.user.user)
-  console.log("USER NEWEEEEEEEEEEE", user.customerId)
   const [quantity, setQuantity] = useState(1)
   const [values, setValues] = useState({
     customerId: user.customerId,
@@ -34,7 +32,6 @@ const OrderCartScreen = ({ navigation, route }) => {
     }
   }
   const CartCard = ({ item }) => {
-    console.log("+++++++++++", item)
     return <View style={styles.cartcard}>
       <View style={{
         height: 100,
@@ -132,7 +129,7 @@ const OrderCartScreen = ({ navigation, route }) => {
             <TouchableOpacity
               onPress={() => {
                 createOrder()
-                navigation.navigate("CustomerHome")
+                navigation.navigate("CustomerHome" , {user:user})
               }
               }
               style={{

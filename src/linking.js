@@ -1,8 +1,5 @@
 const config = {
     screens: {
-      Home: {
-        path: "FoodList",
-      },
       Wallet : "Wallet"
     },
   };

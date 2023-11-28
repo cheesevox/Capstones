@@ -107,7 +107,7 @@ const OrderScreen = ({ navigation }) => {
             <View style={styles.body}>
                 <ScrollView>
                     {
-                        order.map((item) => (
+                        order?.map((item) => (
                             <CartCard key={item.orderId} item={item} />
                         )
                         )

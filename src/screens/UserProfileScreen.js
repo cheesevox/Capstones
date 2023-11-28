@@ -9,23 +9,20 @@ import { useSelector } from 'react-redux';
 import { getUserByID } from '../Api';
 import TabViewSession from '../components/TabViewSession';
 
-const UserProfileScreen = ({ navigation }) => {
-  const user = useSelector(state => state.user.user)
-  const [profile, setProfile] = useState('')
+const UserProfileScreen = ({ navigation ,route}) => {
+  const user = useSelector(state => state.user.user) 
+  const [profile, setProfile] = useState()
 
   const fectProfileByCustomerId = () => {
-    getUserByID(user.userId).then((res) => {
-      console.log("Res by customer ID", res)
+    getUserByID(user?.userId).then((res) => {
       setProfile(res)
     })
-    console.log("111111111111111:", user.userId)
   }
   useEffect(() => {
     fectProfileByCustomerId()
-  }, [user.userId])
+  }, [])
 
 
-  console.log("UDSESDDDD", profile)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
@@ -52,7 +49,7 @@ const UserProfileScreen = ({ navigation }) => {
           source={require('../../assets/images/avatar.jpg')}
             style={{ borderRadius: 50, width: 200, height: 200, resizeMode: "cover" }}
           />
-          <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 26, color: 'orange' }}>{profile.name} #{profile.userId}</Text>
+          <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 26, color: 'orange' }}>{profile?.name} #{profile?.userId}</Text>
           <View style={styles.cartcard}>
             <View style={{
               height: 250,
@@ -63,10 +60,10 @@ const UserProfileScreen = ({ navigation }) => {
               fontWeight: "",
               flex: 1
             }}>
-              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Address : {profile.address}</Ionicons>
-              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Phone : {profile.phone} </Ionicons>
+              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Address : {profile?.address}</Ionicons>
+              <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Phone : {profile?.phone} </Ionicons>
               <TouchableOpacity>
-                <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Email : {profile.email}</Ionicons>
+                <Ionicons name='wallet-outline' size={20} paddingHorizontal={5}> Email : {profile?.email}</Ionicons>
               </TouchableOpacity>
               <TouchableOpacity
                 // onPress={() => navigation.navigate("Wallet", item={profile})}
