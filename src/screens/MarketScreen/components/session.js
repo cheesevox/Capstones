@@ -50,7 +50,9 @@ const Session = (props) => {
               styles.buttonStyle,
             ]}
             onPress={() => {
-              // navigation.navigate()
+              navigation.navigate(RouteName.SESSION_MANAGEMENT, {
+                id: data.id,
+              });
             }}
           >
             <Text style={styles.buttonText}>{"Join"}</Text>

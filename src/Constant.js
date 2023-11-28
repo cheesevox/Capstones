@@ -11,6 +11,7 @@ export const RouteName = {
   SESSION: "Session",
   AREA: "Area",
   MARKET: "Market",
+  SESSION_MANAGEMENT: "SessionManagement"
 };
 
 export const colors = {
@@ -332,3 +333,9 @@ export const recipeList = [
 
   // getOrderByID()
 ];
+
+export const EnumSessionStatus = {
+  approved: 0,
+  processing: 1,
+  rejected: 2,
+};
