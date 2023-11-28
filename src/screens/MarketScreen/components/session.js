@@ -10,8 +10,6 @@ const Session = (props) => {
   const [session, setSession] = useState([]);
   const fetchAllSessionByAreaId = () => {
     getAllSessionByAreaId(areaId).then((res) => {
-      console.log("-----------------------", areaId);
-      console.log("++++++++++++++++++++++", res);
       setSession(res);
     });
   };
@@ -51,7 +49,8 @@ const Session = (props) => {
             ]}
             onPress={() => {
               navigation.navigate(RouteName.SESSION_MANAGEMENT, {
-                id: data.id,
+                id: item.sessionId,
+                type: item.sessionType,
               });
             }}
           >

@@ -22,6 +22,7 @@ import MealManagement from "../screens/MealManagement";
 import formMeal from "../screens/MealManagement/components/form-meal";
 import session from "../screens/MarketScreen/components/session";
 import SessionManagement from "../screens/SessionManagement";
+import addMealSession from "../screens/SessionManagement/components/add-meal-session";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +72,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name={RouteName.SESSION_MANAGEMENT}
           component={SessionManagement}
+        />
+        <Stack.Screen
+          name={RouteName.ADD_MEAL_SESSION}
+          component={addMealSession}
         />
         {/*Chef role*/}
       </Stack.Navigator>
