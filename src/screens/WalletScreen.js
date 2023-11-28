@@ -46,11 +46,10 @@ const WalletScreen = ({ navigation, route }) => {
     //  openLink();
     setSelection(!isSelected);
   };
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'relative', backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}

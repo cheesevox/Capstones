@@ -57,11 +57,11 @@ const MealDetailScreen = ({ navigation, route }) => {
               position: "absolute",
               marginTop: 40,
               marginLeft: 24,
-              backgroundColor: "white",
+              backgroundColor: "orange",
               borderRadius: 28,
             }}
           >
-            <Icon.ArrowLeft style={{ color: "orange" }} strokeWidth={3} />
+            <Icon.ArrowLeft style={{ color: "#fff" }} strokeWidth={3} />
           </TouchableOpacity>
           <View
             style={{
