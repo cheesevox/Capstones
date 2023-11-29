@@ -10,8 +10,6 @@ const Session = (props) => {
   const [session, setSession] = useState([]);
   const fetchAllSessionByAreaId = () => {
     getAllSessionByAreaId(areaId).then((res) => {
-      console.log("-----------------------", areaId);
-      console.log("++++++++++++++++++++++", res);
       setSession(res);
     });
   };
@@ -50,7 +48,10 @@ const Session = (props) => {
               styles.buttonStyle,
             ]}
             onPress={() => {
-              // navigation.navigate()
+              navigation.navigate(RouteName.SESSION_MANAGEMENT, {
+                id: item.sessionId,
+                type: item.sessionType,
+              });
             }}
           >
             <Text style={styles.buttonText}>{"Join"}</Text>

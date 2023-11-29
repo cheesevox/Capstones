@@ -10,6 +10,8 @@ import BackIcon from "./BackIcon";
 import AddIcon from "./AddIcon";
 import CameraIcon from "./CameraIcon";
 import MinusIcon from "./MinusIcon";
+import IncreaseIcon from "./IncreaseIcon";
+import DescreaseIcon from "./DescreaseIcon";
 
 export default Icons = {
   BellIcon,
@@ -24,4 +26,6 @@ export default Icons = {
   AddIcon,
   CameraIcon,
   MinusIcon,
+  IncreaseIcon,
+  DescreaseIcon,
 };
