@@ -1,4 +1,5 @@
 import {
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -28,6 +29,7 @@ const FormDish = (props) => {
     dishTypeId: "null",
     kitchenId: 1,
   });
+  const [imageSource, setImageSource] = useState(null);
   // const typeOfDishes = [
   //   {
   //     id: 1,
@@ -54,52 +56,66 @@ const FormDish = (props) => {
   const handleCreateNewDish = () => {
     createNewDish(values);
   };
-  const onSelectAvatar = () => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: "photo",
-        quality: 1,
-        includeBase64: true,
-      },
-      async (response) => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-        } else if (response.errorCode) {
-          console.log("ImagePicker Error: ", response.errorCode);
-        } else {
-          let source = response.assets[0];
-          if (source.fileSize >= 5242880) {
-            toastMessage(t(MessageI18n.errorImageSizeIsTooBig), true);
-          } else {
-            let buildFileName = new Date().toISOString();
-            let formData = new FormData();
-            formData.append("file", {
-              uri:
-                Platform.OS === "ios"
-                  ? source?.uri.replace("file://", "")
-                  : source?.uri,
-              name: source?.fileName,
-              type: source?.type,
-            });
-            formData.append("fileName", fileNameNormalize(buildFileName));
-            // const accountUploadResult =
-            //   await accountApiService.uploadAccountAvatarAsync(formData);
-            // if (accountUploadResult.isSuccess === true) {
-            //   let customerInformation = {
-            //     ...customerInfo,
-            //     thumbnail: accountUploadResult?.avatarUrl,
-            //   };
-            //   await updateSessionJsonStringValue(customerInformation);
-            //   dispatch(updateCustomerAvatar(accountUploadResult?.avatarUrl));
-            //   toastMessage(t(accountUploadResult?.message), false);
-            // } else {
-            //   toastMessage(t(accountUploadResult?.message), true);
-            // }
-          }
-        }
-      }
-    );
+
+  const onSelectAvatar = async () => {
+    try {
+      const image = await ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+      });
+
+      setImageSource({ uri: image.path });
+    } catch (error) {
+      console.log("ImagePicker Error: ", error);
+    }
   };
+  // const onSelectAvatar = () => {
+  //   ImagePicker.launchImageLibrary(
+  //     {
+  //       mediaType: "photo",
+  //       quality: 1,
+  //       includeBase64: true,
+  //     },
+  //     async (response) => {
+  //       if (response.didCancel) {
+  //         console.log("User cancelled image picker");
+  //       } else if (response.errorCode) {
+  //         console.log("ImagePicker Error: ", response.errorCode);
+  //       } else {
+  //         let source = response.assets[0];
+  //         if (source.fileSize >= 5242880) {
+  //           toastMessage(t(MessageI18n.errorImageSizeIsTooBig), true);
+  //         } else {
+  //           let buildFileName = new Date().toISOString();
+  //           let formData = new FormData();
+  //           formData.append("file", {
+  //             uri:
+  //               Platform.OS === "ios"
+  //                 ? source?.uri.replace("file://", "")
+  //                 : source?.uri,
+  //             name: source?.fileName,
+  //             type: source?.type,
+  //           });
+  //           formData.append("fileName", fileNameNormalize(buildFileName));
+  //           // const accountUploadResult =
+  //           //   await accountApiService.uploadAccountAvatarAsync(formData);
+  //           // if (accountUploadResult.isSuccess === true) {
+  //           //   let customerInformation = {
+  //           //     ...customerInfo,
+  //           //     thumbnail: accountUploadResult?.avatarUrl,
+  //           //   };
+  //           //   await updateSessionJsonStringValue(customerInformation);
+  //           //   dispatch(updateCustomerAvatar(accountUploadResult?.avatarUrl));
+  //           //   toastMessage(t(accountUploadResult?.message), false);
+  //           // } else {
+  //           //   toastMessage(t(accountUploadResult?.message), true);
+  //           // }
+  //         }
+  //       }
+  //     }
+  //   );
+  // };
   useEffect(() => {
     fetchAllTypeOfDish();
   }, []);
@@ -152,8 +168,14 @@ const FormDish = (props) => {
           style={styles.uploadImages}
           onPress={() => onSelectAvatar()}
         >
-          <CameraIcon />
-          <Text>{"Post picture of dish"}</Text>
+          {imageSource ? (
+            <Image source={imageSource} resizeMode="cover" />
+          ) : (
+            <>
+              <CameraIcon />
+              <Text>{"Post picture of dish"}</Text>
+            </>
+          )}
         </TouchableOpacity>
       </View>
       <View
