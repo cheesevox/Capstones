@@ -30,6 +30,7 @@ import ChefOrderDetailScreen from "../screens/ChefScreen/ChefOrderDetailScreen";
 import WebScreen from "../screens/WebScreen";
 import SessionManagement from "../screens/SessionManagement";
 import AddNewMealSession from "../screens/SessionManagement/component/AddNewMealSession";
+import EditUserProfileScreen from "../screens/EditUserProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,8 +57,7 @@ const AppNavigator = () => {
 				<Stack.Screen name="WebScreen" component={WebScreen} />
 				<Stack.Screen name="SessionManagement" component={SessionManagement} />
 				<Stack.Screen name="AddMealSession" component={AddNewMealSession} />
-
-
+				<Stack.Screen name="EditProfile" component={EditUserProfileScreen} />
 
         {/* <Stack.Screen name="Feedback" component={FeedBackScreen} /> */}
 

@@ -19,12 +19,11 @@ const DishCard = ({ item }) => {
           width: "50%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
         }}
       >
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.name}</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>Dish Name: {item.name}</Text>
 
-        <Text style={{ fontSize: 17, fontWeight: "bold" }}>{item.dishType.name}</Text>
+        <Text style={{ fontSize: 17, fontWeight: "bold" }}>Dish Type :{item.dishType.name}</Text>
       </View>
     </View>
   );
@@ -38,11 +37,8 @@ const styles = StyleSheet.create({
     minHeight: 100,
     display: "flex",
     flexDirection: "row",
-    borderRadius: 10,
     padding: 20,
     justifyContent: "space-between",
-    alignItems: "center",
-    borderColor: "gray",
     marginVertical:10,
     elevation:4,
   },

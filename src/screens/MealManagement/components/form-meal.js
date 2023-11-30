@@ -206,7 +206,7 @@ const FromMeal = (props) => {
               style={{
                 color: "#FFAB01",
                 textAlign: "center",
-                fontFamily: "Poppins",
+                // fontFamily: "Poppins",
                 fontSize: 19,
                 fontWeight: "700",
                 padding: 8,
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 16,
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontWeight: "500",
   },
   uploadImages: {
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: "#000",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "800",
   },

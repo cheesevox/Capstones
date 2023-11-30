@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: "#E88C80",
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 20,
     fontWeight: "700",
     paddingVertical: 12,

@@ -212,7 +212,7 @@ const SessionManagement = (props) => {
           />
         </View>
         <View>
-          <FlatList data={mealInSession} renderItem={renderSessionItem} />
+          <FlatList style={{height:'83%'}} data={mealInSession} renderItem={renderSessionItem} />
         </View>
       </View>
       <View

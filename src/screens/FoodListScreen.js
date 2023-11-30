@@ -13,6 +13,7 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 import TabViewSession from "../components/TabViewSession";
 import { Card } from 'react-native-paper';
 import { Bold } from "react-native-feather";
+import { Ionicons } from "@expo/vector-icons";
 
 
 const FoodListScreen = ({ navigation }) => {
@@ -31,7 +32,7 @@ const FoodListScreen = ({ navigation }) => {
 
 	const fetchAllSessionByAreaId = (id) => {
 		getAllSessionByAreaId(areaId ? areaId : area[0]).then((res) => {
-			console.log("tra ve session tao tesrtttttttttttttttttttt",res)
+			console.log("tra ve session tao tesrtttttttttttttttttttt", res)
 			setSession(res)
 		}).catch(error => console.log(error))
 	}
@@ -87,7 +88,7 @@ const FoodListScreen = ({ navigation }) => {
 		<SafeAreaView style={{ flex: 1, marginHorizontal: 16 }}>
 			{/* render header */}
 
-			<View style={{ flexDirection: "row", justifyContent: "space-between", marginTop:50 }}>
+			<View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
 				<View style={{}}>
 					<View style={{}}>
 						<TouchableOpacity
@@ -123,14 +124,14 @@ const FoodListScreen = ({ navigation }) => {
 							placeholder={!isFocus ? 'District' : ''}
 							searchPlaceholder="Search..."
 							value={districtId}
-						
+
 							onFocus={() => setIsFocus(true)}
 							onBlur={() => setIsFocus(false)}
 							onChange={(value) => {
 								setDistrictId(value.districtId);
 								// router.refesh
 							}}
-							
+
 						/>
 					</View>
 				</View>
@@ -142,7 +143,7 @@ const FoodListScreen = ({ navigation }) => {
 				<Text style={{ fontSize: 22, fontWeight: "bold" }}>Area</Text>
 				{/* district list */}
 				<View style={{}}>
-					<ScrollView 
+					<ScrollView
 					// horizontal showsHorizontalScrollIndicator={false} style={{ margin: 5}}
 					>
 						{area.map((area, index) => {
@@ -150,25 +151,29 @@ const FoodListScreen = ({ navigation }) => {
 								<View
 									key={index}
 									style={{
-										elevation:5,
-										width:'100%',
+										elevation: 5,
+										width: '100%',
 										borderRadius: 8,
-										marginVertical:10,
+										marginVertical: 10,
 									}}
 								>
-									<TouchableOpacity onPress={() => navigation.navigate("MealSession",{ areaId: area.areaId }) 
-									// {
-									// 	console.log(area.areaId)
+									<TouchableOpacity onPress={() => navigation.navigate("MealSession", { areaId: area.areaId })
+										// {
+										// 	console.log(area.areaId)
 										&& setAreaId(area.areaId)
-									// }
+										// }
 									}>
-										<View style={{padding: 50}}>
-										<Text style={{ fontSize: 23,  fontWeight:"bold",textAlign:"center", paddingHorizontal:10 }}>
-											{area.areaName}
-										</Text>
-										<Text style={{textAlign:"center", fontSize:15}}>Address :{area.address} </Text>
+										<View style={{ flexDirection: "row" , alignItems:"center", justifyContent:"center"}}>
+											<Ionicons name="business-outline" size={40} />
+											<View style={{ padding: 40 }}>
+												<Text style={{ fontSize: 23, fontWeight: "bold", textAlign: "center"}}>
+													{area.areaName}
+												</Text>
+												<Text style={{ textAlign: "center", fontSize: 15 }}>Address :{area.address} </Text>
+											</View>
 										</View>
 									</TouchableOpacity>
+
 								</View>
 							);
 						})}
@@ -199,10 +204,7 @@ const FoodListScreen = ({ navigation }) => {
 				</View>
 			</View>
 			{/* </View> */}
-			< View >
-				<Text>
-				</Text>
-			</View >
+
 		</SafeAreaView >
 	);
 };

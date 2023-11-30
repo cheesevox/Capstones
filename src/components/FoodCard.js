@@ -40,7 +40,7 @@ const FoodCard = ({ item }) => {
 				>
 					{/* //uri // */}
 					<View style={{ alignItems: "center" }}>
-						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{ width: 100, height: 100, position: 'relative' }}></Image>
+						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{ width: 120, height: 120, position: 'relative', borderRadius:20 }}></Image>
 					</View>
 					{/* <Text>{item.name}</Text> */}
 					<View style={{ flexDirection: "row", marginTop: 8 }}>

@@ -16,20 +16,17 @@ const CartCard = ({ item }) => {
       }}>
         <View style={{ flexDirection: 'row',}}>
           <Image style={{ width: 100, height: 100, borderRadius: 10, resizeMode: 'cover' }} source={{uri : item?.mealSessionDto2?.mealDto2?.image}} />
-          <View style={{ flexDirection: 'column' , padding:15}}>
+          <View style={{ flexDirection: 'column' , padding:15, justifyContent:'space-between'}}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
               {/* name order  */}
               {item?.mealSessionDto2?.mealDto2?.name}
             </Text>
-            {/* order id */}
-            <Text>{item?.orderId}</Text>
+            <Text>Price {item?.totalPrice}</Text>
             <Text style={{
               padding:1,
-              borderWidth:1,
               fontWeight:700,
               borderRadius:5,
               borderColor:'gray',
-              textAlign:'center',
             }}>{item?.status}</Text>
           </View>
         </View>
