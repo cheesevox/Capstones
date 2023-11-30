@@ -32,7 +32,6 @@ const FoodCard = ({ item }) => {
 						borderRadius: 16,
 						width: 250,
 						marginVertical: 16,
-						// alignItems: "center",
 						paddingHorizontal: 8,
 						paddingVertical: 26,
 						marginRight: 20
@@ -40,7 +39,7 @@ const FoodCard = ({ item }) => {
 				>
 					{/* //uri // */}
 					<View style={{ alignItems: "center" }}>
-						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{ width: 120, height: 120, position: 'relative', borderRadius:20 }}></Image>
+						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{resizeMode:"cover", position: 'relative', height:150, width:250 }}></Image>
 					</View>
 					{/* <Text>{item.name}</Text> */}
 					<View style={{ flexDirection: "row", marginTop: 8 }}>
