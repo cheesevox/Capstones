@@ -27,33 +27,52 @@ const ChefOrderScreen = ({ navigation }) => {
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [newData,setNewData] = useState([])
-  const [selectedDate,setSelectedDate] = useState();
-  const onChange = async (event, selectedDate) => {
-    const dateTimeString = '01-12-2023 14:27'; // Replace this with your actual date-time string
+  const [newData, setNewData] = useState([])
+  const [selectedDate, setSelectedDate] = useState();
+  // const onChange = async (event, selectedDate) => {
+  //   const dateTimeString = '01-12-2023 14:27'; // Replace this with your actual date-time string
 
-    // Parse the date-time string into a JavaScript Date object
-    const dateTimeObject = new Date(dateTimeString);
-  
-    // Create a new Date object with the same date but set the time to midnight
-    const dateOnlyObject = new Date(dateTimeObject.getFullYear(), dateTimeObject.getMonth(), dateTimeObject.getDate());
-  
-    // Format the date without the time
-    const formattedDate = dateOnlyObject.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-    console.log(formattedDate)
+  //   // Parse the date-time string into a JavaScript Date object
+  //   const dateTimeObject = new Date(dateTimeString);
+
+  //   // Create a new Date object with the same date but set the time to midnight
+  //   const dateOnlyObject = new Date(dateTimeObject.getFullYear(), dateTimeObject.getMonth(), dateTimeObject.getDate());
+
+  //   // Format the date without the time
+  //   const formattedDate = dateOnlyObject.toLocaleDateString('en-US', {
+  //     day: '2-digit',
+  //     month: '2-digit',
+  //     year: 'numeric',
+  //   });
+  //   console.log("FORMATTTTTTTTTTTT",formattedDate)
+  // };
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+
+    if (currentDate !== date) {
+      setDate(currentDate);
+    }
+    // Hide the DateTimePicker after selecting a date
+    setShow(false);
   };
+
   const showDatePicker = () => {
+    console.log("Showing date picker");
     if (!show) {
       setShow(true);
     }
   };
-  const formattedDate = date.toLocaleDateString();
+  // const formattedDate = date.toLocaleDateString();
+  // const formattedDate = date.toLocaleDateString('en-GB', {
+  //   timeZone: 'Asia/Ho_Chi_Minh',// Use the time zone that suits your application
+  //   day: '2-digit',
+  //   month: '2-digit',
+  //   year: 'numeric',
+  // });
+  const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const formattedDate = formatter.format(date);
+  console.log("DATEEEEEEEEEEEEEEEEEEEEE", formattedDate);
 
-  const plus = ({ item }) => { };
   const user = useSelector((state) => state.user.user)
   const [orders, setOrders] = useState([])
   const fetchAllOrder = () => {
@@ -72,7 +91,6 @@ const ChefOrderScreen = ({ navigation }) => {
     })
   }
   // console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
-
 
   const CartCard = ({ item }) => {
     return (
@@ -145,40 +163,11 @@ const ChefOrderScreen = ({ navigation }) => {
                 )
                 : ""
             }
-            <View
-            //   style={{
-            //     padding: 3,
-            //     backgroundColor: "#FFD580",
-            //     borderRadius: 10,
-            //   }}
-            >
+            <View>
               <Text>Status:<Text style={{ padding: 5, color: 'green' }}>{item?.status}</Text></Text>
             </View>
           </View>
         </View>
-        {/* <View style={{ alignItems: "center" }}>
-            <View style={styles.actionButton}>
-              <Ionicons
-                name="add-circle-outline"
-                size={25}
-                color={Colors.black}
-              ></Ionicons>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 18,
-                  textAlign: "center",
-                }}
-              >
-                1
-              </Text>
-              <Ionicons
-                name="remove-circle-outline"
-                size={25}
-                color={Colors.black}
-              ></Ionicons>
-            </View>
-          </View> */}
       </TouchableOpacity>
     );
   };
@@ -202,20 +191,18 @@ const ChefOrderScreen = ({ navigation }) => {
         marginHorizontal: 40, marginVertical: 10, justifyContent: "center",
         borderRadius: 30, elevation: 5, backgroundColor: '#00000000'
       }}>
-        <View>
-          {/* <Button onPress={showDatePicker} title=""   ><Ionicons name="calendar-outline"/></Button>   */}
-          <TouchableOpacity onPress={showDatePicker}>
-            <Ionicons name="calendar-outline" size={22} />
-          </TouchableOpacity>
-          {show && (
-            <DateTimePicker
-              value={date}
-              mode="date" // Change to "time" for time picker
-              display="default"
-              onChange = {onChange}
-           />
-          )}
-        </View>
+        <TouchableOpacity onPress={showDatePicker}>
+          <Ionicons name="calendar-outline" size={22} />
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            value={date}
+            mode="date" // Change to "time" for time picker
+            display="default"
+            onChange={onChange}
+          />
+        )}
+        {/* <Text style={{ marginTop: 20 }}>Selected Date and Time: {date.toString()}</Text> */}
         <View
           style={{
             alignItems: "center", justifyContent: "center",
@@ -227,19 +214,15 @@ const ChefOrderScreen = ({ navigation }) => {
       <View style={{
         backgroundColor: "blue", flex: 9,
         margin: 10,
-        marginTop:10,
+        marginTop: 10,
         borderRadius: 20,
         backgroundColor: "#FFD580",
         elevation: 5,
       }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={date ?  newData : orders}
+          data={date ? newData : orders}
           contentContainerStyle={{
-            // margin: 10,
-            // borderRadius: 20,
-            // backgroundColor: "#FFD580",
-            // elevation: 5,
           }}
           renderItem={({ item }) => <CartCard item={item} />}
         />
@@ -247,13 +230,11 @@ const ChefOrderScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   textItem: {
     fontWeight: "bold",
     fontSize: 12,
   },
-
   header: {
     paddingVertical: 20,
     flexDirection: "row",
