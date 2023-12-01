@@ -16,8 +16,9 @@ import CameraIcon from "../../../components/Icons/CameraIcon";
 import { createNewDish, getAllDishType } from "../../../Api";
 
 const FormDish = (props) => {
-  const { navigation, route } = props;
+  const { navigation,route } = props;
   const id = route.params;
+  console.log("ROTEEEEEEEEEEEEEEEEEEE" , id)
   const [typeOfDish, setTypeOfDish] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [typeOfDishes, setTypeOfDishes] = useState([]);
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 16,
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontWeight: "500",
   },
   uploadImages: {
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   buttonTextStyle: {
     color: "#FFF",
     textAlign: "center",
-    fontFamily: "Inter",
+    // fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "500",
     letterSpacing: 0.6,

@@ -20,6 +20,7 @@ import ChefHomeScreen from "../ChefHome";
 import { getOrderByKitchenId, postStatusPaidToCompleted } from "../../Api";
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 const ChefOrderScreen = ({ navigation }) => {
   const plus = ({ item }) => { };
   const user = useSelector((state) => state.user.user)
@@ -38,6 +39,19 @@ const ChefOrderScreen = ({ navigation }) => {
         text2: `Order ${orderId} is post completed.`
       });
     })
+  }
+  console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
+  const [date, setDate] = useState(Date())
+  const [mode, setMode] = useState('date')
+  const [show, setShow] = useState(false)
+
+  const onChange = (e, selectDate) => {
+    setDate(selectDate);
+    setShow(false);
+  }
+  const showMode = (modeToShow) => {
+    setShow(true)
+    setMode(modeToShow)
   }
   const CartCard = ({ item }) => {
     return (
@@ -65,19 +79,19 @@ const ChefOrderScreen = ({ navigation }) => {
             <View
               style={{
                 justifyContent: "center",
-                flexDirection: "column",
                 marginLeft: 20,
               }}
             >
               <Text style={styles.textItem}>Order ID : {item.orderId}</Text>
               <Text style={styles.textItem}>Quantity: {item?.mealSession?.quantity}</Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                  Total: {item.totalPrice}
-                </Text>
+              <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+                Total: {item.totalPrice}
+              </Text>
+              <Text>Area : {item?.mealSession?.sessionDto?.areaDtoOrderResponse?.areaName}</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <Text>Customer: {item?.customer?.name}</Text>
+                <Text>  Time: {item.time}</Text>
               </View>
-              <Text>{item.time}</Text>
-              <Text>Customer Name : {item?.customer?.name}</Text>
             </View>
           </View>
           <View
@@ -90,26 +104,26 @@ const ChefOrderScreen = ({ navigation }) => {
           >
             {
               item?.status?.includes("PAID") ?
-           (
-            <TouchableOpacity
-              style={{
-                padding: 1,
-                marginVertical: 2,
-                borderRadius: 5,
-                width: "20%",
-                display: "flex",
-                backgroundColor: "#FFD580",
-                justifyContent: "center",
-                alignItems: "center",
-                elevation: 5,
-              }}
-              onPress={() => onHandleCompletedOrder(item?.orderId)}
-            >
-              <Text>Post</Text>
-            </TouchableOpacity>
-           )
-            : ""
-             }
+                (
+                  <TouchableOpacity
+                    style={{
+                      padding: 1,
+                      marginVertical: 2,
+                      borderRadius: 5,
+                      width: "20%",
+                      display: "flex",
+                      backgroundColor: "#FFD580",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      elevation: 5,
+                    }}
+                    onPress={() => onHandleCompletedOrder(item?.orderId)}
+                  >
+                    <Text>Post</Text>
+                  </TouchableOpacity>
+                )
+                : ""
+            }
             <View
             //   style={{
             //     padding: 3,
@@ -160,6 +174,18 @@ const ChefOrderScreen = ({ navigation }) => {
             </Text>
           </View>
         </View>
+      </View>
+      <View style={{ padding: 20, marginVertical: 20 }}>
+        {/* <Button style={{width:'60%'}}title="Date" onPress={(()=>showMode('date'))}></Button>
+        {show && (
+          <DateTimePicker
+          value ={date} 
+          mode={mode}
+          is24Hour={true}
+          onChange={onchange}
+          />
+        )} */}
+
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}

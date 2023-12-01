@@ -1,30 +1,34 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
+import { RouteName, item } from "../../../Constant";
 
 const DishItem = (props) => {
+  const { navigation, route } = props;
   const { item } = props;
+  console.log("DISHHHHHHHHHHHHHHHH" , item)
   return (
     <View style={styles.itemContainer}>
-      <View style={styles.imageContainerStyle}>
-        {item.item?.mealId !== "" ? (
-          <Image
-            source={
-              { uri: item.item.image } ??
-              require("../../../../assets/images/splashimage.jpg")
-            }
-            style={styles.imageStyle}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.plusIconStyle}>
-            <PlusIcon />
-          </View>
-        )}
-      </View>
-
-      <Text style={styles.titleImageStyle}>{item.item?.name}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate(RouteName.FORM_DISH)}>
+        <View style={styles.imageContainerStyle}>
+          {item.item?.mealId !== "" ? (
+            <Image
+              source={
+                { uri: item.item.image } ??
+                require("../../../../assets/images/splashimage.jpg")
+              }
+              style={styles.imageStyle}
+              resizeMode="cover"
+            />
+          ) : (
+            <View style={styles.plusIconStyle}>
+              <PlusIcon />
+            </View>
+          )}
+        </View>
+        <Text style={styles.titleImageStyle}>{item.item?.name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };

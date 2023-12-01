@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View, ScrollView } from "react-native";
+import { FlatList, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import BellIcon from "../../components/Icons/BellIcon";
 import MessageIcon from "../../components/Icons/MessageIcon";
 import Item from "./components/Item";
@@ -6,10 +6,12 @@ import { getAllDishByKitchenId, getAllMealByKitchen } from "../../Api";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import DishItem from './components/DishItem'
-const ChefHomeScreen = () => {
-  const [dish,setDish] = useState([])
-  const [meal,setMeal] = useState([])
-  const user = useSelector((state)=>state.user.user)
+import { Touchable } from "react-native";
+import { RouteName, item } from "../../Constant";
+const ChefHomeScreen = ({navigation}) => {
+  const [dish, setDish] = useState([])
+  const [meal, setMeal] = useState([])
+  const user = useSelector((state) => state.user.user)
   const dishes = [
     {
       id: 1,
@@ -59,26 +61,29 @@ const ChefHomeScreen = () => {
   ];
 
   const renderItem = (item) => {
-    return <Item item={item} />;
+    return <Item  navigation={navigation} item={item} />;
   };
-  const renderDishItem = (item)=>{
-    return <DishItem item={item} />
+  const renderDishItem = (item) => {
+    return <DishItem navigation={navigation} item={item} 
+     />;
   }
-  const fetchAllDishByKitchenId = ()=>{
-    getAllDishByKitchenId(user.kitchenId).then((res)=>{
+  const fetchAllDishByKitchenId = () => {
+    getAllDishByKitchenId(user.kitchenId).then((res) => {
       setDish(res)
     })
   }
-  const fetchAllMealByKitchenId = ()=>{
-    getAllMealByKitchen(user.kitchenId).then((res)=>{
+  const fetchAllMealByKitchenId = () => {
+    getAllMealByKitchen(user.kitchenId).then((res) => {
       setMeal(res)
     })
   }
+  console.log("DISSSSSSSSSSSSSSSSSSSSSSS", dish)
+  console.log("MEaLLLLLLLLLLLLLLLLL", meal)
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchAllDishByKitchenId()
     fetchAllMealByKitchenId()
-  },[user?.kitchenId])
+  }, [user?.kitchenId])
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -92,16 +97,15 @@ const ChefHomeScreen = () => {
       <Text style={styles.headerText}>{"Hello Chef,"}</Text>
 
       <Text style={styles.titleStyle}>{"Dish of Kitchen"}</Text>
-      <View style={styles.listDishStyle}>
-        <FlatList
-          data={dish}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => renderDishItem(item)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-
+        <View style={styles.listDishStyle}>
+          <FlatList
+            data={dish}
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => renderDishItem(item)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
       <Text style={styles.titleStyle}>{"Meal of Kitchen"}</Text>
       <View style={styles.listDishStyle}>
         <FlatList

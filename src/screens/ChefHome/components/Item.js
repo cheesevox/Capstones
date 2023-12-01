@@ -1,12 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
+import { RouteName, item } from "../../../Constant";
 
 const Item = (props) => {
+  const { navigation, route } = props;
   const { item } = props;
   return (
     <View style={styles.itemContainer}>
+      <TouchableOpacity onPress={() => navigation.navigate(RouteName.FORM_MEAL)}>
       <View style={styles.imageContainerStyle}>
         {item.item.id !== "" ? (
           <Image
@@ -22,8 +25,8 @@ const Item = (props) => {
           </View>
         )}
       </View>
-
       <Text style={styles.titleImageStyle}>{item.item.name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
