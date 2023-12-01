@@ -34,34 +34,7 @@ const FromMeal = (props) => {
     // setMeal(response);
     console.log("-----------------------------");
   };
-  const dishes = [
-    {
-      id: 1,
-      name: "Ramen Noodles1",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "Ramen Noodles2",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Ramen Noodles3",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Ramen Noodles4",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-  ];
 
-  // const initData = () => {};
 
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(

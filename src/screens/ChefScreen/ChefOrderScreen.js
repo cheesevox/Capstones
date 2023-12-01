@@ -20,8 +20,39 @@ import ChefHomeScreen from "../ChefHome";
 import { getOrderByKitchenId, postStatusPaidToCompleted } from "../../Api";
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import SearchFilter from "../../components/SearchFilter";
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 const ChefOrderScreen = ({ navigation }) => {
+
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [newData,setNewData] = useState([])
+  const [selectedDate,setSelectedDate] = useState();
+  const onChange = async (event, selectedDate) => {
+    const dateTimeString = '01-12-2023 14:27'; // Replace this with your actual date-time string
+
+    // Parse the date-time string into a JavaScript Date object
+    const dateTimeObject = new Date(dateTimeString);
+  
+    // Create a new Date object with the same date but set the time to midnight
+    const dateOnlyObject = new Date(dateTimeObject.getFullYear(), dateTimeObject.getMonth(), dateTimeObject.getDate());
+  
+    // Format the date without the time
+    const formattedDate = dateOnlyObject.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    console.log(formattedDate)
+  };
+  const showDatePicker = () => {
+    if (!show) {
+      setShow(true);
+    }
+  };
+  const formattedDate = date.toLocaleDateString();
+
   const plus = ({ item }) => { };
   const user = useSelector((state) => state.user.user)
   const [orders, setOrders] = useState([])
@@ -40,19 +71,9 @@ const ChefOrderScreen = ({ navigation }) => {
       });
     })
   }
-  console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
-  const [date, setDate] = useState(Date())
-  const [mode, setMode] = useState('date')
-  const [show, setShow] = useState(false)
+  // console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
 
-  const onChange = (e, selectDate) => {
-    setDate(selectDate);
-    setShow(false);
-  }
-  const showMode = (modeToShow) => {
-    setShow(true)
-    setMode(modeToShow)
-  }
+
   const CartCard = ({ item }) => {
     return (
       <TouchableOpacity
@@ -90,7 +111,7 @@ const ChefOrderScreen = ({ navigation }) => {
               <Text>Area : {item?.mealSession?.sessionDto?.areaDtoOrderResponse?.areaName}</Text>
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <Text>Customer: {item?.customer?.name}</Text>
-                <Text>  Time: {item.time}</Text>
+                <Text>  Time: {item.date}</Text>
               </View>
             </View>
           </View>
@@ -175,29 +196,54 @@ const ChefOrderScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{ padding: 20, marginVertical: 20 }}>
-        {/* <Button style={{width:'60%'}}title="Date" onPress={(()=>showMode('date'))}></Button>
-        {show && (
-          <DateTimePicker
-          value ={date} 
-          mode={mode}
-          is24Hour={true}
-          onChange={onchange}
-          />
-        )} */}
 
+      <View style={{
+        flexDirection: "row", alignItems: "center",
+        marginHorizontal: 40, marginVertical: 10, justifyContent: "center",
+        borderRadius: 30, elevation: 5, backgroundColor: '#00000000'
+      }}>
+        <View>
+          {/* <Button onPress={showDatePicker} title=""   ><Ionicons name="calendar-outline"/></Button>   */}
+          <TouchableOpacity onPress={showDatePicker}>
+            <Ionicons name="calendar-outline" size={22} />
+          </TouchableOpacity>
+          {show && (
+            <DateTimePicker
+              value={date}
+              mode="date" // Change to "time" for time picker
+              display="default"
+              onChange = {onChange}
+           />
+          )}
+        </View>
+        <View
+          style={{
+            alignItems: "center", justifyContent: "center",
+            width: '50%', height: 60, borderRadius: 20
+          }}>
+          {formattedDate && <Text style={{ fontSize: 22 }}>{formattedDate}</Text>}
+        </View>
       </View>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={orders}
-        contentContainerStyle={{
-          margin: 10,
-          borderRadius: 20,
-          backgroundColor: "#FFD580",
-          elevation: 5,
-        }}
-        renderItem={({ item }) => <CartCard item={item} />}
-      />
+      <View style={{
+        backgroundColor: "blue", flex: 9,
+        margin: 10,
+        marginTop:10,
+        borderRadius: 20,
+        backgroundColor: "#FFD580",
+        elevation: 5,
+      }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={date ?  newData : orders}
+          contentContainerStyle={{
+            // margin: 10,
+            // borderRadius: 20,
+            // backgroundColor: "#FFD580",
+            // elevation: 5,
+          }}
+          renderItem={({ item }) => <CartCard item={item} />}
+        />
+      </View>
     </SafeAreaView>
   );
 };

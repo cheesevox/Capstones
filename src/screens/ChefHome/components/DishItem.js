@@ -3,24 +3,34 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
 import { RouteName, item } from "../../../Constant";
-
+import imageDefault from "../../../../assets/images/tuna.png";
 const DishItem = (props) => {
   const { navigation, route } = props;
   const { item } = props;
-  console.log("DISHHHHHHHHHHHHHHHH" , item)
   return (
     <View style={styles.itemContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate(RouteName.FORM_DISH)}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(RouteName.FORM_DISH)}
+      >
         <View style={styles.imageContainerStyle}>
           {item.item?.mealId !== "" ? (
-            <Image
-              source={
-                { uri: item.item.image } ??
-                require("../../../../assets/images/splashimage.jpg")
-              }
-              style={styles.imageStyle}
-              resizeMode="cover"
-            />
+            <View
+              style={{
+                elevation: 8,
+                borderRadius: 25,
+                backgroundColor: "white",
+              }}
+            >
+              <Image
+                source={
+                  item.item.image
+                    ? { uri: item.item.image }
+                    : require("../../../../assets/images/tuna.png")
+                }
+                style={styles.imageStyle}
+                resizeMode="cover"
+              />
+            </View>
           ) : (
             <View style={styles.plusIconStyle}>
               <PlusIcon />
@@ -36,9 +46,8 @@ const DishItem = (props) => {
 const styles = StyleSheet.create({
   itemContainer: {
     gap: 8,
-    padding: 16,
-    paddingLeft: 0,
     flex: 1,
+    marginHorizontal: 5,
   },
   imageContainerStyle: {
     width: 150,
@@ -48,8 +57,8 @@ const styles = StyleSheet.create({
     flexDirection: "columnn",
   },
   imageStyle: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 25,
     justifyContent: "center",
     alignContent: "center",
@@ -57,8 +66,8 @@ const styles = StyleSheet.create({
   titleImageStyle: {
     color: "#000",
     textAlign: "center",
-    fontSize: 12,
-    fontWeight: "400",
+    fontSize: 15,
+    fontWeight: "700",
   },
   plusIconStyle: {
     backgroundColor: "#D9D9D9",
