@@ -18,7 +18,7 @@ import { createNewDish, getAllDishType } from "../../../Api";
 const FormDish = (props) => {
   const { navigation,route } = props;
   const id = route.params;
-  console.log("ROTEEEEEEEEEEEEEEEEEEE" , id)
+  console.log("FormDish", id);
   const [typeOfDish, setTypeOfDish] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [typeOfDishes, setTypeOfDishes] = useState([]);
@@ -46,11 +46,11 @@ const FormDish = (props) => {
   const fetchAllTypeOfDish = () => {
     getAllDishType()
       .then((res) => {
-        console.log(res);
         setTypeOfDishes(res);
       })
       .catch((error) => console.log(error));
   };
+
   const initData = () => {};
   const handleCreateNewDish = () => {
     createNewDish(values);

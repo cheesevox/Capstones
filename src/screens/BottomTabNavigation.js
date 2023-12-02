@@ -7,7 +7,7 @@ import OrderCartScreen from "./OrderCartScreen";
 import UserProfileScreen from "./UserProfileScreen";
 import OrderScreen from "./OrderScreen";
 import WalletScreen from "./WalletScreen";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import ChefHomeScreen from "./ChefHome";
 import PostIcon from "../components/Icons/PostIcon";
 import KitchenIcon from "../components/Icons/KitchenIcon";
@@ -20,23 +20,24 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = ({ route }) => {
   const dispatch = useDispatch();
   const { user } = route.params || {};
-  console.log("user bottom navigator : ::::::::", user)
+  console.log("user bottom navigator : ::::::::", user);
   useEffect(() => {
-    dispatch(getUserInfor(user))
-  }, [user?.userId])
+    dispatch(getUserInfor(user));
+  }, [user?.userId]);
   // const role = 3;
   return user?.roleId == 3 ? (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: 'orange',
+          backgroundColor: "orange",
           borderTopRightRadius: 30,
           borderTopLeftRadius: 30,
           height: 60,
         },
-        tabBarActiveTintColor: '#466fd4',
-        tabBarInactiveTintColor: 'white'
-      }}>
+        tabBarActiveTintColor: "#466fd4",
+        tabBarInactiveTintColor: "white",
+      }}
+    >
       <Tab.Screen
         options={{
           headerShown: false,
@@ -87,16 +88,18 @@ const BottomTabNavigator = ({ route }) => {
       />
     </Tab.Navigator>
   ) : (
-    <Tab.Navigator screenOptions={{
-      tabBarStyle: {
-        backgroundColor: 'orange',
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        height: 60,
-      },
-      tabBarActiveTintColor: '#466fd4',
-      tabBarInactiveTintColor: 'white'
-    }}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: "orange",
+          borderTopRightRadius: 30,
+          borderTopLeftRadius: 30,
+          height: 60,
+        },
+        tabBarActiveTintColor: "#466fd4",
+        tabBarInactiveTintColor: "white",
+      }}
+    >
       <Tab.Screen
         options={{
           headerShown: false,
@@ -142,26 +145,19 @@ const BottomTabNavigator = ({ route }) => {
         component={UserProfileScreen}
       />
     </Tab.Navigator>
-  )
+  );
 };
 
 // const styles = StyleSheet.create({});
 export default BottomTabNavigator;
 
 const styles = StyleSheet.create({
-
   tabbar: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    backgroundColor: 'orange'
-  }
-
+    backgroundColor: "orange",
+  },
 });
-
-
-
-
-
 
 // tri lua///////////////////////////////////////////////////
 // return (

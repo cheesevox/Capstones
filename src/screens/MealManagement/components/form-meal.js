@@ -22,19 +22,20 @@ import dish from "../../DishManagement/components/dish";
 const FromMeal = (props) => {
   const { navigation, route } = props;
   const id = route.params;
+  console.log("id", id);
+  useEffect(() => {}, []);
   const [selected, setSelected] = useState([]);
   const [meal, setMeal] = useState([]);
-  const fetchMealById = async () => {
-    // getMealById(8)
-    //   .then((res) => {
-    //     setMeal(res);
-    //   })
-    //   .catch((error) => console.log(error));
-    // const response = await getMealById(8);
-    // setMeal(response);
-    console.log("-----------------------------");
-  };
-
+  // const fetchMealById = async () => {
+  //   // getMealById(8)
+  //   //   .then((res) => {
+  //   //     setMeal(res);
+  //   //   })
+  //   //   .catch((error) => console.log(error));
+  //   // const response = await getMealById(8);
+  //   // setMeal(response);
+  //   console.log("-----------------------------");
+  // };
 
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
@@ -85,6 +86,7 @@ const FromMeal = (props) => {
   // useEffect(() => {
   //   fetchMealById();
   // }, []);
+
   const renderDishItem = (dish, unSelect = undefined) => {
     // console.log("dish neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", dish);
     return (
@@ -159,7 +161,7 @@ const FromMeal = (props) => {
           style={styles.uploadImages}
           onPress={() => onSelectAvatar()}
         >
-          <View style={styles.cameraIconContainer}>
+          <View style={{alignItems: "center"}}>
             <CameraIcon />
             <Text>{"Post picture of dish"}</Text>
           </View>
@@ -202,7 +204,7 @@ const FromMeal = (props) => {
                 color: "#89703e",
                 paddingHorizontal: 4,
               }}
-              data={meal?.dishDto}
+              data={meal?.dishDto ?? []}
               labelField="name"
               valueField="id"
               key={(item) => item.id}
@@ -312,6 +314,14 @@ const styles = StyleSheet.create({
     // fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "800",
+  },
+  uploadImages: {
+    padding: 50,
+    backgroundColor: "#F8F8FC",
+    gap: 5,
+    borderRadius: 12,
+    alignItems: "center",
+    borderWidth: 0.2,
   },
 });
 
