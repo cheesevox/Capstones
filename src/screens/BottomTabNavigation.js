@@ -1,71 +1,42 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import FoodListScreen from "./FoodListScreen";
 import OrderCartScreen from "./OrderCartScreen";
-import WalletScreen from "./WalletScreen";
 import UserProfileScreen from "./UserProfileScreen";
+import OrderScreen from "./OrderScreen";
+import WalletScreen from "./WalletScreen";
+import { useDispatch } from 'react-redux'
 import ChefHomeScreen from "./ChefHome";
 import PostIcon from "../components/Icons/PostIcon";
 import KitchenIcon from "../components/Icons/KitchenIcon";
 import OrderIcon from "../components/Icons/OrderIcon";
 import KitchenScreen from "./KitchenScreen";
 import MarketScreen from "./MarketScreen";
+import { getUserInfor } from "../../slices/userSlice";
+import ChefOrderScreen from "./ChefScreen/ChefOrderScreen";
 const Tab = createBottomTabNavigator();
-
-const BottomTabNavigator = () => {
-  const role = "chef";
-
-  return role !== "chef" ? (
-    <Tab.Navigator>
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home-outline" size={24} color={color}></Ionicons>
-          ),
-        }}
-        name="FoodList"
-        component={FoodListScreen}
-      />
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="cart-outline" size={24} color={color}></Ionicons>
-          ),
-        }}
-        name="OrderCart"
-        component={OrderCartScreen}
-      />
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="wallet-outline" size={24} color={color}></Ionicons>
-          ),
-        }}
-        name="Wallet"
-        component={WalletScreen}
-      />
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ionicons
-              name="person-circle-outline"
-              size={24}
-              color={color}
-            ></Ionicons>
-          ),
-        }}
-        name="UserProfile"
-        component={UserProfileScreen}
-      />
-    </Tab.Navigator>
-  ) : (
-    <Tab.Navigator>
+const BottomTabNavigator = ({ route }) => {
+  const dispatch = useDispatch();
+  const { user } = route.params || {};
+  console.log("user bottom navigator : ::::::::", user)
+  useEffect(() => {
+    dispatch(getUserInfor(user))
+  }, [user?.userId])
+  // const role = 3;
+  return user?.roleId == 3 ? (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: 'orange',
+          borderTopRightRadius: 30,
+          borderTopLeftRadius: 30,
+          height: 60,
+        },
+        tabBarActiveTintColor: '#466fd4',
+        tabBarInactiveTintColor: 'white'
+      }}>
       <Tab.Screen
         options={{
           headerShown: false,
@@ -98,7 +69,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <OrderIcon size={24} color={color} />,
         }}
         name="Order"
-        component={OrderCartScreen}
+        component={ChefOrderScreen}
       />
       <Tab.Screen
         options={{
@@ -115,9 +86,133 @@ const BottomTabNavigator = () => {
         component={UserProfileScreen}
       />
     </Tab.Navigator>
-  );
+  ) : (
+    <Tab.Navigator screenOptions={{
+      tabBarStyle: {
+        backgroundColor: 'orange',
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        height: 60,
+      },
+      tabBarActiveTintColor: '#466fd4',
+      tabBarInactiveTintColor: 'white'
+    }}>
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={24} color={color}></Ionicons>
+          ),
+        }}
+        name="Home"
+        component={FoodListScreen}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="cart-outline" size={24} color={color}></Ionicons>
+          ),
+        }}
+        name="OrderCart"
+        component={OrderCartScreen}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="wallet-outline" size={24} color={color}></Ionicons>
+          ),
+        }}
+        name="Order"
+        component={OrderScreen}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Ionicons
+              name="person-circle-outline"
+              size={24}
+              color={color}
+            ></Ionicons>
+          ),
+        }}
+        name="UserProfile"
+        component={UserProfileScreen}
+      />
+    </Tab.Navigator>
+  )
 };
 
+// const styles = StyleSheet.create({});
 export default BottomTabNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+  tabbar: {
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor: 'orange'
+  }
+
+});
+
+
+
+
+
+
+// tri lua///////////////////////////////////////////////////
+// return (
+//   <Tab.Navigator
+//   // screenOptions={({route})=>{
+//   //   tabBarStyle: styles.tabbar
+//   // }}
+//   >
+//     <Tab.Screen
+//       options={{
+//         headerShown: false,
+//         tabBarIcon: ({ color }) => (
+//           <Ionicons name="home-outline" size={24} color={color}></Ionicons>
+//         ),
+//       }}
+//       name="FoodList"
+//       component={FoodListScreen}
+//     />
+//     <Tab.Screen
+//       options={{
+//         headerShown: false,
+//         tabBarIcon: ({ color }) => (
+//           <Ionicons name="cart-outline" size={24} color={color}></Ionicons>
+//         ),
+//       }}
+//       name="OrderCart"
+//       component={OrderCartScreen}
+//     />
+//     <Tab.Screen
+//       options={{
+//         headerShown: false,
+//         tabBarIcon: ({ color }) => (
+//           <Ionicons name="newspaper" size={24} color={color}></Ionicons>
+//         ),
+//       }}
+//       name="Order"
+//       component={OrderScreen}
+//     />
+//     <Tab.Screen
+//       options={{
+//         headerShown: false,
+//         tabBarIcon: ({ color }) => (
+//           <Ionicons
+//             name="person-circle-outline"
+//             size={24}
+//             color={color}
+//           ></Ionicons>
+//         ),
+//       }}
+//       name="UserProfile"
+//       component={UserProfileScreen}
+//     />
+//   </Tab.Navigator>
+// );

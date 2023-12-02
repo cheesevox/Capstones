@@ -1,60 +1,47 @@
-import { FlatList, StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import BellIcon from "../../components/Icons/BellIcon";
 import MessageIcon from "../../components/Icons/MessageIcon";
 import Item from "./components/Item";
-
-const ChefHomeScreen = () => {
-  const dishes = [
-    {
-      id: 1,
-      name: "ramen",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "hamburger",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Salmon",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Beefsteak",
-      thubnail: undefined,
-    },
-    {
-      id: 6,
-      name: "ramen",
-      thubnail: undefined,
-    },
-    {
-      id: 7,
-      name: "hamburger",
-      thubnail: undefined,
-    },
-    {
-      id: 8,
-      name: "Salmon",
-      thubnail: undefined,
-    },
-    {
-      id: 9,
-      name: "Beefsteak",
-      thubnail: undefined,
-    },
-    {
-      id: "",
-      name: "Add More Dishes",
-      thubnail: undefined,
-    },
-  ];
-
+import { getAllDishByKitchenId, getAllMealByKitchen } from "../../Api";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import DishItem from "./components/DishItem";
+import { Touchable } from "react-native";
+import { RouteName, item } from "../../Constant";
+const ChefHomeScreen = ({ navigation }) => {
+  const [dish, setDish] = useState([]);
+  const [meal, setMeal] = useState([]);
+  const user = useSelector((state) => state.user.user);
   const renderItem = (item) => {
-    return <Item item={item} />;
+    return <Item navigation={navigation} item={item} />;
   };
+  const renderDishItem = (item) => {
+    return <DishItem navigation={navigation} item={item} />;
+  };
+  const fetchAllDishByKitchenId = () => {
+    getAllDishByKitchenId(user.kitchenId).then((res) => {
+      setDish(res);
+    });
+  };
+  const fetchAllMealByKitchenId = () => {
+    getAllMealByKitchen(user.kitchenId).then((res) => {
+      setMeal(res);
+    });
+  };
+  console.log("DISSSSSSSSSSSSSSSSSSSSSSS", dish);
+  console.log("MEaLLLLLLLLLLLLLLLLL", meal);
+
+  useEffect(() => {
+    fetchAllDishByKitchenId();
+    fetchAllMealByKitchenId();
+  }, [user?.kitchenId]);
 
   return (
     <ScrollView
@@ -63,31 +50,43 @@ const ChefHomeScreen = () => {
       style={styles.container}
     >
       <View style={styles.header}>
-        <BellIcon />
-        <MessageIcon />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <BellIcon />
+          <MessageIcon />
+        </View>
+        <View style={{ position: "absolute", top: "50%", left: "20%" }}>
+          <Text style={{ fontSize: 30, fontWeight: 500, color: "white" }}>
+            Hi! Chef, Welcome back!
+          </Text>
+        </View>
       </View>
-      <Text style={styles.headerText}>{"Hello Chef,"}</Text>
-
-      <Text style={styles.titleStyle}>{"Dish of Kitchen"}</Text>
-      <View style={styles.listDishStyle}>
-        <FlatList
-          data={dishes}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => renderItem(item)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-
-      <Text style={styles.titleStyle}>{"Meal of Kitchen"}</Text>
-      <View style={styles.listDishStyle}>
-        <FlatList
-          data={dishes}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => renderItem(item)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
+      <View style={{ padding: 20 }}>
+        <Text style={styles.titleStyle}>{"Dish of Kitchen"}</Text>
+        <View style={styles.listDishStyle}>
+          <FlatList
+            data={dish}
+            keyExtractor={(item) => item.dishId}
+            renderItem={(item) => renderDishItem(item)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <Text style={styles.titleStyle}>{"Meal of Kitchen"}</Text>
+        <View style={styles.listDishStyle}>
+          <FlatList
+            data={meal}
+            keyExtractor={(item) => item.mealId}
+            renderItem={(item) => renderItem(item)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -96,15 +95,21 @@ const ChefHomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    paddingTop: 50,
-    paddingHorizontal: 20,
     gap: 20,
     backgroundColor: "#FFF",
+    position: "relative",
   },
   header: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
+    padding: 20,
+    height: 200,
+    backgroundColor: "#FFAB01",
+    position: "relative",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    elevation: 5,
   },
   headerText: {
     color: "#F95A0B",
@@ -112,10 +117,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   titleStyle: {
-    color: "#4A43EC",
-    fontSize: 20,
-    fontWeight: "500",
+    color: "#FFAB01",
+    fontSize: 25,
+    fontWeight: "700",
     paddingLeft: 8,
+    marginVertical: 10,
   },
   listDishStyle: {
     width: "100%",

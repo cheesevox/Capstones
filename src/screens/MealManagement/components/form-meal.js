@@ -34,34 +34,7 @@ const FromMeal = (props) => {
     // setMeal(response);
     console.log("-----------------------------");
   };
-  const dishes = [
-    {
-      id: 1,
-      name: "Ramen Noodles1",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "Ramen Noodles2",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Ramen Noodles3",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Ramen Noodles4",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-  ];
 
-  // const initData = () => {};
 
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
@@ -206,7 +179,7 @@ const FromMeal = (props) => {
               style={{
                 color: "#FFAB01",
                 textAlign: "center",
-                fontFamily: "Poppins",
+                // fontFamily: "Poppins",
                 fontSize: 19,
                 fontWeight: "700",
                 padding: 8,
@@ -306,7 +279,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 16,
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontWeight: "500",
   },
   uploadImages: {
@@ -336,7 +309,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: "#000",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "800",
   },

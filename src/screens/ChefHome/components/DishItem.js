@@ -1,19 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
 import { RouteName, item } from "../../../Constant";
-
-const Item = (props) => {
+import imageDefault from "../../../../assets/images/tuna.png";
+const DishItem = (props) => {
   const { navigation, route } = props;
   const { item } = props;
   return (
     <View style={styles.itemContainer}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(RouteName.FORM_MEAL)}
+        onPress={() => navigation.navigate(RouteName.FORM_DISH)}
       >
         <View style={styles.imageContainerStyle}>
-          {item.item.id !== "" ? (
+          {item.item?.mealId !== "" ? (
             <View
               style={{
                 elevation: 8,
@@ -21,7 +21,7 @@ const Item = (props) => {
                 backgroundColor: "white",
               }}
             >
-                <Image
+              <Image
                 source={
                   item.item.image
                     ? { uri: item.item.image }
@@ -37,7 +37,7 @@ const Item = (props) => {
             </View>
           )}
         </View>
-        <Text style={styles.titleImageStyle}>{item.item.name}</Text>
+        <Text style={styles.titleImageStyle}>{item.item?.name}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -46,9 +46,8 @@ const Item = (props) => {
 const styles = StyleSheet.create({
   itemContainer: {
     gap: 8,
-    padding: 16,
-    paddingLeft: 0,
     flex: 1,
+    marginHorizontal: 5,
   },
   imageContainerStyle: {
     width: 150,
@@ -76,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Item);
+export default React.memo(DishItem);

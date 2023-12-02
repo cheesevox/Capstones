@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: "#000",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "800",
   },
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 11,
     fontWeight: "400",
     padding: 10,

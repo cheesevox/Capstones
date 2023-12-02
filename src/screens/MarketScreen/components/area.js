@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#FFF",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontWeight: "700",
     textAlign: "center",
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     lineHeight: 20,
     letterSpacing: 0.6,
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
   },
 });
 

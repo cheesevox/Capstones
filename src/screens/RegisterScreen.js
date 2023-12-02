@@ -105,6 +105,7 @@ const RegisterScreen= ({navigation})=> {
 								<TextInput  width={280} placeholder="Your Email" value={email} onChangeText={onChageEmail}></TextInput>
 							</View>
 					</View >
+					
 				</View>
                     <View style={{justifyContent:"center",alignItems:"center"}}>
                         <Text style={{marginTop:50, justifyContent:"center",alignItems:"center", paddingLeft:50, paddingRight:50}}>
