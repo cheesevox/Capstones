@@ -35,8 +35,6 @@ const ChefHomeScreen = ({ navigation }) => {
       setMeal(res);
     });
   };
-  console.log("DISSSSSSSSSSSSSSSSSSSSSSS", dish);
-  console.log("MEaLLLLLLLLLLLLLLLLL", meal);
 
   useEffect(() => {
     fetchAllDishByKitchenId();
@@ -57,11 +55,24 @@ const ChefHomeScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <BellIcon />
-          <MessageIcon />
+          <BellIcon color={"white"} />
+          <MessageIcon color={"white"} />
         </View>
-        <View style={{ position: "absolute", top: "50%", left: "20%" }}>
-          <Text style={{ fontSize: 30, fontWeight: 500, color: "white" }}>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 500,
+              color: "white",
+              textAlign: "center",
+            }}
+          >
             Hi! Chef, Welcome back!
           </Text>
         </View>
@@ -102,11 +113,9 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
     padding: 20,
     height: 200,
     backgroundColor: "#FFAB01",
-    position: "relative",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     elevation: 5,

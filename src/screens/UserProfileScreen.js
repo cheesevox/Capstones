@@ -174,7 +174,7 @@ const UserProfileScreen = ({ navigation, route }) => {
           </Text>
         </TouchableOpacity> */}
       </View>
-    </SafeAreaView >
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({

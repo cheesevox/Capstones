@@ -21,7 +21,7 @@ const HeaderComp = (props) => {
         alignItems: "center",
         backgroundColor: "#FFAB01",
         flexDirection: "row",
-        paddingVertical: 10,
+        paddingVertical: 20,
       }}
     >
       <View

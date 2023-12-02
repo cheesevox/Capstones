@@ -98,7 +98,7 @@ const SessionManagement = (props) => {
     // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
-  
+
   const renderItem = ({ item }) => {
     return (
       <View
@@ -212,7 +212,11 @@ const SessionManagement = (props) => {
           />
         </View>
         <View>
-          <FlatList style={{height:'83%'}} data={mealInSession} renderItem={renderSessionItem} />
+          <FlatList
+            style={{ height: "83%" }}
+            data={mealInSession}
+            renderItem={renderSessionItem}
+          />
         </View>
       </View>
       <View

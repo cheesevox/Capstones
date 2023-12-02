@@ -14,9 +14,10 @@ import { useRef } from "react";
 import { login } from "../Api";
 import { useDispatch } from "react-redux";
 import { getUserInfor } from "../../slices/userSlice";
+import { RouteName } from "../Constant";
 
 const LoginScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // collect data
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
   const Login = () => {
     login(values, navigation)
       .then((res) => {
-        dispatch(getUserInfor(res))
+        dispatch(getUserInfor(res));
       })
       .catch((res) => console.log("that bai get api", res));
   };
@@ -155,7 +156,6 @@ const LoginScreen = ({ navigation }) => {
           <View style={{ padding: 20 }}>
             <TextInput
               placeholder="Your Password"
-
               secureTextEntry={true}
               width={280}
               onChangeText={(text) =>
@@ -176,7 +176,6 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity
           // onPress={() => navigation.navigate("FoodList")}
           onPress={Login}
-
           // onPress={onClickLogin}
           type=""
           style={{
@@ -212,14 +211,13 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      </View>
-
+    </View>
   );
-}
+};
 export default LoginScreen;
 
-
-{/* import { RouteName } from "../Constant";
+{
+  /* import { RouteName } from "../Constant";
 
 const LoginScreen = ({ navigation }) => {
   // collect data
@@ -407,6 +405,5 @@ const LoginScreen = ({ navigation }) => {
     </SafeAreaView>
     </View>
   );
-}; */}
-
-
+}; */
+}

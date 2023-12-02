@@ -14,30 +14,32 @@ import { getDishByMealId } from "../Api";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 const MealDetailScreen = ({ navigation, route }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { item } = route.params;
   const { qty, setQty } = React.useState(1);
-  console.log("item meal",item);
-  const [meal, setMeal] = useState()
-  const [dish, setDish] = useState([])
+  console.log("item meal", item);
+  const [meal, setMeal] = useState();
+  const [dish, setDish] = useState([]);
   const fetchAllDish = () => {
     getDishByMealId(item.mealSessionId).then((res) => {
-      console.log("----------------", res)
-      setMeal(res)
-      setDish(res.dishDto)
-    })
-  }
+      console.log("----------------", res);
+      setMeal(res);
+      setDish(res.dishDto);
+    });
+  };
 
   useEffect(() => {
-    fetchAllDish()
-  }, [item.mealSessionId])
+    fetchAllDish();
+  }, [item.mealSessionId]);
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <ScrollView>
         <View
-          style={{
-            // position: "relative",
-          }}
+          style={
+            {
+              // position: "relative",
+            }
+          }
         >
           <Image
             source={{ uri: item?.mealDtoForMealSession?.image }}
@@ -75,25 +77,26 @@ const MealDetailScreen = ({ navigation, route }) => {
             }}
           >
             <View>
-            <TouchableOpacity onPress={()=>navigation.navigate("ChefHome")}>
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: "bold",
-                padding:5,
-              }}
-            >
-              {item?.mealDtoForMealSession?.name}
-            {/* <Icon name="restaurantfast-food-outline-outline" size={25} > </Icon> */}
-            </Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("ChefHome")}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "bold",
+                    padding: 5,
+                  }}
+                >
+                  {item?.mealDtoForMealSession?.name}
+                  {/* <Icon name="restaurantfast-food-outline-outline" size={25} > </Icon> */}
+                </Text>
+              </TouchableOpacity>
             </View>
-            
+
             <TouchableOpacity
               // onPress={() => navigation.navigate("MealDetail", { item: item })}
               onPress={() => {
-                dispatch(addToCart(item))
-                navigation.navigate("OrderCart", {item})}}
+                dispatch(addToCart(item));
+                navigation.navigate("OrderCart", { item });
+              }}
               style={{
                 width: 50,
                 height: 50,
@@ -132,7 +135,7 @@ const MealDetailScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
           {/* menu */}
-          <View style={{ padding: 20, gap: 10, minHeight:600 }}>
+          <View style={{ padding: 20, gap: 10, minHeight: 600 }}>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
@@ -158,10 +161,10 @@ const MealDetailScreen = ({ navigation, route }) => {
                 {item?.price}vnd
               </Text>
             </View>
-            <ScrollView style={{display:"flex"}}>
-            {dish?.map((dish, index) => (
-              <DishCard item={{ ...dish }} key={index} />
-            ))}
+            <ScrollView style={{ display: "flex" }}>
+              {dish?.map((dish, index) => (
+                <DishCard item={{ ...dish }} key={index} />
+              ))}
             </ScrollView>
           </View>
         </View>
