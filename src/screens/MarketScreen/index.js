@@ -100,7 +100,7 @@ const MarketScreen = ({ navigation }) => {
         />
       </View> */}
        
-        <View style={{ flex: 5, justifyContent:"center", alignItems:"center" }}>
+        <View style={{ flex: 5, justifyContent:"center", alignItems:"center" , elevation:2}}>
            <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
           placeholderStyle={styles.placeholderStyle}
@@ -146,9 +146,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   dropdown: {
-    elevation: 2,
+    // elevation: 2,
     padding:15,
+    borderColor:'grey',
     borderRadius: 10,
+    borderWidth:2,
     alignItems:"center",
     width:'80%',
     justifyContent:"center",

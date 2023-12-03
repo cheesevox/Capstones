@@ -8,19 +8,12 @@ import {
   Button,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import foods, { order } from "../../Constant";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { ArrowDownLeft } from "react-native-feather";
-import { faArrowLeft, faMugSaucer } from "@fortawesome/free-solid-svg-icons";
-import ChefOrderDetailScreen from "./ChefOrderDetailScreen";
-import ChefHomeScreen from "../ChefHome";
 import { getOrderByKitchenId, postStatusPaidToCompleted } from "../../Api";
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
-import * as Icon from "react-native-feather";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ChefOrderScreen = ({ navigation }) => {
@@ -56,7 +49,7 @@ const ChefOrderScreen = ({ navigation }) => {
   };
 
   const showDatePicker = () => {
-    console.log("Showing date picker");
+    // console.log("Showing date picker");
     // if (!show) {
       setShow(true);
     // }
@@ -70,12 +63,14 @@ const ChefOrderScreen = ({ navigation }) => {
   // });
   const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const formattedDate = formatter.format(date);
+  // console.log("DATeeeeeeeeeeeeeeeeee", date)
   console.log("DATEEEEEEEEEEEEEEEEEEEEE", formattedDate);
 
   const user = useSelector((state) => state.user.user)
   const [orders, setOrders] = useState([])
   const fetchAllOrder = () => {
     getOrderByKitchenId(user.kitchenId).then((res) => {
+      console.log("ORRDEEEEEEEEEE", res)
       setOrders(res)
     })
   }
@@ -89,6 +84,10 @@ const ChefOrderScreen = ({ navigation }) => {
       });
     })
   }
+  const filteredData = orders.filter(item => {
+    // Assuming the 'date' property in each item is a string in 'dd-mm-yyyy' format
+    return item.time === formattedDate;
+  });
   // console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
 
   const CartCard = ({ item }) => {
@@ -253,7 +252,7 @@ const ChefOrderScreen = ({ navigation }) => {
       }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={date ? newData : orders}
+          data={formattedDate ? newData : order}
           contentContainerStyle={{
           }}
           renderItem={({ item }) => <CartCard item={item} />}

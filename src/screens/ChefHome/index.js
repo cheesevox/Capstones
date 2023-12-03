@@ -55,7 +55,9 @@ const ChefHomeScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
+          <TouchableOpacity>
           <BellIcon color={"white"} />
+          </TouchableOpacity>
           <MessageIcon color={"white"} />
         </View>
         <View

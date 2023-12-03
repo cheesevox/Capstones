@@ -88,7 +88,7 @@ const SessionManagement = (props) => {
     console.log("TABBBBBBBBBBBB", tab)
     setsessionFilter(sessions);
   }, [tab]);
-
+ 
   useEffect(() => {
     fetchAllMealSession();
   }, []);
@@ -111,19 +111,19 @@ const SessionManagement = (props) => {
 
   const newData = mealInSession.filter((item) => {
     const cleanedStatus = item.status?.trim();
-
     console.log("new data", item);
-    console.log("NEWWWWWWWWWWWWWWWWWwwww", cleanedStatus?.toUpperCase(), tab);
+    console.log("NEWWWWWWWWWWWWWWWWWwwww", tab);
     return cleanedStatus?.toUpperCase().includes(tab.toUpperCase());
   });
 
   const renderItem = ({ item }) => {
-    console.log("itemmmmmmmmmmmmmmm", item)
+    console.log("itemmmmmmmmmmmmmmm", item?.value)
+    console.log("TABbbbbbbbbbbbb", tab)
     return (
       <View
         style={{
           borderRadius: 12,
-          backgroundColor: item.status === tabs.value ? "#FFE6A9" : "#fff",
+          backgroundColor: item.value === tab ? "#95e8bd" : "#FFE6A9",
           padding: 8,
           paddingHorizontal: 20,
           marginHorizontal: 15
@@ -137,8 +137,8 @@ const SessionManagement = (props) => {
           <Text
             style={{
               // color: "#C1682D",
-              color: item.status === tab ? "#C1682D" : "black",
-              fontWeight: item.status === tab ? "bold" : "normal"
+              color: item.status == tabs?.value ? "#C1682D" : "black",
+              fontWeight: item.status == tab?.value ? "bold" : "normal"
             }}
           >
             {item.label.toUpperCase()}
