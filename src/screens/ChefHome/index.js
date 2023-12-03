@@ -26,12 +26,12 @@ const ChefHomeScreen = ({ navigation }) => {
     return <DishItem navigation={navigation} item={item} />;
   };
   const fetchAllDishByKitchenId = () => {
-    getAllDishByKitchenId(user.kitchenId).then((res) => {
+    getAllDishByKitchenId(user?.kitchenId).then((res) => {
       setDish(res);
     });
   };
   const fetchAllMealByKitchenId = () => {
-    getAllMealByKitchen(user.kitchenId).then((res) => {
+    getAllMealByKitchen(user?.kitchenId).then((res) => {
       setMeal(res);
     });
   };

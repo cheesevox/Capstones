@@ -17,9 +17,10 @@ import { getAllMealInSessionID } from "../../Api";
 const SessionManagement = (props) => {
   const { navigation, route } = props;
   const { session } = route.params;
-  const [tab, setTab] = useState("PROCESSING");
+  const [tab, setTab] = useState('');
   const [sessionFilter, setsessionFilter] = useState();
   const [mealInSession, setMealInSession] = useState([]);
+  const [activeMenu, setActiveMenu] = useState("PROCESSING");
   const tabs = [
     {
       label: "Processing",
@@ -43,7 +44,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: 0,
+      status: "PROCESSING",
     },
     {
       id: 2,
@@ -52,7 +53,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: 1,
+      status: "PROCESSING",
     },
     {
       id: 3,
@@ -61,7 +62,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: 1,
+      status: "APPROVED",
     },
     {
       id: 4,
@@ -70,7 +71,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: 2,
+      status: "APPROVED",
     },
   ];
 
@@ -81,10 +82,13 @@ const SessionManagement = (props) => {
       setMealInSession(res);
     });
   };
+
   useEffect(() => {
-    const sessions = data.filter((session) => session.status === tab);
+    const sessions = data.filter((session) => session.status.includes(tab));
+    console.log("TABBBBBBBBBBBB", tab)
     setsessionFilter(sessions);
   }, [tab]);
+
   useEffect(() => {
     fetchAllMealSession();
   }, []);
@@ -99,24 +103,42 @@ const SessionManagement = (props) => {
     return unsubscribe;
   }, [navigation]);
 
+  // const newData = mealInSession.filter((item)=>{
+  //   console.log("new data",item)
+  //   console.log("NEWWWWWWWWWWWWWWWWWwwww", item?.status?.toUpperCase().includes(tabs.value?.toUpperCase()))
+  //   return  item?.status?.toUpperCase().includes(tabs.value?.toUpperCase())
+  // })
+
+  const newData = mealInSession.filter((item) => {
+    const cleanedStatus = item.status?.trim();
+
+    console.log("new data", item);
+    console.log("NEWWWWWWWWWWWWWWWWWwwww", cleanedStatus?.toUpperCase(), tab);
+    return cleanedStatus?.toUpperCase().includes(tab.toUpperCase());
+  });
+
   const renderItem = ({ item }) => {
+    console.log("itemmmmmmmmmmmmmmm", item)
     return (
       <View
         style={{
           borderRadius: 12,
-          backgroundColor: item.status === tab ? "#FFE6A9" : "#EAC8C5",
+          backgroundColor: item.status === tabs.value ? "#FFE6A9" : "#fff",
           padding: 8,
-          paddingHorizontal: 24,
+          paddingHorizontal: 20,
+          marginHorizontal: 15
         }}
       >
         <TouchableOpacity
           onPress={() => {
-            setTab(item.status);
+            setTab(item.value);
           }}
         >
           <Text
             style={{
-              color: "#C1682D",
+              // color: "#C1682D",
+              color: item.status === tab ? "#C1682D" : "black",
+              fontWeight: item.status === tab ? "bold" : "normal"
             }}
           >
             {item.label.toUpperCase()}
@@ -128,56 +150,67 @@ const SessionManagement = (props) => {
 
   const renderSessionItem = ({ item }) => {
     return (
-      <View
-        style={{
-          borderRadius: 20,
-          backgroundColor: "#ECC26D",
-          marginBottom: 12,
-          elevation: 5,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
-          gap: 12,
-          flexDirection: "row",
+      <TouchableOpacity
+
+        // onPress={() => navigation.navigate(RouteName.FORM_MEAL, {id : item.mealId })}
+        onPress={() => {
+          if (item.status === 'PROCESSING') {
+            navigation.navigate(RouteName.FORM_MEAL, { id: item.mealId });
+          }
         }}
+        disabled={item.status !== 'PROCESSING'}
       >
-        <Image
+        <View
           style={{
-            width: 100,
-            height: 100,
-            borderRadius: 10,
+            borderRadius: 20,
+            backgroundColor: "#ECC26D",
+            marginBottom: 12,
+            elevation: 5,
+            paddingHorizontal: 12,
+            paddingVertical: 6,
+            gap: 12,
+            flexDirection: "row",
           }}
-          source={{ uri: item?.mealDtoForMealSession?.image }}
-        />
-        <View style={{ gap: 18, flex: 1, width: "100%" }}>
-          <Text style={{ ...styles.text, fontSize: 16, textAlign: "center" }}>
-            {item.mealDtoForMealSession?.name}
-          </Text>
-          <Text
-            style={{ ...styles.text, fontSize: 12 }}
-          >{`Description: ${item.mealDtoForMealSession?.description}`}</Text>
-          <View
+        >
+          <Image
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
+              width: 100,
+              height: 100,
+              borderRadius: 10,
             }}
-          >
+            source={{ uri: item?.mealDtoForMealSession?.image }}
+          />
+          <View style={{ gap: 18, flex: 1, width: "100%" }}>
+            <Text style={{ ...styles.text, fontSize: 16, textAlign: "center" }}>
+              {item.mealDtoForMealSession?.name}
+            </Text>
             <Text
               style={{ ...styles.text, fontSize: 12 }}
-            >{`Price: ${item.price}`}</Text>
-            <Text
-              style={{ ...styles.text, fontSize: 12 }}
-            >{`Quantity: ${item.quantity}`}</Text>
-          </View>
-          <View
-            style={{
-              borderRadius: 20,
-            }}
-          >
-            <Text>Status :{item.status}</Text>
+            >{`Description: ${item.mealDtoForMealSession?.description}`}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text
+                style={{ ...styles.text, fontSize: 12 }}
+              >{`Price: ${item.price}`}</Text>
+              <Text
+                style={{ ...styles.text, fontSize: 12 }}
+              >{`Quantity: ${item.quantity}`}</Text>
+            </View>
+            <View
+              style={{
+                borderRadius: 20,
+              }}
+            >
+              <Text>Status :{item.status}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -214,7 +247,7 @@ const SessionManagement = (props) => {
         <View>
           <FlatList
             style={{ height: "83%" }}
-            data={mealInSession}
+            data={newData}
             renderItem={renderSessionItem}
           />
         </View>

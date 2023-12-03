@@ -20,7 +20,7 @@ import ChefHomeScreen from "../ChefHome";
 import { getOrderByKitchenId, postStatusPaidToCompleted } from "../../Api";
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
-import SearchFilter from "../../components/SearchFilter";
+import * as Icon from "react-native-feather";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ChefOrderScreen = ({ navigation }) => {
@@ -28,7 +28,6 @@ const ChefOrderScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [newData, setNewData] = useState([])
-  const [selectedDate, setSelectedDate] = useState();
   // const onChange = async (event, selectedDate) => {
   //   const dateTimeString = '01-12-2023 14:27'; // Replace this with your actual date-time string
 
@@ -58,9 +57,9 @@ const ChefOrderScreen = ({ navigation }) => {
 
   const showDatePicker = () => {
     console.log("Showing date picker");
-    if (!show) {
+    // if (!show) {
       setShow(true);
-    }
+    // }
   };
   // const formattedDate = date.toLocaleDateString();
   // const formattedDate = date.toLocaleDateString('en-GB', {
@@ -175,20 +174,53 @@ const ChefOrderScreen = ({ navigation }) => {
     fetchAllOrder()
   }, [user.kitchenId])
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
-      <View>
-        <View style={styles.topNavigate}>
-          <View>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
-              Order
-            </Text>
-          </View>
-        </View>
-      </View>
+    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1, flexDirection: "column",
+    gap: 20,
+    backgroundColor: "#FFF",
+    height: "100%" }}>
+      
+      {/* <View style={{
+        gap: 20,
+        backgroundColor: "#FFF",
+        flex: 1
+      }}> */}
 
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-around',
+        }}>
+          {/* <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginVertical: 20 }}
+          >
+            <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+          </TouchableOpacity> */}
+          <Text style={{
+            fontWeight: '600',
+            fontSize: 24,
+            textAlign: 'center',
+            color: '#e65332',
+            borderColor: 'white',
+            backgroundColor: '#fab3a2',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 'bold',
+            marginVertical: 20,
+            width: '40%',
+            borderRadius: 20,
+            borderWidth: 2
+          }}>
+            Order
+          </Text>
+          {/* <TouchableOpacity
+            style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
+          >
+            <Icon.CreditCard style={{}} strokeWidth={3} />
+          </TouchableOpacity> */}
+        </View>
+      {/* </View> */}
       <View style={{
         flexDirection: "row", alignItems: "center",
-        marginHorizontal: 40, marginVertical: 10, justifyContent: "center",
+        marginHorizontal: 40, marginVertical: 15, justifyContent: "center",
         borderRadius: 30, elevation: 5, backgroundColor: '#00000000'
       }}>
         <TouchableOpacity onPress={showDatePicker}>

@@ -157,6 +157,9 @@ const FormDish = (props) => {
           <Text>{"Post picture of dish"}</Text>
         </TouchableOpacity>
       </View>
+      <View>
+        {/* <TextInput ty></TextInput> */}
+      </View>
       <View
         style={{
           alignItems: "center",

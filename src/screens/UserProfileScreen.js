@@ -31,24 +31,44 @@ const UserProfileScreen = ({ navigation, route }) => {
     // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
-
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{
+      flexDirection: "column",
+      gap: 20,
+      backgroundColor: "#FFF",
+      height: "100%",
+      flex: 1,
+      
+    }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginVertical:30 }}
         >
           <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
-        </TouchableOpacity>
-        <Text style={styles.Text}>
+        </TouchableOpacity> */}
+        <Text style={{
+          fontWeight: '600',
+          fontSize: 24,
+          textAlign: 'center',
+          color: '#e65332',
+          borderColor: 'white',
+          backgroundColor: '#fab3a2',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontWeight: 'bold',
+          marginVertical: 20,
+          width: '40%',
+          borderRadius: 20,
+          borderWidth: 2
+        }}>
           User Profile
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
         >
           <Icon.CreditCard style={{}} strokeWidth={3} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={{ marginHorizontal: 20, borderRadius: 10, backgroundColor: 'orange', marginVertical: 20, padding: 20, flexDirection: 'row' }}>
         <Image
@@ -69,14 +89,14 @@ const UserProfileScreen = ({ navigation, route }) => {
             <View style={{
               paddingVertical: 25,
             }}>
-              <TouchableOpacity onPress={()=> navigation.navigate("EditProfile", {profile})}>
+              <TouchableOpacity onPress={() => navigation.navigate("EditProfile", { profile })}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20 }}>
                   <Ionicons name='person-circle-outline' size={20}> My Account </Ionicons>
                   <Ionicons name='chevron-forward-outline' size={20} />
                 </View>
               </TouchableOpacity>
               <View>
-              <Ionicons name='location-outline' size={20} paddingVertical={20}> My Adress : {profile?.address}</Ionicons>
+                <Ionicons name='location-outline' size={20} paddingVertical={20}> My Adress : {profile?.address}</Ionicons>
               </View>
               <Ionicons name='call-outline' size={20} paddingVertical={20}> Phone : {profile?.phone} </Ionicons>
               <Ionicons name='mail-outline' size={20} paddingVertical={20}> Email : {profile?.email}</Ionicons>
@@ -194,8 +214,8 @@ const styles = StyleSheet.create({
     borderWidth: 2
   },
   cartcard: {
-    height: '100%',
-    elevation: 15,
+    height: '99%',
+    elevation: 10,
     borderRadius: 10,
     backgroundColor: '#fff',
     paddingHorizontal: 20,

@@ -1,18 +1,50 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import DishIcon from "../../components/Icons/DishIcon";
 import MealIcon from "../../components/Icons/MealIcon";
 import { RouteName } from "../../Constant";
 import HeaderComp from "../../screens/HeaderComp";
+import * as Icon from "react-native-feather";
+
 const KitchenScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <HeaderComp
+      {/* <HeaderComp
         label={"Kitchen"}
         isHasBackIcon={false}
         isHasBellIcon={true}
         isHasMessageIcon={true}
-      />
+      /> */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        {/* <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
+        >
+          <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+        </TouchableOpacity> */}
+        <Text style={{
+          fontWeight: '600',
+          fontSize: 24,
+          textAlign: 'center',
+          color: '#e65332',
+          borderColor: 'white',
+          backgroundColor: '#fab3a2',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontWeight: 'bold',
+          marginTop: 40,
+          width: '40%',
+          borderRadius: 20,
+          borderWidth: 2
+        }}>
+          Kitchen
+        </Text>
+        {/* <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
+        >
+          <Icon.CreditCard style={{}} strokeWidth={3} />
+        </TouchableOpacity> */}
+      </View>
       <View
         style={{
           paddingVertical: 36,
@@ -60,6 +92,7 @@ const styles = StyleSheet.create({
     gap: 20,
     backgroundColor: "#FFF",
     height: "100%",
+    flex:1
   },
   titleHeaderContainer: {
     backgroundColor: "#EFE6DA",

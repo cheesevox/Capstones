@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import { FlatList, Image, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import Session from "./components/session";
 import { Dropdown } from "react-native-element-dropdown";
 import HeaderComp from "../HeaderComp";
 import Area from "./components/area";
 import { getAllDistrict, getAreaByDistrictId } from "../../Api";
+import * as Icon from "react-native-feather";
+
 
 const MarketScreen = ({ navigation }) => {
   const [district, setDistrict] = useState([]);
@@ -47,8 +49,49 @@ const MarketScreen = ({ navigation }) => {
   }, [districtId]);
   return (
     <View>
-      <HeaderComp label={"Area"} isHasBackIcon={false} />
+      {/* <HeaderComp label={"Area"} isHasBackIcon={false} /> */}
       <View style={styles.container}>
+        <View style={{
+          gap: 20,
+          backgroundColor: "#FFF",
+          flex: 1
+        }}>
+
+          <View style={{
+            flexDirection: 'row', justifyContent: 'space-around',
+          }}>
+            {/* <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ justifyContent: "center", alignItems: "center", 
+              width: 40, height: 40, backgroundColor: 'orange', 
+              borderRadius: 28, marginVertical: 20 }}
+            >
+              <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
+            </TouchableOpacity> */}
+            <Text style={{
+              fontWeight: '600',
+              fontSize: 24,
+              textAlign: 'center',
+              color: '#e65332',
+              borderColor: 'white',
+              backgroundColor: '#fab3a2',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontWeight: 'bold',
+              marginVertical: 20,
+              width: '40%',
+              borderRadius: 20,
+              borderWidth: 2
+            }}>
+              Maket
+            </Text>
+            {/* <TouchableOpacity
+              style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
+            >
+              <Icon.CreditCard style={{}} strokeWidth={3} />
+            </TouchableOpacity> */}
+          </View>
+        </View>
         {/* <View style={{ width: "100%" }}>
         <Image
           style={{ width: "100%" }}
@@ -56,7 +99,9 @@ const MarketScreen = ({ navigation }) => {
           resizeMode="cover"
         />
       </View> */}
-        <Dropdown
+       
+        <View style={{ flex: 5, justifyContent:"center", alignItems:"center" }}>
+           <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
@@ -76,7 +121,6 @@ const MarketScreen = ({ navigation }) => {
             setIsFocus(false);
           }}
         ></Dropdown>
-        <View style={{ flex: 1 }}>
           <FlatList
             data={area}
             keyExtractor={(item) => item.areaId}
@@ -93,16 +137,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     paddingTop: 20,
-    paddingHorizontal: 20,
-    gap: 20,
     backgroundColor: "#FFF",
-    height: "100%",
+    height: '100%',
   },
   header: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  dropdown: {
+    elevation: 2,
+    padding:15,
+    borderRadius: 10,
+    alignItems:"center",
+    width:'80%',
+    justifyContent:"center",
+    marginVertical:30
+  }
 });
 
 export default React.memo(MarketScreen);

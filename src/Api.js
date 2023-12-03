@@ -115,6 +115,7 @@ export const getAllSessionByAreaId = async (id) => {
     const response = await axios.get(
       // `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id?areaid=${id}`
       `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id-with-status-true?areaid=${id}`
+      // `https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-by-session-id-IN-DAY?sessionid=${id}`
     );
     return response.data;
   } catch (error) {

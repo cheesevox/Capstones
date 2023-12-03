@@ -17,7 +17,9 @@ import { postStatusPaidToCompleted } from "../../Api";
 import { RouteName } from "../../Constant";
 
 const ChefOrderDetailScreen = ({ navigation, route }) => {
+
     const plus = ({ item }) => { };
+    
     // const {order} = route.params
     const { item } = route.params || {};
     console.log("order detailllllllllllllllllll", item)
