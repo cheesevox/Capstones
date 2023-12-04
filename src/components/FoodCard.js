@@ -18,7 +18,7 @@ const FoodCard = ({ item }) => {
 	const navigation = useNavigation();
 	console.log("ITEM FOOOODDDD", item);
 	return (
-		<View style={{ justifyContent: "center" }}>
+		<View style={{ justifyContent: "center",padding:20 }}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Pressable
 					onPress={() => navigation.navigate("MealDetail", {item})}
@@ -32,14 +32,14 @@ const FoodCard = ({ item }) => {
 						borderRadius: 16,
 						width: 250,
 						marginVertical: 16,
-						paddingHorizontal: 8,
+						padding:20,
 						paddingVertical: 26,
-						marginRight: 20
+					
 					}}
 				>
 					{/* //uri // */}
 					<View style={{ alignItems: "center" }}>
-						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{resizeMode:"cover", position: 'relative', height:150, width:250 }}></Image>
+						<Image source={{ uri: item?.mealDtoForMealSession?.image }} style={{resizeMode:"cover", height:100, width:250 }}></Image>
 					</View>
 					{/* <Text>{item.name}</Text> */}
 					<View style={{ flexDirection: "row", marginTop: 8 }}>

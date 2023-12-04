@@ -1,12 +1,14 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import DishIcon from "../../components/Icons/DishIcon";
 import MealIcon from "../../components/Icons/MealIcon";
 import { RouteName } from "../../Constant";
 import HeaderComp from "../../screens/HeaderComp";
 import * as Icon from "react-native-feather";
+import { rows } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 
 const KitchenScreen = ({ navigation }) => {
+
   return (
     <View style={styles.container}>
       {/* <HeaderComp
@@ -64,8 +66,12 @@ const KitchenScreen = ({ navigation }) => {
           }}
         >
           <DishIcon />
-          <Text style={styles.buttonText}>{"Dish"}</Text>
-          <Text style={styles.buttonText}>{"Let’s see your dish now"}</Text>
+          <View style={{ flexDirection: "column" }}>
+
+            <Text style={styles.buttonText}>{"Dish"}</Text>
+            <Text style={styles.buttonText}>{"Let’s see your dish now"}</Text>
+          </View>
+
         </Pressable>
         <Pressable
           style={({ pressed }) => [
@@ -79,8 +85,29 @@ const KitchenScreen = ({ navigation }) => {
           }}
         >
           <MealIcon />
-          <Text style={styles.buttonText}>{"Meal"}</Text>
-          <Text style={styles.buttonText}>{"Let’s see your meal now"}</Text>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.buttonText}>{"Meal "}</Text>
+            <Text style={styles.buttonText}>{"Your meal ready now "}</Text>
+          </View>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              opacity: pressed ? 0.5 : 1,
+            },
+            styles.button,
+          ]}
+          onPress={() => (navigation.navigate("MealSessionScreen"))
+          }
+        >
+          <Image source={require("../../../assets/images/dining-table.png")}
+          style={{ width: 80, height: 80, resizeMode: 'cover' }}
+          resizeMethod="scale"        
+               />
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.buttonText}>{"Meal Session"}</Text>
+            <Text style={styles.buttonText}>{"Your meal session now"}</Text>
+          </View>
         </Pressable>
       </View>
     </View>
@@ -92,7 +119,7 @@ const styles = StyleSheet.create({
     gap: 20,
     backgroundColor: "#FFF",
     height: "100%",
-    flex:1
+    flex: 1
   },
   titleHeaderContainer: {
     backgroundColor: "#EFE6DA",
@@ -121,11 +148,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#FFAB01",
     borderRadius: 40,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     alignItems: "center",
     gap: 12,
-    paddingVertical: 50,
+    paddingVertical: 20,
+    elevation: 5
   },
 });
 

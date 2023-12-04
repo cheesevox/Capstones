@@ -15,12 +15,16 @@ import { getOrderByKitchenId, postStatusPaidToCompleted } from "../../Api";
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from "dayjs";
 
 const ChefOrderScreen = ({ navigation }) => {
+  const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [newData, setNewData] = useState([])
+  const [formattedDate, setFormattedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(dayjs().toDate())
   // const onChange = async (event, selectedDate) => {
   //   const dateTimeString = '01-12-2023 14:27'; // Replace this with your actual date-time string
 
@@ -39,38 +43,26 @@ const ChefOrderScreen = ({ navigation }) => {
   //   console.log("FORMATTTTTTTTTTTT",formattedDate)
   // };
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-
-    if (currentDate !== date) {
-      setDate(currentDate);
-    }
-    // Hide the DateTimePicker after selecting a date
     setShow(false);
+    if (selectedDate) {
+      // Convert dayjs to Date
+      const jsDate = selectedDate instanceof Date ? selectedDate : selectedDate.toDate();
+      setSelectedDate(selectedDate);
+      console.log(formatter.format(selectedDate));
+    }
+    setDate(formatter.format(jsDate))
   };
+
 
   const showDatePicker = () => {
-    // console.log("Showing date picker");
-    // if (!show) {
-      setShow(true);
-    // }
+    setShow(true);
   };
-  // const formattedDate = date.toLocaleDateString();
-  // const formattedDate = date.toLocaleDateString('en-GB', {
-  //   timeZone: 'Asia/Ho_Chi_Minh',// Use the time zone that suits your application
-  //   day: '2-digit',
-  //   month: '2-digit',
-  //   year: 'numeric',
-  // });
-  const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  const formattedDate = formatter.format(date);
-  // console.log("DATeeeeeeeeeeeeeeeeee", date)
-  console.log("DATEEEEEEEEEEEEEEEEEEEEE", formattedDate);
 
   const user = useSelector((state) => state.user.user)
   const [orders, setOrders] = useState([])
   const fetchAllOrder = () => {
     getOrderByKitchenId(user.kitchenId).then((res) => {
-      console.log("ORRDEEEEEEEEEE", res)
+      console.log("ORDEEEEEEEEEEr", res)
       setOrders(res)
     })
   }
@@ -84,9 +76,9 @@ const ChefOrderScreen = ({ navigation }) => {
       });
     })
   }
+
   const filteredData = orders.filter(item => {
-    // Assuming the 'date' property in each item is a string in 'dd-mm-yyyy' format
-    return item.time === formattedDate;
+    // return item.time === formattedDate;
   });
   // console.log("ORRRRRRRRRRRRRRRRRRRRRRR", order)
 
@@ -127,11 +119,12 @@ const ChefOrderScreen = ({ navigation }) => {
               <Text>Area : {item?.mealSession?.sessionDto?.areaDtoOrderResponse?.areaName}</Text>
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <Text>Customer: {item?.customer?.name}</Text>
-                <Text>  Time: {item.date}</Text>
               </View>
+              <Text>Time: {item.time}</Text>
             </View>
           </View>
-          <View
+          <Text style={{color:'orange'}}>Status: {item.status}</Text>
+          {/* <View
             style={{
               display: "flex",
               flexDirection: "row",
@@ -156,7 +149,6 @@ const ChefOrderScreen = ({ navigation }) => {
                     }}
                     onPress={() => onHandleCompletedOrder(item?.orderId)}
                   >
-                    <Text>Post</Text>
                   </TouchableOpacity>
                 )
                 : ""
@@ -164,7 +156,7 @@ const ChefOrderScreen = ({ navigation }) => {
             <View>
               <Text>Status:<Text style={{ padding: 5, color: 'green' }}>{item?.status}</Text></Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     );
@@ -172,50 +164,66 @@ const ChefOrderScreen = ({ navigation }) => {
   useEffect(() => {
     fetchAllOrder()
   }, [user.kitchenId])
+  useEffect(() => {
+    if (selectedDate) {
+      setNewData(
+        orders.filter((item) => {
+          // const orderFind = formatter.format(item.time).includes(formatter.format(selectedDate))
+          const formattedTime = dayjs(item.time).format("DD-MM-YYYY")
+          console.log("formated time",[item.time.includes(formatter.format(selectedDate))])
+          return item.time.includes(formatter.format(selectedDate))
+
+        }
+        ))
+    }
+  }, [formatter.format(selectedDate)])
+
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1, flexDirection: "column",
-    gap: 20,
-    backgroundColor: "#FFF",
-    height: "100%" }}>
-      
+    <SafeAreaView style={{
+      backgroundColor: Colors.white, flex: 1, flexDirection: "column",
+      gap: 20,
+      backgroundColor: "#FFF",
+      height: "100%"
+    }}>
+
       {/* <View style={{
         gap: 20,
         backgroundColor: "#FFF",
         flex: 1
       }}> */}
 
-        <View style={{
-          flexDirection: 'row', justifyContent: 'space-around',
-        }}>
-          {/* <TouchableOpacity
+      <View style={{
+        flexDirection: 'row', justifyContent: 'space-around',
+      }}>
+        {/* <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, backgroundColor: 'orange', borderRadius: 28, marginVertical: 20 }}
           >
             <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
           </TouchableOpacity> */}
-          <Text style={{
-            fontWeight: '600',
-            fontSize: 24,
-            textAlign: 'center',
-            color: '#e65332',
-            borderColor: 'white',
-            backgroundColor: '#fab3a2',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontWeight: 'bold',
-            marginVertical: 20,
-            width: '40%',
-            borderRadius: 20,
-            borderWidth: 2
-          }}>
-            Order
-          </Text>
-          {/* <TouchableOpacity
+        <Text style={{
+          fontWeight: '600',
+          fontSize: 24,
+          textAlign: 'center',
+          color: '#e65332',
+          borderColor: 'white',
+          backgroundColor: '#fab3a2',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontWeight: 'bold',
+          marginVertical: 20,
+          width: '40%',
+          borderRadius: 20,
+          borderWidth: 2
+        }}>
+          Order
+        </Text>
+        {/* <TouchableOpacity
             style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, borderRadius: 28, marginTop: 42 }}
           >
             <Icon.CreditCard style={{}} strokeWidth={3} />
           </TouchableOpacity> */}
-        </View>
+      </View>
       {/* </View> */}
       <View style={{
         flexDirection: "row", alignItems: "center",
@@ -225,21 +233,26 @@ const ChefOrderScreen = ({ navigation }) => {
         <TouchableOpacity onPress={showDatePicker}>
           <Ionicons name="calendar-outline" size={22} />
         </TouchableOpacity>
-        {show && (
+
+        {show &&
           <DateTimePicker
-            value={date}
-            mode="date" // Change to "time" for time picker
+            value={selectedDate}
+            // Change to "time" for time picker
             display="default"
             onChange={onChange}
+            style={{
+              minWidth: 50,
+              backgroundColor: 'black'
+            }}
           />
-        )}
+        }
         {/* <Text style={{ marginTop: 20 }}>Selected Date and Time: {date.toString()}</Text> */}
         <View
           style={{
             alignItems: "center", justifyContent: "center",
             width: '50%', height: 60, borderRadius: 20
           }}>
-          {formattedDate && <Text style={{ fontSize: 22 }}>{formattedDate}</Text>}
+          {formatter.format(selectedDate) && <Text style={{ fontSize: 22 }}>{formatter.format(selectedDate)}</Text>}
         </View>
       </View>
       <View style={{
@@ -252,10 +265,13 @@ const ChefOrderScreen = ({ navigation }) => {
       }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={formattedDate ? newData : order}
-          contentContainerStyle={{
-          }}
+          data={newData ? newData : []}
+          // keyExtractor={(item) => item?.time || item?.time.toString()}
           renderItem={({ item }) => <CartCard item={item} />}
+        // data={orders}
+        // contentContainerStyle={{
+        // }}
+        // renderItem={({ item }) => <CartCard item={item} />}
         />
       </View>
     </SafeAreaView>

@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     marginBottom: 30,
     marginHorizontal: 10,
+    minWidth:400
   },
   text: {
     color: "#FFF",

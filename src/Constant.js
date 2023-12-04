@@ -119,6 +119,7 @@ export const RouteName = {
   SESSION: "Session",
   AREA: "Area",
   MARKET: "Market",
+  MEAL_SESSION: "MealSessionScreen",
 };
 
 export const colors = {

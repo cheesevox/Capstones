@@ -22,24 +22,27 @@ const Session = (props) => {
     return (
       <View style={styles.container}>
         <Text
-          style={{ ...styles.text, fontSize: 20, padding: 4, paddingTop: 20 }}
+          style={{ ...styles.text, fontSize: 20, }}
         >
           {item?.sessionType}
         </Text>
         <View
           style={{
-            justifyContent: "space-between",
+            justifyContent: "center",
             flexDirection: "column",
             paddingTop: 20,
             padding: 20,
+            display:'flex',
+            flexDirection:'row'
           }}
         >
           <Text
             style={{ ...styles.text, fontSize: 15 }}
-          >{`Start: ${item?.startTime}`}</Text>
+          >{`Start time: ${item?.startTime}`}</Text>
+          <Text style={{color:'white',marginHorizontal:20}}>-</Text>
           <Text
             style={{ ...styles.text, fontSize: 15 }}
-          >{`End: ${item?.endTime}`}</Text>
+          >{`End time: ${item?.endTime}`}</Text>
         </View>
         <View style={{ alignItems: "center" }}>
           <Pressable
@@ -87,8 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcd27e",
     borderRadius: 20,
     elevation: 8,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    padding:10,
     marginBottom: 30,
     marginHorizontal: 10,
     marginVertical: 20,

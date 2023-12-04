@@ -348,17 +348,17 @@ export const getAllMealSessionWithStatus = async () => {
     console.log("err log all meal with approve ", error)
   }
 }
-// export const getAllMealByKitchen = async (id) => {
-//   console.log(id);
-//   try {
-//     const response = await axios.get(
-//       https://homemealtaste.azurewebsites.net/api/Meal/get-all-meal-by-kitchen-id?id=${id}
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.log("get all meal by kitchen error", error);
-//   }
-// };
+export const getAllMealSessionByKitchen = async (id) => {
+  console.log(id);
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-by-kitchen-id?kitchenId=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get all meal session by kitchen error", error);
+  }
+};
 export const createMealSession = async (values) => {
   console.log(values);
   try {

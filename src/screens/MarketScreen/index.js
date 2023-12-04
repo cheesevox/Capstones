@@ -33,10 +33,6 @@ const MarketScreen = ({ navigation }) => {
       endTime: "",
     },
   ];
-
-  // const renderItem = ({ item }) => {
-  //   return <Session data={item} navigation={navigation} />;
-  // };
   const renderItem = ({ item }) => {
     return <Area data={item} navigation={navigation} />;
   };
@@ -99,8 +95,7 @@ const MarketScreen = ({ navigation }) => {
           resizeMode="cover"
         />
       </View> */}
-       
-        <View style={{ flex: 5, justifyContent:"center", alignItems:"center" , elevation:2}}>
+        <View style={{ flex: 8, justifyContent:"center", alignItems:"center" , elevation:2}}>
            <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
           placeholderStyle={styles.placeholderStyle}
@@ -116,7 +111,8 @@ const MarketScreen = ({ navigation }) => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setValue(item.value);
+            console.log("item trong dopdown area",item)
+            setValue(item.districtId);
             setDistrcitId(item.districtId);
             setIsFocus(false);
           }}
@@ -154,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     width:'80%',
     justifyContent:"center",
-    marginVertical:30
+    marginVertical:30,
   }
 });
 

@@ -8,16 +8,20 @@ import {
   View,
   VirtualizedList,
 } from "react-native";
-import { EnumSessionStatus, RouteName } from "../../Constant";
+import { EnumSessionStatus, RouteName, item, mealinsession } from "../../Constant";
 import HeaderComp from "../HeaderComp";
 import { Image } from "react-native";
 import AddIcon from "../../components/Icons/AddIcon";
 import { getAllMealInSessionID } from "../../Api";
+import dayjs from "dayjs";
+import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import MealSession from "../MealSession";
 
 const SessionManagement = (props) => {
   const { navigation, route } = props;
   const { session } = route.params;
-  const [tab, setTab] = useState('');
+  const [tab, setTab] = useState('PROCESSING');
   const [sessionFilter, setsessionFilter] = useState();
   const [mealInSession, setMealInSession] = useState([]);
   const [activeMenu, setActiveMenu] = useState("PROCESSING");
@@ -88,7 +92,7 @@ const SessionManagement = (props) => {
     console.log("TABBBBBBBBBBBB", tab)
     setsessionFilter(sessions);
   }, [tab]);
- 
+
   useEffect(() => {
     fetchAllMealSession();
   }, []);
@@ -109,15 +113,70 @@ const SessionManagement = (props) => {
   //   return  item?.status?.toUpperCase().includes(tabs.value?.toUpperCase())
   // })
 
-  const newData = mealInSession.filter((item) => {
-    const cleanedStatus = item.status?.trim();
-    console.log("new data", item);
-    console.log("NEWWWWWWWWWWWWWWWWWwwww", tab);
-    return cleanedStatus?.toUpperCase().includes(tab.toUpperCase());
-  });
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const [selectedDate, setSelectedDate] = useState(dayjs().toDate())
+  const [newData, setNewData] = useState([])
+  const onChange = (event, selectedDate) => {
+    setShow(false);
+    if (selectedDate) {
+      // Convert dayjs to Date
+      const jsDate = selectedDate instanceof Date ? selectedDate : selectedDate.toDate();
+      setSelectedDate(selectedDate);
+      console.log(formatter.format(selectedDate));
+    }
+    setDate(formatter.format(jsDate))
+  };
+
+
+  const showDatePicker = () => {
+    setShow(true);
+  };
+  // useEffect(() => {
+  // 
+  // if (selectedDate) {
+  //   setNewData(
+  //     newData.filter((item) => {
+  //       // const orderFind = formatter.format(item.time).includes(formatter.format(selectedDate))
+  //       // const formattedTime = dayjs(item.createDate).format("DD-MM-YYYY")
+  //       console.log("formated time", [item.createDate.includes(formatter.format(selectedDate))])
+  //       return item.createDate.includes(formatter.format(selectedDate))
+  //     }
+  //     ))
+  //   setNewData(
+  //     newData.filter((item)=>{
+  //       crossOriginIsolated
+  //     })
+  //   )
+  // }
+
+  // }, [formatter.format(selectedDate), tab.value])
+
+  useEffect(() => {
+    console.log("selected date", formatter.format(selectedDate))
+    if (selectedDate !== undefined && tab !== undefined) {
+      console.log("default tab la",tab)
+      setNewData(
+        mealInSession.filter((item) => {
+          // Assuming item.createDate is a string
+          console.log("item", item)
+          const formattedDate = formatter.format(selectedDate);
+          return item.createDate.includes(formattedDate) && item.status.toUpperCase().includes(tab.toUpperCase());
+        }))
+      // if (tab) {
+      //   setNewData(
+      //     newData.filter((item) => {
+      //       return item.status.toUpperCase().includes(tab.toUpperCase());
+      //     })
+      //   )
+      // }
+    }
+
+  }, [selectedDate, tab, mealInSession]);
 
   const renderItem = ({ item }) => {
-    console.log("itemmmmmmmmmmmmmmm", item?.value)
+    // console.log("itemmmmmmmmmmmmmmm", item?.value)
     console.log("TABbbbbbbbbbbbb", tab)
     return (
       <View
@@ -138,7 +197,7 @@ const SessionManagement = (props) => {
             style={{
               // color: "#C1682D",
               color: item.status == tabs?.value ? "#C1682D" : "black",
-              fontWeight: item.status == tab?.value ? "bold" : "normal"
+              fontWeight: item.status == tabs?.value ? "bold" : "normal"
             }}
           >
             {item.label.toUpperCase()}
@@ -151,7 +210,6 @@ const SessionManagement = (props) => {
   const renderSessionItem = ({ item }) => {
     return (
       <TouchableOpacity
-
         // onPress={() => navigation.navigate(RouteName.FORM_MEAL, {id : item.mealId })}
         onPress={() => {
           if (item.status === 'PROCESSING') {
@@ -204,9 +262,13 @@ const SessionManagement = (props) => {
             <View
               style={{
                 borderRadius: 20,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between'
               }}
             >
-              <Text>Status :{item.status}</Text>
+              <Text style={{ color: 'white' }}>Status :{item.status}</Text>
+              <Text style={{ color: 'white' }}>Create Date :{item.createDate}</Text>
             </View>
           </View>
         </View>
@@ -223,6 +285,33 @@ const SessionManagement = (props) => {
         label={session.sessionType}
         onBack={() => navigation.goBack()}
       />
+
+      <View style={{ alignItems: "center", 
+      marginVertical:10,
+      elevation:5, borderRadius: 30, 
+      flexDirection: "row", justifyContent: "center" }}>
+        <TouchableOpacity onPress={showDatePicker}>
+          <Ionicons name="calendar-outline" size={22} />
+        </TouchableOpacity>
+        {show &&
+          <DateTimePicker
+            value={selectedDate}
+            // Change to "time" for time picker
+            display="default"
+            onChange={onChange}
+            style={{
+              minWidth: 50,
+              backgroundColor: 'black',
+            }}
+          />
+        }<View
+          style={{
+            alignItems: "center", justifyContent: "center",
+            width: '50%', height: 60, borderRadius: 20,
+          }}>
+          {formatter.format(selectedDate) && <Text style={{ fontSize: 22 }}>{formatter.format(selectedDate)}</Text>}
+        </View>
+      </View>
       <View style={{ paddingHorizontal: 20 }}>
         <View
           style={{

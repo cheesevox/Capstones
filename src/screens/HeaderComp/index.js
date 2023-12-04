@@ -55,12 +55,24 @@ const HeaderComp = (props) => {
 
       <Text
         style={{
-          color: "#FFF",
-          textAlign: "center",
-          // fontFamily: "Poppins",
-          fontSize: 20,
-          fontWeight: "700",
-          flex: 8,
+          // color: "#FFF",
+          // textAlign: "center",
+          // // fontFamily: "Poppins",
+          // fontSize: 20,
+          // fontWeight: "700",
+          // flex: 8,
+          fontWeight: '600',
+          fontSize: 24,
+          textAlign: 'center',
+          color: '#e65332',
+          borderColor: 'white',
+          backgroundColor: '#fab3a2',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontWeight: 'bold',
+          width: '40%',
+          borderRadius: 20,
+          borderWidth: 2
         }}
       >
         {label}
