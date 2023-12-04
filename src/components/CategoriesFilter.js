@@ -1,18 +1,30 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { categories, colors } from "../Constant";
+import { ScrollView,StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { colors } from "../Constant";
+import { getAllArea } from "../Api";
+
 
 const CategoriesFilter = () => {
+	const [active, setActive] = useState(1)
+	const [area, setArea] = useState([])
+	const [areaId,setAreaId] = useState(area[0]?.areaId)
+	const [session,setSession] =useState([])
+	useEffect(()=> { 
+		getAllArea().then((ref)=>{
+			setArea(ref)
+		})
+	},[]) 
+
 	return (
 		<View>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-				{categories.map((category, index) => {
+				{area.map((area, index) => {
 					return (
 						<View
 							key={index}
 							style={{
-								backgroundColor:
-									index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
+								backgroundColor: 
+									active === index ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
 								marginRight: 10,
 								borderRadius: 8,
 								paddingHorizontal: 16,
@@ -25,14 +37,14 @@ const CategoriesFilter = () => {
 								marginVertical: 16,
 							}}
 						>
-							<Text
-								style={{
-									color: index === 0 && colors.COLOR_LIGHT,
-									fontSize: 18,
-								}}
-							>
-								{category.category}
-							</Text>
+							<TouchableOpacity onPress={()=>setAreaId(area.areaId) && setActive(index)}>
+								<Text style={{fontSize:16 ,
+									color:  active === index && colors.COLOR_LIGHT,
+								}}>
+								{area.areaName}
+								</Text>
+							</TouchableOpacity>
+							
 						</View>
 					);
 				})}

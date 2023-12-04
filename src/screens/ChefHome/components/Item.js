@@ -1,31 +1,44 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import PlusIcon from "../../../components/Icons/PlusIcon";
+import { RouteName, item } from "../../../Constant";
 
 const Item = (props) => {
+  const { navigation, route } = props;
   const { item } = props;
   return (
     <View style={styles.itemContainer}>
-      <View style={styles.imageContainerStyle}>
-        {item.item.id !== "" ? (
-          <Image
-            source={
-              item.item.thubnail
-                ? { uri: item.item.thubnail }
-                : require("../../../../assets/images/splashimage.jpg")
-            }
-            style={styles.imageStyle}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.plusIconStyle}>
-            <PlusIcon />
-          </View>
-        )}
-      </View>
-
-      <Text style={styles.titleImageStyle}>{item.item.name}</Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(RouteName.FORM_MEAL)}
+      >
+        <View style={styles.imageContainerStyle}>
+          {item.item.id !== "" ? (
+            <View
+              style={{
+                elevation: 8,
+                borderRadius: 25,
+                backgroundColor: "white",
+              }}
+            >
+                <Image
+                source={
+                  item.item.image
+                    ? { uri: item.item.image }
+                    : require("../../../../assets/images/tuna.png")
+                }
+                style={styles.imageStyle}
+                resizeMode="cover"
+              />
+            </View>
+          ) : (
+            <View style={styles.plusIconStyle}>
+              <PlusIcon />
+            </View>
+          )}
+        </View>
+        <Text style={styles.titleImageStyle}>{item.item.name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -45,8 +58,8 @@ const styles = StyleSheet.create({
     flexDirection: "columnn",
   },
   imageStyle: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 25,
     justifyContent: "center",
     alignContent: "center",
@@ -54,8 +67,8 @@ const styles = StyleSheet.create({
   titleImageStyle: {
     color: "#000",
     textAlign: "center",
-    fontSize: 12,
-    fontWeight: "400",
+    fontSize: 15,
+    fontWeight: "700",
   },
   plusIconStyle: {
     backgroundColor: "#D9D9D9",

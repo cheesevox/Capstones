@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: "#E88C80",
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins-Regular",
     fontSize: 20,
     fontWeight: "700",
     paddingVertical: 12,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFF",
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins-Regular",
     fontSize: 20,
     fontWeight: "700",
   },

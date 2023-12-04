@@ -8,66 +8,10 @@ import { getAllDishByKitchenId } from "../../Api";
 import { useFocusEffect } from "@react-navigation/core";
 const DishManagement = ({ navigation }) => {
   const [dish, setDish] = useState([]);
-  const dishes = [
-    {
-      id: 1,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 5,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 6,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 7,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 8,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 9,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-  ];
+
   useEffect(() => {
     getAllDishByKitchenId(1)
       .then((result) => {
-        console.log(result);
         setDish(result);
       })
       .catch((err) => {
@@ -82,6 +26,7 @@ const DishManagement = ({ navigation }) => {
   const handleClickAdd = () => {
     navigation.navigate(RouteName.FORM_DISH);
   };
+  
   return (
     <View>
       <HeaderComp
@@ -94,12 +39,12 @@ const DishManagement = ({ navigation }) => {
         <View
           style={{
             width: "100%",
-            height: "80%",
+            height: "75%",
           }}
         >
           <FlatList
             data={dish}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.dishId}
             renderItem={(item) => renderItem(item)}
             showsHorizontalScrollIndicator={false}
           />
@@ -109,7 +54,7 @@ const DishManagement = ({ navigation }) => {
         style={{
           alignItems: "center",
           position: "absolute",
-          bottom: 60,
+          bottom: 80,
           left: 0,
           right: 0,
         }}
@@ -164,7 +109,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: "#E88C80",
     textAlign: "center",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 20,
     fontWeight: "700",
     paddingVertical: 12,

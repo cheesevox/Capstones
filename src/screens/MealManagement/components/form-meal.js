@@ -15,54 +15,32 @@ import * as ImagePicker from "react-native-image-picker";
 import CameraIcon from "../../../components/Icons/CameraIcon";
 import MinusIcon from "../../../components/Icons/MinusIcon";
 import AddIcon from "../../../components/Icons/AddIcon";
-import { getMealById } from "../../../Api";
+import { getAllDishByKitchenId, getMealById } from "../../../Api";
 import { Image } from "react-native";
 import dish from "../../DishManagement/components/dish";
+import { useSelector } from "react-redux";
 
 const FromMeal = (props) => {
   const { navigation, route } = props;
-  const id = route.params;
-  const [selected, setSelected] = useState([]);
-  const [meal, setMeal] = useState([]);
-  const fetchMealById = async () => {
-    // getMealById(8)
-    //   .then((res) => {
-    //     setMeal(res);
-    //   })
-    //   .catch((error) => console.log(error));
-    // const response = await getMealById(8);
-    // setMeal(response);
-    console.log("-----------------------------");
-  };
-  const dishes = [
-    {
-      id: 1,
-      name: "Ramen Noodles1",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "Ramen Noodles2",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Ramen Noodles3",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Ramen Noodles4",
-      type: "Noodles",
-      thubnail: undefined,
-    },
-  ];
-
+  const meal = route.params;
+  console.log("id", meal.meal?.image);
+  useEffect(() => {}, []);
+  const user = useSelector((state) => state.user.user);
+  const [selected, setSelected] = useState([meal.meal?.dishModel]);
+  // const [meal, setMeal] = useState([]);
+  const [dish, setDish] = useState([]);
   // const initData = () => {};
 
+  // const fetchMealById = async () => {
+  //   // getMealById(8)
+  //   //   .then((res) => {
+  //   //     setMeal(res);
+  //   //   })
+  //   //   .catch((error) => console.log(error));
+  //   // const response = await getMealById(8);
+  //   // setMeal(response);
+  //   console.log("-----------------------------");
+  // };
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -91,29 +69,24 @@ const FromMeal = (props) => {
               type: source?.type,
             });
             formData.append("fileName", fileNameNormalize(buildFileName));
-            // const accountUploadResult =
-            //   await accountApiService.uploadAccountAvatarAsync(formData);
-            // if (accountUploadResult.isSuccess === true) {
-            //   let customerInformation = {
-            //     ...customerInfo,
-            //     thumbnail: accountUploadResult?.avatarUrl,
-            //   };
-            //   await updateSessionJsonStringValue(customerInformation);
-            //   dispatch(updateCustomerAvatar(accountUploadResult?.avatarUrl));
-            //   toastMessage(t(accountUploadResult?.message), false);
-            // } else {
-            //   toastMessage(t(accountUploadResult?.message), true);
-            // }
           }
         }
       }
     );
   };
+
   // useEffect(() => {
   //   fetchMealById();
   // }, []);
+  const fetchAllDishByKitchenId = () => {
+    getAllDishByKitchenId(user?.kitchenId).then((res) => {
+      setDish(res);
+    });
+  };
+  useEffect(() => {
+    fetchAllDishByKitchenId();
+  }, []);
   const renderDishItem = (dish, unSelect = undefined) => {
-    // console.log("dish neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", dish);
     return (
       <View
         style={
@@ -153,14 +126,13 @@ const FromMeal = (props) => {
       </View>
     );
   };
-
   return (
     <View style={{ backgroundColor: colors.COLOR_LIGHT, height: "100%" }}>
       <HeaderComp
         onBack={() => {
           navigation.goBack();
         }}
-        label={id ? "Edit meal" : "Create meal"}
+        label={meal.meal?.mealId ? "Edit meal" : "Create meal"}
       />
       <View
         style={{
@@ -171,25 +143,32 @@ const FromMeal = (props) => {
       >
         <TextInput
           style={styles.textInput}
-          placeholder="Name of dish"
+          placeholder="Meal's Name"
           placeholderTextColor={"#C1C1C1"}
-          defaultValue={meal?.name}
+          value={meal.meal?.name}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Description"
           placeholderTextColor={"#C1C1C1"}
-          defaultValue={meal?.description}
+          defaultValue={meal.meal?.description}
         />
 
         <TouchableOpacity
           style={styles.uploadImages}
-          onPress={() => onSelectAvatar()}
+          // onPress={() => onSelectAvatar()}
         >
-          <View style={styles.cameraIconContainer}>
-            <CameraIcon />
-            <Text>{"Post picture of dish"}</Text>
-          </View>
+          {meal.meal?.image ? (
+            <Image
+              style={{ width: "100%", height: 150 }}
+              source={{ uri: meal.meal?.image }}
+            ></Image>
+          ) : (
+            <View style={{ alignItems: "center" }}>
+              <CameraIcon />
+              <Text>{"Post picture of dish"}</Text>
+            </View>
+          )}
         </TouchableOpacity>
         <View
           style={{
@@ -206,7 +185,7 @@ const FromMeal = (props) => {
               style={{
                 color: "#FFAB01",
                 textAlign: "center",
-                fontFamily: "Poppins",
+                // fontFamily: "Poppins",
                 fontSize: 19,
                 fontWeight: "700",
                 padding: 8,
@@ -229,10 +208,10 @@ const FromMeal = (props) => {
                 color: "#89703e",
                 paddingHorizontal: 4,
               }}
-              data={meal?.dishDto}
+              data={meal.meal?.dishModel}
               labelField="name"
-              valueField="id"
-              key={(item) => item.id}
+              valueField="dishId"
+              key={(item) => item.dishId}
               placeholder="Add more"
               value={selected}
               onChange={(item) => {
@@ -268,13 +247,13 @@ const FromMeal = (props) => {
             backgroundColor: "#FFAB01",
             borderRadius: 20,
           }}
-          onPress={() => {
-            //call api
-          }}
+          // onPress={() => {
+          //   //call api
+          // }}
         >
           <Text style={styles.buttonTextStyle}>{"Save"}</Text>
         </TouchableOpacity>
-        {id && (
+        {meal.kitchenDtoReponseMeal?.mealId && (
           <TouchableOpacity
             style={{
               paddingHorizontal: 40,
@@ -282,9 +261,9 @@ const FromMeal = (props) => {
               backgroundColor: "#E64B17",
               borderRadius: 20,
             }}
-            onPress={() => {
-              //call api
-            }}
+            // onPress={() => {
+            //   //call api
+            // }}
           >
             <Text style={styles.buttonTextStyle}>{"Remove"}</Text>
           </TouchableOpacity>
@@ -306,11 +285,10 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 16,
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontWeight: "500",
   },
   uploadImages: {
-    padding: 50,
     backgroundColor: "#F8F8FC",
     gap: 5,
     borderRadius: 12,
@@ -336,10 +314,18 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: "#000",
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: "800",
   },
+  uploadImages: {
+    padding: 50,
+    backgroundColor: "#F8F8FC",
+    gap: 5,
+    borderRadius: 12,
+    alignItems: "center",
+    borderWidth: 0.2,
+  },
 });
 
-export default React.memo(FromMeal);
+export default FromMeal;

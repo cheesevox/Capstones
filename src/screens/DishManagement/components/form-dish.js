@@ -10,11 +10,7 @@ import {
   Permission,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import {
-  launchCameraAsync,
-  launchImageLibraryAsync,
-  useMediaLibraryPermissions,
-} from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import HeaderComp from "../../HeaderComp";
 import { Dropdown } from "react-native-element-dropdown";
 import React, { useEffect, useState } from "react";
@@ -33,30 +29,16 @@ const FormDish = (props) => {
   const [cameraPhoto, setCameraPhoto] = useState();
   const { navigation, route } = props;
   const id = route.params;
+  console.log("FormDish", id);
   const [typeOfDish, setTypeOfDish] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [typeOfDishes, setTypeOfDishes] = useState([]);
   const [values, setValues] = useState({
     name: "",
-    image: null,
     dishTypeId: "null",
     kitchenId: 1,
   });
-  const [imageSource, setImageSource] = useState(null);
-  // const typeOfDishes = [
-  //   {
-  //     id: 1,
-  //     name: "Type 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Type 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Type 3",
-  //   },
-  // ];
+  const [imageToApi, setImageToApi] = useState();
 
   useEffect(() => {
     async () => {
@@ -74,85 +56,30 @@ const FormDish = (props) => {
     });
     console.log(result.assets[0].uri);
     if (!result.canceled) {
-      setGallery(result.assets[0].uri);
-      setValues({ ...values, image: result.assets[0].uri });
-    }
-    if (hasGalleryPermission === false) {
-      return <Text>No access to may'</Text>;
+      const imageUri = result.assets[0].uri;
+      try {
+        setImageToApi(imageUri);
+      } catch (error) {
+        console.error("Error reading image file:", error);
+      }
+      setGallery(imageUri);
+      if (hasGalleryPermission === false) {
+        return <Text>No access to may'</Text>;
+      }
     }
   };
   const fetchAllTypeOfDish = () => {
     getAllDishType()
       .then((res) => {
-        console.log(res);
         setTypeOfDishes(res);
       })
       .catch((error) => console.log(error));
   };
-  const initData = () => {};
+
   const handleCreateNewDish = () => {
-    createNewDish(values);
+    createNewDish(imageToApi, values);
   };
 
-  // const onSelectAvatar = async () => {
-  //   try {
-  //     const image = await ImagePicker.launchImageLibrary({
-  //       width: 300,
-  //       height: 400,
-  //       cropping: true,
-  //     });
-
-  //     setImageSource({ uri: image?.path });
-  //   } catch (error) {
-  //     console.log("ImagePicker Error: ", error);
-  //   }
-  // };
-  // const onSelectAvatar = () => {
-  //   ImagePicker.launchImageLibrary(
-  //     {
-  //       mediaType: "photo",
-  //       quality: 1,
-  //       includeBase64: true,
-  //     },
-  //     async (response) => {
-  //       if (response.didCancel) {
-  //         console.log("User cancelled image picker");
-  //       } else if (response.errorCode) {
-  //         console.log("ImagePicker Error: ", response.errorCode);
-  //       } else {
-  //         let source = response.assets[0];
-  //         if (source.fileSize >= 5242880) {
-  //           toastMessage(t(MessageI18n.errorImageSizeIsTooBig), true);
-  //         } else {
-  //           let buildFileName = new Date().toISOString();
-  //           let formData = new FormData();
-  //           formData.append("file", {
-  //             uri:
-  //               Platform.OS === "ios"
-  //                 ? source?.uri.replace("file://", "")
-  //                 : source?.uri,
-  //             name: source?.fileName,
-  //             type: source?.type,
-  //           });
-  //           formData.append("fileName", fileNameNormalize(buildFileName));
-  //           // const accountUploadResult =
-  //           //   await accountApiService.uploadAccountAvatarAsync(formData);
-  //           // if (accountUploadResult.isSuccess === true) {
-  //           //   let customerInformation = {
-  //           //     ...customerInfo,
-  //           //     thumbnail: accountUploadResult?.avatarUrl,
-  //           //   };
-  //           //   await updateSessionJsonStringValue(customerInformation);
-  //           //   dispatch(updateCustomerAvatar(accountUploadResult?.avatarUrl));
-  //           //   toastMessage(t(accountUploadResult?.message), false);
-  //           // } else {
-  //           //   toastMessage(t(accountUploadResult?.message), true);
-  //           // }
-  //         }
-  //       }
-  //     }
-  //   );
-  // };
   useEffect(() => {
     fetchAllTypeOfDish();
   }, []);

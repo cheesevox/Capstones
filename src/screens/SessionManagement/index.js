@@ -12,24 +12,26 @@ import { EnumSessionStatus, RouteName } from "../../Constant";
 import HeaderComp from "../HeaderComp";
 import { Image } from "react-native";
 import AddIcon from "../../components/Icons/AddIcon";
+import { getAllMealInSessionID } from "../../Api";
 
 const SessionManagement = (props) => {
   const { navigation, route } = props;
-  const { id, type } = route.params;
-  const [tab, setTab] = useState(EnumSessionStatus.processing);
+  const { session } = route.params;
+  const [tab, setTab] = useState("PROCESSING");
   const [sessionFilter, setsessionFilter] = useState();
+  const [mealInSession, setMealInSession] = useState([]);
   const tabs = [
     {
       label: "Processing",
-      value: EnumSessionStatus.processing,
+      value: "PROCESSING",
     },
     {
       label: "Approved",
-      value: EnumSessionStatus.approved,
+      value: "APPROVED",
     },
     {
       label: "Rejected",
-      value: EnumSessionStatus.rejected,
+      value: "REJECTED",
     },
   ];
 
@@ -41,7 +43,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: EnumSessionStatus.approved,
+      status: 0,
     },
     {
       id: 2,
@@ -50,7 +52,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: EnumSessionStatus.processing,
+      status: 1,
     },
     {
       id: 3,
@@ -59,7 +61,7 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: EnumSessionStatus.processing,
+      status: 1,
     },
     {
       id: 4,
@@ -68,28 +70,48 @@ const SessionManagement = (props) => {
       price: 50000,
       quantity: 1,
       thubnail: undefined,
-      status: EnumSessionStatus.rejected,
+      status: 2,
     },
   ];
 
+  const fetchAllMealSession = () => {
+    getAllMealInSessionID(session.sessionId).then((res) => {
+      console.log(session.sessionId);
+      console.log("in ra meall in sesssison", res);
+      setMealInSession(res);
+    });
+  };
   useEffect(() => {
     const sessions = data.filter((session) => session.status === tab);
     setsessionFilter(sessions);
   }, [tab]);
+  useEffect(() => {
+    fetchAllMealSession();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchAllMealSession();
+      console.log("Data refreshed!");
+    });
+
+    // Clean up the listener when the component is unmounted
+    return unsubscribe;
+  }, [navigation]);
 
   const renderItem = ({ item }) => {
     return (
       <View
         style={{
           borderRadius: 12,
-          backgroundColor: item.value === tab ? "#FFE6A9" : "#EAC8C5",
+          backgroundColor: item.status === tab ? "#FFE6A9" : "#EAC8C5",
           padding: 8,
           paddingHorizontal: 24,
         }}
       >
         <TouchableOpacity
           onPress={() => {
-            setTab(item.value);
+            setTab(item.status);
           }}
         >
           <Text
@@ -109,7 +131,7 @@ const SessionManagement = (props) => {
       <View
         style={{
           borderRadius: 20,
-          backgroundColor: "#EFE6DA",
+          backgroundColor: "#ECC26D",
           marginBottom: 12,
           elevation: 5,
           paddingHorizontal: 12,
@@ -120,22 +142,19 @@ const SessionManagement = (props) => {
       >
         <Image
           style={{
-            width: 78,
-            height: 140,
+            width: 100,
+            height: 100,
+            borderRadius: 10,
           }}
-          source={
-            item.thubnail
-              ? { uri: item.thubnail }
-              : require("../../../assets/images/default-image-session.png")
-          }
+          source={{ uri: item?.mealDtoForMealSession?.image }}
         />
         <View style={{ gap: 18, flex: 1, width: "100%" }}>
           <Text style={{ ...styles.text, fontSize: 16, textAlign: "center" }}>
-            {item.nameMeal}
+            {item.mealDtoForMealSession?.name}
           </Text>
           <Text
             style={{ ...styles.text, fontSize: 12 }}
-          >{`Description: ${item.description}`}</Text>
+          >{`Description: ${item.mealDtoForMealSession?.description}`}</Text>
           <View
             style={{
               flexDirection: "row",
@@ -154,7 +173,9 @@ const SessionManagement = (props) => {
             style={{
               borderRadius: 20,
             }}
-          ></View>
+          >
+            <Text>Status :{item.status}</Text>
+          </View>
         </View>
       </View>
     );
@@ -163,10 +184,11 @@ const SessionManagement = (props) => {
   return (
     <View style={{ height: "100%" }}>
       <HeaderComp
-        isHasBackIcon={false}
-        isHasBellIcon={true}
-        isHasMessageIcon={true}
-        label={type}
+        isHasBackIcon={true}
+        isHasBellIcon={false}
+        isHasMessageIcon={false}
+        label={session.sessionType}
+        onBack={() => navigation.goBack()}
       />
       <View style={{ paddingHorizontal: 20 }}>
         <View
@@ -191,7 +213,11 @@ const SessionManagement = (props) => {
           />
         </View>
         <View>
-          <FlatList data={sessionFilter} renderItem={renderSessionItem} />
+          <FlatList
+            style={{ height: "83%" }}
+            data={mealInSession}
+            renderItem={renderSessionItem}
+          />
         </View>
       </View>
       <View
@@ -205,8 +231,8 @@ const SessionManagement = (props) => {
       >
         <Pressable
           onPress={() => {
-            navigation.navigate(RouteName.ADD_MEAL_SESSION, {
-              type: type,
+            navigation.navigate("AddMealSession", {
+              session: session,
             });
           }}
           style={({ pressed }) => [
@@ -240,7 +266,7 @@ const SessionManagement = (props) => {
 
 const styles = StyleSheet.create({
   text: {
-    color: "#E88C80",
+    color: "#FFF",
     fontWeight: "700",
   },
 });

@@ -5,78 +5,22 @@ import HeaderComp from "../HeaderComp";
 import AddIcon from "../../components/Icons/AddIcon";
 import { RouteName } from "../../Constant";
 import { getAllMealByKitchen } from "../../Api";
+import { useSelector } from "react-redux";
 
 const MealManagement = ({ navigation }) => {
+  const user = useSelector((state) => state.user.user);
+  console.log("userrrrrrrrrrrrrrrr", user);
   const [meal, setMeal] = useState([]);
-  const meals = [
-    {
-      id: 1,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 2,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 3,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 4,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 5,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 6,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 7,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 8,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-    {
-      id: 9,
-      name: "Ramen Noodles",
-      type: "Noodles",
-      description: "description",
-      thubnail: undefined,
-    },
-  ];
+
+  useEffect(() => {
+    console.log("RUN fetchAllMealByKitchenId");
+    0;
+    fetchAllMealByKitchenId();
+  }, []);
+
   const fetchAllMealByKitchenId = () => {
-    getAllMealByKitchen(1)
+    getAllMealByKitchen(user?.kitchenId)
       .then((res) => {
-        console.log(res);
         setMeal(res);
       })
       .catch((error) => console.log(error));
@@ -89,9 +33,7 @@ const MealManagement = ({ navigation }) => {
   const handleClickAdd = () => {
     navigation.navigate(RouteName.FORM_MEAL);
   };
-  useEffect(() => {
-    fetchAllMealByKitchenId();
-  }, []);
+
   return (
     <View>
       <HeaderComp
@@ -104,7 +46,7 @@ const MealManagement = ({ navigation }) => {
         <View
           style={{
             width: "100%",
-            height: "80%",
+            height: "75%",
           }}
         >
           <FlatList
@@ -119,7 +61,7 @@ const MealManagement = ({ navigation }) => {
         style={{
           alignItems: "center",
           position: "absolute",
-          bottom: 60,
+          bottom: 80,
           left: 0,
           right: 0,
         }}
