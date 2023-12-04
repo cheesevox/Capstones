@@ -1,22 +1,38 @@
 import {
+  Button,
+  Image,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  PermissionsAndroid,
+  Permission,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import {
+  launchCameraAsync,
+  launchImageLibraryAsync,
+  useMediaLibraryPermissions,
+} from "expo-image-picker";
 import HeaderComp from "../../HeaderComp";
 import { Dropdown } from "react-native-element-dropdown";
 import React, { useEffect, useState } from "react";
 import { RouteName, colors } from "../../../Constant";
-import * as ImagePicker from "react-native-image-picker";
-import { launchImageLibrary } from "react-native-image-picker";
 // import { launchImageLibraryAsync } from "expo-image-picker";
 import CameraIcon from "../../../components/Icons/CameraIcon";
 import { createNewDish, getAllDishType } from "../../../Api";
 
 const FormDish = (props) => {
-  const { navigation,route } = props;
+  let options = {
+    saveToPhotos: true,
+    mediaType: "photo",
+  };
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [gallery, setGallery] = useState();
+  const [cameraPhoto, setCameraPhoto] = useState();
+  const { navigation, route } = props;
   const id = route.params;
   console.log("FormDish", id);
   const [typeOfDish, setTypeOfDish] = useState(null);
@@ -24,25 +40,39 @@ const FormDish = (props) => {
   const [typeOfDishes, setTypeOfDishes] = useState([]);
   const [values, setValues] = useState({
     name: "",
-    image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     dishTypeId: "null",
     kitchenId: 1,
   });
-  // const typeOfDishes = [
-  //   {
-  //     id: 1,
-  //     name: "Type 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Type 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Type 3",
-  //   },
-  // ];
+  const [imageToApi, setImageToApi] = useState();
+
+  useEffect(() => {
+    async () => {
+      const galleryStatus =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(galleryStatus.status === "granted");
+    };
+  }, []);
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaType: ImagePicker.MediaTypeOptions.Images,
+      allowEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result.assets[0].uri);
+    if (!result.canceled) {
+      const imageUri = result.assets[0].uri;
+      try {
+        setImageToApi(imageUri);
+      } catch (error) {
+        console.error("Error reading image file:", error);
+      }
+      setGallery(imageUri);
+      if (hasGalleryPermission === false) {
+        return <Text>No access to may'</Text>;
+      }
+    }
+  };
   const fetchAllTypeOfDish = () => {
     getAllDishType()
       .then((res) => {
@@ -53,8 +83,9 @@ const FormDish = (props) => {
 
   const initData = () => {};
   const handleCreateNewDish = () => {
-    createNewDish(values);
+    createNewDish(imageToApi, values);
   };
+
   const onSelectAvatar = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -113,6 +144,26 @@ const FormDish = (props) => {
         }}
         label={id ? "Edit dish" : "Create dish"}
       />
+      {/* <TouchableOpacity title="lay hinh" onPress={openGallery}>
+        <Text>Lay hinh</Text>
+      </TouchableOpacity>
+      <TouchableOpacity title="lay hinh" onPress={openCamera}>
+        <Text>camera</Text>
+      </TouchableOpacity> */}
+      {/* <Image
+        source={{ uri: gallery }}
+        style={{
+          width: 50,
+          height: 50,
+        }}
+      ></Image> */}
+      <Image
+        source={{ uri: cameraPhoto }}
+        style={{
+          width: 50,
+          height: 50,
+        }}
+      ></Image>
       <View
         style={{
           padding: 28,
@@ -151,14 +202,21 @@ const FormDish = (props) => {
 
         <TouchableOpacity
           style={styles.uploadImages}
-          onPress={() => onSelectAvatar()}
+          onPress={() => pickImage()}
         >
-          <CameraIcon />
-          <Text>{"Post picture of dish"}</Text>
+          {gallery ? (
+            <Image
+              source={{ uri: gallery }}
+              // resizeMode="cover"
+              style={{ width: 100, height: 100, zIndex: 10000 }}
+            />
+          ) : (
+            <>
+              <CameraIcon />
+              <Text>{"Post picture of dish"}</Text>
+            </>
+          )}
         </TouchableOpacity>
-      </View>
-      <View>
-        {/* <TextInput ty></TextInput> */}
       </View>
       <View
         style={{

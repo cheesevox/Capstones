@@ -244,21 +244,27 @@ export const deleteDishByDishId = async (id) => {
     console.log("delete dish", error);
   }
 };
-export const createNewDish = async (values) => {
-  console.log("values là", values);
+export const createNewDish = async (image, attribute) => {
+  const formData = new FormData();
+  formData.append("image", {
+    uri: image,
+    type: "image/jpeg", // or 'image/png'
+    name: "myImage.jpg",
+  });
+
+  // Append additional attributes to FormData
+  Object.entries(attribute).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
   try {
-    const headers = {
-      accept: "application/json",
-      "content-type": "multipart/form-data",
-    };
-    const formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      formData.append(key, values[key]);
-    });
     const response = await axios.post(
       "https://homemealtaste.azurewebsites.net/api/Dish",
       formData,
-      { headers }
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     if (response.status === 200) {
       console.log("Create new dish successfully.");
