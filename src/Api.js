@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { RouteName } from "./Constant";
 import { id } from "deprecated-react-native-prop-types/DeprecatedTextPropTypes";
+import { value } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 export const login = async (values, navigation) => {
   console.log(values);
   try {
@@ -371,5 +372,38 @@ export const createMealSession = async (values) => {
     }
   } catch (error) {
     console.log("create meal session", error);
+  }
+};
+
+export const getAllOrderByMealSessionId = async (id) => {
+  console.log(id);
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/Order/get-all-order-by-mealsession-id?mealsessionid=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get all order by meal sesison id err", error);
+  }
+};
+
+export const postStatusOrderForCustomer = async (id, value)=>{
+  try {
+    console.log("posrtttttttttt id",id)
+    console.log("valuuuuuuuuu post",value)
+     await axios.patch(`https://homemealtaste.azurewebsites.net/api/Order/change-status-order-to-DONE?mealsessionid=${id}&status=${value}`)
+  } catch (error) {
+    console.log("post status for order customer", error)
+  }
+};
+
+export const getMealSessionById = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://homemealtaste.azurewebsites.net/api/MealSession/get-single-meal-session-by-meal-session-id?mealsessionid=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get meal session by id", error);
   }
 };

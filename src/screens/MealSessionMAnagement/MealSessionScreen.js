@@ -45,7 +45,6 @@ const MealSessionScreen = ({ navigation }) => {
     console.log(formatter.format(selectedDate))
     console.log("meal sesison", mealSession)
     mealSession.filter((item) => item.createDate.includes(formatter.format(selectedDate))
-
     )
   }
   useEffect(() => {
@@ -54,6 +53,7 @@ const MealSessionScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("hehehehe", formatter.format(selectedDate))
     console.log("mealsession", mealSession)
+    // console.log("mealsessionnnnnnnnnnnnnn", mealSession?.mealSessionId)
     setNewData(mealSession.filter((item) => item.createDate.includes(formatter.format(selectedDate))));
   }, []);
   useEffect(() => {
@@ -61,7 +61,14 @@ const MealSessionScreen = ({ navigation }) => {
       const filteredData = mealSession.filter((item) => item.createDate.includes(formatter.format(selectedDate)));
       setNewData(filteredData);
     }
-  }, [selectedDate,mealSession])
+  }, [selectedDate, mealSession])
+
+  const filteredData = mealSession.filter((item) =>
+    item.createDate.includes(formatter.format(selectedDate))
+  );
+  console.log("Filtered mealsession", filteredData);
+  const mealSessionId = filteredData.length > 0 ? filteredData[0].mealSessionId : null;
+  console.log("mealsessionId", mealSessionId);
 
   const renderSessionItem = ({ item }) => {
     return (
@@ -70,11 +77,11 @@ const MealSessionScreen = ({ navigation }) => {
           padding: 10
         }}
         onPress={() => {
-          if (item.status === 'APPROVED') {
-            navigation.navigate("MealSessionDetail", { id: item.mealSessionId });
-          }
+          // if (item.status === 'PROCESS') {
+          navigation.navigate("MealSessionDetail", item={mealSessionId});
+          // }
         }}
-        disabled={item.status !== 'APPROVED'}
+      // disabled={item.status !== 'APPROVED'}
       >
         <View
           style={{
