@@ -19,7 +19,6 @@ const HeaderComp = (props) => {
     <View
       style={{
         alignItems: "center",
-        backgroundColor: "#FFAB01",
         flexDirection: "row",
         paddingVertical: 20,
       }}
@@ -28,13 +27,16 @@ const HeaderComp = (props) => {
         style={{
           alignItems: "center",
           flex: 1,
-          paddingLeft: 12,
         }}
       >
         <Pressable
           style={({ pressed }) => [
             {
               opacity: pressed ? 0.5 : 1,
+              backgroundColor:'orange',
+              padding:10,
+              marginRight:30,
+              borderRadius:50
             },
           ]}
           onPress={onBack}
@@ -49,7 +51,7 @@ const HeaderComp = (props) => {
           ]}
           onPress={onClickBellIcon}
         >
-          {isHasBellIcon && <BellIcon color="#FFF" />}
+          {isHasBellIcon && <BellIcon color="orange" />}
         </Pressable>
       </View>
 
@@ -70,7 +72,7 @@ const HeaderComp = (props) => {
           justifyContent: 'center',
           alignItems: 'center',
           fontWeight: 'bold',
-          width: '40%',
+          width: '50%',
           borderRadius: 20,
           borderWidth: 2
         }}

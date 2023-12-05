@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from "dayjs";
+import { order } from "../../Constant";
 
 const ChefOrderScreen = ({ navigation }) => {
   const formatter = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -176,7 +177,7 @@ const ChefOrderScreen = ({ navigation }) => {
         }
         ))
     }
-  }, [formatter.format(selectedDate)])
+  }, [formatter.format(selectedDate), orders])
 
   return (
     <SafeAreaView style={{

@@ -50,12 +50,14 @@ const MealSessionScreen = ({ navigation }) => {
   useEffect(() => {
     fectAllMealSessionByKitchenId()
   }, [])
+  
   useEffect(() => {
     console.log("hehehehe", formatter.format(selectedDate))
     console.log("mealsession", mealSession)
     // console.log("mealsessionnnnnnnnnnnnnn", mealSession?.mealSessionId)
     setNewData(mealSession.filter((item) => item.createDate.includes(formatter.format(selectedDate))));
   }, []);
+
   useEffect(() => {
     if (mealSession.length > 0 && selectedDate) {
       const filteredData = mealSession.filter((item) => item.createDate.includes(formatter.format(selectedDate)));

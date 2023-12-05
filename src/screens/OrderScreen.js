@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import React, { useEffect, useState,useRef  } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as Icon from "react-native-feather";
 import CartCard from "../components/CartCard";
 import { getAllOrderByCutomerId } from "../Api";
@@ -15,8 +15,10 @@ import { useSelector } from "react-redux";
 
 const OrderScreen = ({ navigation }) => {
   const [order, setOrder] = useState([]);
-  const [activeMenu, setActiveMenu] = useState("Order");
+  // const [activeMenu, setActiveMenu] = useState("Order");
+
   const user = useSelector((state) => state.user.user);
+
   const fectOrderByCustomerId = () => {
     getAllOrderByCutomerId(user.userId).then((res) => {
       console.log("Ress order by cutoer", res);
@@ -24,58 +26,25 @@ const OrderScreen = ({ navigation }) => {
     });
     console.log("111111111111111:", user.userId);
   };
+
   useEffect(() => {
     fectOrderByCustomerId();
   }, []);
+
+  useEffect(() => {
+    console.log("Order state changed:", order);
+  }, [order, user.userId]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       fectOrderByCustomerId();
       console.log("Data refreshed!");
     });
-    // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
-
-  // const [refreshData, setRefreshData] = useState(false);
-
-  // useEffect(() => {
-  //   if (refreshData) {
-  //     fectOrderByCustomerId();
-  //     setRefreshData(false);
-  //   }
-  // }, [refreshData]);
-
-  // const [items, setItems] = useState([]);
-  // const scrollViewRef = useRef();
-
-  // const addItem = () => {
-  //   const newItem = `Item ${items.length + 1}`;
-  //   setItems((prevItems) => [newItem, ...prevItems]);
-  //   // Scroll to the top (optional)
-  //   scrollViewRef.current.scrollTo({ y: 0, animated: true });
-  // };
   return (
-    // <SafeAreaView>
     <View style={styles.container}>
       <View style={styles.headder}>
-        {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'relative', backgroundColor: 'orange', borderRadius: 28, marginTop: 42 }}
-                    >
-                        <Icon.ArrowLeft style={{ color: 'white' }} strokeWidth={3} />
-                    </TouchableOpacity>
-                    <Text style={styles.walletText}>
-                        Wallet
-                    </Text>
-                    <TouchableOpacity
-                        // onPress={() => navigation.navigate("OrderCart")}
-                        style={{ justifyContent: "center", alignItems: "center", width: 40, height: 40, position: 'relative', borderRadius: 28, marginTop: 42 }}
-                    >
-                        <Icon.CreditCard style={{}} strokeWidth={3} />
-                    </TouchableOpacity>
-                </View> */}
         <View
           style={{
             flexDirection: "row",
@@ -83,9 +52,7 @@ const OrderScreen = ({ navigation }) => {
             marginTop: 12,
           }}
         >
-        
           <Text style={styles.Text}>User Order</Text>
- 
         </View>
       </View>
       <View style={styles.secsion1}>
@@ -100,49 +67,43 @@ const OrderScreen = ({ navigation }) => {
         >
           <TouchableOpacity
             style={{
-              // backgroundColor: activeMenu == 'Order' ? '#1d5eff' : '#fff',
               borderRadius: 5,
-              // elevation: clickActive == 'Order History' ? 2 : 0
             }}
-            onPress={() => setActiveMenu("Order")}
+            // onPress={() => setActiveMenu("Order")}
           >
             <Text
               style={{
                 fontSize: 16,
                 fontWeight: "bold",
                 textDecorationLine: "underline",
-
-                // color : 'white'
-                color: activeMenu == "Order" ? "green" : "#9ea3b0",
+                // color: activeMenu == "Order" ? "green" : "#9ea3b0",
               }}
             >
               Order History
             </Text>
           </TouchableOpacity>
-
+{/* 
           <TouchableOpacity
             style={{
-              // backgroundColor: activeMenu == 'FeedBack' ? '#1d5eff' : '#fff',
               borderRadius: 5,
             }}
-            onPress={() => setActiveMenu("FeedBack")}
+            // onPress={() => setActiveMenu("FeedBack")}
           >
             <Text
               style={{
                 fontSize: 16,
                 fontWeight: "bold",
                 textDecorationLine: "underline",
-                color: activeMenu == "FeedBack" ? "green" : "#9ea3b0",
+                // color: activeMenu == "FeedBack" ? "green" : "#9ea3b0",
               }}
             >
               Re-Charge History
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <View style={styles.body}>
-        <ScrollView 
-        // ref={scrollViewRef} inverted
+        <ScrollView
         >
           {order?.slice()?.reverse()?.map((item) => (
             <CartCard key={item.orderId} item={item} />
