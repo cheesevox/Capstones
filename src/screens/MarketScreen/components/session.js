@@ -76,6 +76,7 @@ const Session = (props) => {
       />
       {/* <View style={{ flex: 1 }}> */}
       <FlatList
+      style={{height:'90%'}}
         data={session}
         keyExtractor={(item) => item.sessionId}
         renderItem={(item) => SessionItem(item)}
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginHorizontal: 10,
     marginVertical: 20,
+    flex:1
   },
   text: {
     color: "#FFF",

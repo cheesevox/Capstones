@@ -7,23 +7,25 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Icon from "react-native-feather";
-import { getAllMealSessionWithStatus, getAllSessionByAreaId } from "../Api";
+import { getAllMealSessionInDayApprove, getAllMealSessionWithStatus, getAllSessionByAreaId } from "../Api";
 import MealSessionCard from "../components/MealSessionCard";
 // import { err } from 'react-native-svg/lib/typescript/xml';
+import FoodCard from "../components/FoodCard";
 
 const MealSession = ({ navigation, route }) => {
   const { areaId } = route.params;
   console.log("meall session page : ", areaId);
   const [session, setSession] = useState([]);
-  const fetchAllSessionByAreaId = (id) => {
-    getAllSessionByAreaId(areaId ? areaId : area[0])
-      .then((res) => {
-        console.log("tra ve session tao tesrtttttttttttttttttttt", res);
-        setSession(res);
-      })
-      .catch((error) => console.log(error));
+  const [mealSession, setMealSession] = useState([]);
+  const fetchAllSessionByAreaId = () => {
+    getAllMealSessionInDayApprove().then((res) => {
+      console.log("RESSSSSSSSSSSSSSSs", res)
+      setMealSession(res)
+    })
   };
-
+  const filteredMealSession = mealSession.filter(
+    (item) => item?.sessionDtoForMealSession?.areaDtoForMealSession?.areaId === areaId
+  );
   useEffect(() => {
     fetchAllSessionByAreaId();
   }, [areaId]);
@@ -33,8 +35,6 @@ const MealSession = ({ navigation, route }) => {
       fetchAllSessionByAreaId();
       console.log("Data refreshed!");
     });
-
-    // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
 
@@ -58,7 +58,6 @@ const MealSession = ({ navigation, route }) => {
           </TouchableOpacity>
           <Text style={styles.Text}>Meal In Session</Text>
           <TouchableOpacity
-            // onPress={() => navigation.navigate("OrderCart")}
             style={{
               justifyContent: "center",
               alignItems: "center",
@@ -73,24 +72,15 @@ const MealSession = ({ navigation, route }) => {
         </View>
       </View>
       <ScrollView style={styles.body}>
-        {session?.map((item, index) => (
-          <ScrollView style={{}} key={index}>
-            {item.status == true && (
-              <View>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    fontWeight: "bold",
-                    elevation: 2,
-                  }}
-                >
-                  Session {item.sessionType}
-                </Text>
-                <MealSessionCard key={index} sessionId={item.sessionId} />
-              </View>
-            )}
+        <ScrollView style={{}}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {
+              filteredMealSession?.map((item, index) => (
+                <FoodCard item={item} key={index} />
+              ))
+            }
           </ScrollView>
-        ))}
+        </ScrollView>
       </ScrollView>
       <View style={styles.footer}></View>
     </View>

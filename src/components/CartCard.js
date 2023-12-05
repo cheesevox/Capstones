@@ -10,11 +10,13 @@ const CartCard = ({ item }) => {
   return (
     <View style={styles.cartcard}>
       <View style={{
-        height: 100,
         // paddingVertical: 20,
+        alignItems:'center',
+        justifyContent:'center',
         flex: 1
       }}>
-        <View style={{ flexDirection: 'row',}}>
+        <View style={{ flexDirection: 'row', alignItems:'center',
+        justifyContent:'center',}}>
           <Image style={{ width: 100, height: 100, borderRadius: 10, resizeMode: 'cover' }} source={{uri : item?.mealSessionDto2?.mealDto2?.image}} />
           <View style={{ flexDirection: 'column' , padding:15, justifyContent:'space-between'}}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
@@ -22,6 +24,8 @@ const CartCard = ({ item }) => {
               {item?.mealSessionDto2?.mealDto2?.name}
             </Text>
             <Text>Price {item?.totalPrice}</Text>
+            <Text>Date {item?.time}</Text>
+            <Text>Quantity : {item?.quantity}</Text>
             <Text style={{
               padding:1,
               fontWeight:700,
@@ -48,7 +52,7 @@ export default CartCard;
 
 const styles = StyleSheet.create({
   cartcard: {
-    height: 120,
+    height: 150,
     elevation: 15,
     borderRadius: 10,
     backgroundColor: Colors.white,

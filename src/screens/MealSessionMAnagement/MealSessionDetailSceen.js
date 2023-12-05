@@ -14,12 +14,15 @@ const MealSessionDetailSceen = ({ navigation, route }) => {
     status: status
   })
   console.log("mealsession : ", item?.mealSessionId)
-  const onHandleCompletedOrder = (mealSessionId) => {
-    setValue('CANCELLED')
-    postStatusOrderForCustomer(mealSessionId, value).then(() => {
-      fectAllOrderByMealSesssionId()
-    })
-  }
+
+  const onHandleCompletedOrder = (mealSessionId, newStatus) => {
+    setStatus(newStatus);  // Assuming setValue is a state update function
+    setValue({
+      status: newStatus,
+    });
+    console.log("valueeeeeeeeeeeeeeee", newStatus);
+    postStatusOrderForCustomer(mealSessionId, newStatus);  // Assuming status is defined elsewhere
+  };
   const [order, setOrder] = useState([])
   const [mealsesion, setMealSession] = useState([])
   const fectAllOrderByMealSesssionId = () => {
@@ -42,14 +45,15 @@ const MealSessionDetailSceen = ({ navigation, route }) => {
     fectAllOrderByMealSesssionId()
   }, [item?.mealSessionId])
   console.log("LOGGGGGGGGGGG ALL MEALSESS", mealsesion)
+  console.log("LOGGGGGGGGGGG ALL ORder status", order)
 
   const renderItem = ({ item }) => (
     <View style={{ padding:20, margin: 10, elevation: 5, borderRadius: 10, flexDirection: 'row' }}>
-      <Image style={{ width: 100, height: 100 , resizeMode:'cover'}} source={require("../../../assets/images/avatar.jpg")}></Image>
+      <Image style={{ width: 100, height: 100 , resizeMode:'cover', borderRadius:20}} source={require("../../../assets/images/avatar.jpg")}></Image>
       <View style={{marginHorizontal:20}}>
         <Text>Order ID: {item.orderId}</Text>
         <Text>Status: {item.status}</Text>
-        <Text>Name Cusotmer: {item?.customerId}</Text>
+        <Text>Name Cusotmer: {item?.cutomerDtoGetAllOrderByMealSessionId?.name}</Text>
         <Text>Slot: {item.quantity}</Text>
         <Text>Total Price: {item.totalPrice}</Text>
       </View>
@@ -69,7 +73,7 @@ const MealSessionDetailSceen = ({ navigation, route }) => {
       <View style={{
         flex: 1, backgroundColor: 'orange',
         borderTopRightRadius: 30, borderTopLeftRadius: 30,
-        margin: 20,
+        margin: 20
       }}>
         <Image
           source={{ uri: mealsesion?.mealDtoForMealSession?.image }}
@@ -83,12 +87,14 @@ const MealSessionDetailSceen = ({ navigation, route }) => {
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>Address : {mealsesion?.sessionDtoForMealSession?.areaDtoForMealSession?.areaName}</Text>
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>Slot: {mealsesion?.quantity}</Text>
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>Remain Slot: {mealsesion?.remainQuantity}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around',paddingVertical:20}}>
           <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Order Cutomer :</Text>
-          <TouchableOpacity style={{ borderWidth: 1, padding: 5, borderRadius: 10 }}><Text>Approve</Text></TouchableOpacity>
           <TouchableOpacity style={{ borderWidth: 1, padding: 5, borderRadius: 10 }}
-          // onPress={onHandleCompletedOrder()}
-          ><Text>Cancle</Text></TouchableOpacity>
+            onPress={() => onHandleCompletedOrder(item?.mealSessionId, 'DONE')}
+          ><Text>Approve</Text></TouchableOpacity>
+          <TouchableOpacity style={{ borderWidth: 1, padding: 5, borderRadius: 10 }}
+            onPress={() => onHandleCompletedOrder(item?.mealSessionId, 'CANCELLED')}
+          ><Text>Cancel</Text></TouchableOpacity>
         </View>
         <FlatList
           data={order}

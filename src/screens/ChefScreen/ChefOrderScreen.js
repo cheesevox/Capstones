@@ -66,16 +66,16 @@ const ChefOrderScreen = ({ navigation }) => {
       setOrders(res)
     })
   }
-  const onHandleCompletedOrder = (orderId) => {
-    postStatusPaidToCompleted(orderId).then(() => {
-      fetchAllOrder()
-      return Toast.show({
-        type: 'success',
-        text1: 'Home Meal Taste',
-        text2: `Order ${orderId} is post completed.`
-      });
-    })
-  }
+  // const onHandleCompletedOrder = (orderId) => {
+  //   postStatusPaidToCompleted(orderId).then(() => {
+  //     fetchAllOrder()
+  //     return Toast.show({
+  //       type: 'success',
+  //       text1: 'Home Meal Taste',
+  //       text2: `Order ${orderId} is post completed.`
+  //     });
+  //   })
+  // }
 
   const filteredData = orders.filter(item => {
     // return item.time === formattedDate;
@@ -265,7 +265,7 @@ const ChefOrderScreen = ({ navigation }) => {
       }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={newData ? newData : []}
+          data={newData ? newData.slice().reverse() : []}
           // keyExtractor={(item) => item?.time || item?.time.toString()}
           renderItem={({ item }) => <CartCard item={item} />}
         // data={orders}

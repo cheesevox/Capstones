@@ -7,7 +7,7 @@ import { item } from "../Constant";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from '@react-navigation/native';
 
-export default function MealSessionCard({sessionId}) {
+export default function MealSessionCard({mealSession}) {
   const navigation = useNavigation();
   const [allMeal, setAllMeal] = useState([]);
   const fetchAllMeal = ()=>{
@@ -34,7 +34,7 @@ export default function MealSessionCard({sessionId}) {
         // <Text key={index}>{item.mealDtoForMealSession?.name}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {
-          allMeal?.map((item,index)=>(
+          mealSession?.map((item,index)=>(
             <FoodCard item={item} key={index}/>
           ))
           }

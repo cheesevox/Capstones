@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons/build/Icons';
 import { useSelector } from 'react-redux';
 import { getUserByID } from '../Api';
 import TabViewSession from '../components/TabViewSession';
+import Toast from "react-native-toast-message";
 
 const UserProfileScreen = ({ navigation, route }) => {
   const user = useSelector(state => state.user.user)
@@ -31,6 +32,24 @@ const UserProfileScreen = ({ navigation, route }) => {
     // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
+
+  const handleLogout = () => {
+    navigation.navigate("Login", { user: user })
+    Toast.show({
+      type: "success",
+      text1: "Logout",
+      text2: "Logout Successfully.",
+    });
+    setTimeout(() => {
+      Toast.hide();
+    }, 5000);
+  
+    // Navigate back after hiding the toast
+    setTimeout(() => {
+      navigation.goBack();
+    }, 5100);
+  }
+
   return (
     <SafeAreaView style={{
       flexDirection: "column",
@@ -38,7 +57,7 @@ const UserProfileScreen = ({ navigation, route }) => {
       backgroundColor: "#FFF",
       height: "100%",
       flex: 1,
-      
+
     }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         {/* <TouchableOpacity
@@ -116,7 +135,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => handleLogout()}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                 >

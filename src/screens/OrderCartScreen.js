@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrderUser } from "../Api";
+import Toast from "react-native-toast-message";
 
 const OrderCartScreen = ({ navigation, route }) => {
   const { item } = route.params || {};
@@ -103,26 +104,26 @@ const OrderCartScreen = ({ navigation, route }) => {
     );
   };
 
+  const handleCreateOrder = async () => {
+    try {
+      await createOrder();
+      Toast.show({
+        type: "success",
+        text1: "Home Meal Taste",
+        text2: "Create Order Successfully.",
+      });
+      navigation.navigate('CustomerHome', {user: user});
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Home Meal Taste",
+        text2: "Add new failed.",
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            width: 40,
-            height: 40,
-            position: "absolute",
-            marginLeft: 24,
-            backgroundColor: "orange",
-            borderRadius: 28,
-            marginTop: 42,
-          }}
-        >
-          <Icon.ArrowLeft style={{ color: "white" }} strokeWidth={3} />
-        </TouchableOpacity>
-      </View>
       <View
         style={{
           marginBottom: 30,
@@ -193,8 +194,8 @@ const OrderCartScreen = ({ navigation, route }) => {
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <TouchableOpacity
               onPress={() => {
-                createOrder();
-                navigation.navigate("CustomerHome", { user: user });
+                handleCreateOrder();
+                navigation.navigate("CustomerHome", {user: user});
               }}
               style={{
                 backgroundColor: "#f96163",

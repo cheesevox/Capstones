@@ -407,3 +407,11 @@ export const getMealSessionById = async (id) => {
     console.log("get meal session by id", error);
   }
 };
+export const getAllMealSessionInDayApprove = async () => {
+  try {
+    const response = await axios.get(`https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-with-status-APPROVED-and-REMAINQUANTITY-%3e-0-IN-DAY`)
+    return response.data
+  } catch (error) {
+    console.log("err log all meal with approve ", error)
+  }
+}

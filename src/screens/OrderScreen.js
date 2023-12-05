@@ -7,9 +7,8 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef  } from "react";
 import * as Icon from "react-native-feather";
-import { Ionicons } from "@expo/vector-icons";
 import CartCard from "../components/CartCard";
 import { getAllOrderByCutomerId } from "../Api";
 import { useSelector } from "react-redux";
@@ -27,18 +26,35 @@ const OrderScreen = ({ navigation }) => {
   };
   useEffect(() => {
     fectOrderByCustomerId();
-  }, [user.userId]);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       fectOrderByCustomerId();
       console.log("Data refreshed!");
     });
-
     // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
 
+  // const [refreshData, setRefreshData] = useState(false);
+
+  // useEffect(() => {
+  //   if (refreshData) {
+  //     fectOrderByCustomerId();
+  //     setRefreshData(false);
+  //   }
+  // }, [refreshData]);
+
+  // const [items, setItems] = useState([]);
+  // const scrollViewRef = useRef();
+
+  // const addItem = () => {
+  //   const newItem = `Item ${items.length + 1}`;
+  //   setItems((prevItems) => [newItem, ...prevItems]);
+  //   // Scroll to the top (optional)
+  //   scrollViewRef.current.scrollTo({ y: 0, animated: true });
+  // };
   return (
     // <SafeAreaView>
     <View style={styles.container}>
@@ -67,34 +83,9 @@ const OrderScreen = ({ navigation }) => {
             marginTop: 12,
           }}
         >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              height: 40,
-              backgroundColor: "orange",
-              borderRadius: 28,
-              marginTop: 42,
-            }}
-          >
-            <Icon.ArrowLeft style={{ color: "white" }} strokeWidth={3} />
-          </TouchableOpacity>
+        
           <Text style={styles.Text}>User Order</Text>
-          <TouchableOpacity
-            // onPress={() => navigation.navigate("OrderCart")}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              height: 40,
-              borderRadius: 28,
-              marginTop: 42,
-            }}
-          >
-            <Icon.CreditCard style={{}} strokeWidth={3} />
-          </TouchableOpacity>
+ 
         </View>
       </View>
       <View style={styles.secsion1}>
@@ -150,8 +141,10 @@ const OrderScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.body}>
-        <ScrollView>
-          {order?.map((item) => (
+        <ScrollView 
+        // ref={scrollViewRef} inverted
+        >
+          {order?.slice()?.reverse()?.map((item) => (
             <CartCard key={item.orderId} item={item} />
           ))}
         </ScrollView>
