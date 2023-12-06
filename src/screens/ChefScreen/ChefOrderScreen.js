@@ -87,7 +87,7 @@ const ChefOrderScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         style={styles.cartcard}
-        onPress={() => navigation.navigate("ChefOrderDetail", item = { item })}
+        onPress={() => navigation.navigate("ChefOrderDetail", {item})}
       >
         <View
           style={{

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View, FlatList } from "react-native";
 import HeaderComp from "../../HeaderComp";
-import { getAllSessionByAreaId } from "../../../Api";
+import { getAllSessionByAreaId, getAllSessionByAreaIdchef } from "../../../Api";
 import { RouteName } from "../../../Constant";
 
 const Session = (props) => {
@@ -9,7 +9,7 @@ const Session = (props) => {
   const { areaId } = route.params;
   const [session, setSession] = useState([]);
   const fetchAllSessionByAreaId = () => {
-    getAllSessionByAreaId(areaId).then((res) => {
+    getAllSessionByAreaIdchef(areaId).then((res) => {
       console.log("-----------------------", areaId);
       console.log("++++++++++++++++++++++", res);
       setSession(res);

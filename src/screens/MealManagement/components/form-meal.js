@@ -8,87 +8,104 @@ import {
   View,
 } from "react-native";
 import HeaderComp from "../../HeaderComp";
+import * as ImagePicker from "expo-image-picker";
 import { MultiSelect } from "react-native-element-dropdown";
 import React, { useEffect, useState } from "react";
 import { colors } from "../../../Constant";
-import * as ImagePicker from "react-native-image-picker";
 import CameraIcon from "../../../components/Icons/CameraIcon";
 import MinusIcon from "../../../components/Icons/MinusIcon";
 import AddIcon from "../../../components/Icons/AddIcon";
-import { getMealById } from "../../../Api";
+import {
+  createNewMeal,
+  getAllDishByKitchenId,
+  getMealById,
+} from "../../../Api";
 import { Image } from "react-native";
 import dish from "../../DishManagement/components/dish";
+import { useSelector } from "react-redux";
 
 const FromMeal = (props) => {
   const { navigation, route } = props;
-  const id = route.params;
-  console.log("id", id);
-  useEffect(() => {}, []);
-  const [selected, setSelected] = useState([]);
-  const [meal, setMeal] = useState([]);
-  // const fetchMealById = async () => {
-  //   // getMealById(8)
-  //   //   .then((res) => {
-  //   //     setMeal(res);
-  //   //   })
-  //   //   .catch((error) => console.log(error));
-  //   // const response = await getMealById(8);
-  //   // setMeal(response);
-  //   console.log("-----------------------------");
-  // };
-
-  const onSelectAvatar = () => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: "photo",
-        quality: 1,
-        includeBase64: true,
-      },
-      async (response) => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-        } else if (response.errorCode) {
-          console.log("ImagePicker Error: ", response.errorCode);
-        } else {
-          let source = response.assets[0];
-          if (source.fileSize >= 5242880) {
-            toastMessage(t(MessageI18n.errorImageSizeIsTooBig), true);
-          } else {
-            let buildFileName = new Date().toISOString();
-            let formData = new FormData();
-            formData.append("file", {
-              uri:
-                Platform.OS === "ios"
-                  ? source?.uri.replace("file://", "")
-                  : source?.uri,
-              name: source?.fileName,
-              type: source?.type,
-            });
-            formData.append("fileName", fileNameNormalize(buildFileName));
-            // const accountUploadResult =
-            //   await accountApiService.uploadAccountAvatarAsync(formData);
-            // if (accountUploadResult.isSuccess === true) {
-            //   let customerInformation = {
-            //     ...customerInfo,
-            //     thumbnail: accountUploadResult?.avatarUrl,
-            //   };
-            //   await updateSessionJsonStringValue(customerInformation);
-            //   dispatch(updateCustomerAvatar(accountUploadResult?.avatarUrl));
-            //   toastMessage(t(accountUploadResult?.message), false);
-            // } else {
-            //   toastMessage(t(accountUploadResult?.message), true);
-            // }
-          }
-        }
-      }
-    );
+  const meal = route.params || {};
+  const user = useSelector((state) => state.user.user);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [selected, setSelected] = useState();
+  const [mealObjectToAPI, setMealObjectToAPI] = useState({
+    name: "",
+    kitchenId: user.kitchenId,
+    description: "",
+    // DishIds: [],
+  });
+  const [imageToApi, setImageToApi] = useState();
+  const [arrayDishToAPI, setArrayDishToAPI] = useState([]);
+  // const [meal, setMeal] = useState([]);
+  const [dish, setDish] = useState([]);
+  // const [dishInMeal, setDishInMeal] = useState([meal.meal?.dishModel]);
+  const [dishInMeal, setDishInMeal] = useState(meal.meal?.dishModel || []);
+  // const initData = () => {};
+  const fetchAllDishByKitchenId = () => {
+    getAllDishByKitchenId(user?.kitchenId).then((res) => {
+      setDish(res);
+    });
   };
+  const getPermission = async () => {
+    const galleryStatus =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    setHasGalleryPermission(galleryStatus.status === "granted");
+  };
+  const pickImage = async () => {
+    await getPermission();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaType: ImagePicker.MediaTypeOptions.Images,
+      allowEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result.assets[0].uri);
+    if (!result.canceled) {
+      try {
+        const imageUri = result.assets[0].uri;
+        setImageToApi(imageUri);
+      } catch (error) {
+        console.error("Error reading image file:", error);
+      }
+      // setGallery(imageUri);
+    }
+  };
+  useEffect(() => {
+    fetchAllDishByKitchenId();
+  }, []);
   // useEffect(() => {
-  //   fetchMealById();
+  //   const getPermission = async () => {
+  //     const galleryStatus =
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     setHasGalleryPermission(galleryStatus.status === "granted");
+  //   };
+  //   getPermission();
   // }, []);
-
+  const onHandleRemove = (id) => {
+    setDishInMeal(dishInMeal.filter((item) => item.dishId !== id));
+    setArrayDishToAPI(arrayDishToAPI.filter((item) => item !== id));
+  };
+  const onHandleSelectDishAddToMeal = (id) => {
+    const selectedDish = dish.find((item) => {
+      return item.dishId == id;
+    });
+    if (selectedDish) {
+      const { _index, ...objectSelected } = selectedDish;
+      setDishInMeal((prevDishInMeal) => {
+        return [...prevDishInMeal, objectSelected];
+      });
+      setSelected([]);
+    } else {
+      console.error("Selected dish not found or undefined.");
+    }
+  };
+  const onHandleCreateNewMeal = () => {
+    console.log("aray dish la", arrayDishToAPI);
+    createNewMeal(imageToApi, mealObjectToAPI, arrayDishToAPI);
+  };
   const renderDishItem = (dish, unSelect = undefined) => {
-    // console.log("dish neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", dish);
     return (
       <View
         style={
@@ -118,58 +135,170 @@ const FromMeal = (props) => {
           <Text style={styles.nameText}>{dish?.name}</Text>
           <Text
             style={{ ...styles.nameText, fontSize: 12 }}
-          >{`Type: ${dish.dishType?.name}`}</Text>
+          >{`Type: ${dish?.dishTypeResponse?.name}`}</Text>
         </View>
         {unSelect && (
-          <TouchableOpacity onPress={() => unSelect && unSelect(dish)}>
+          <TouchableOpacity
+            onPress={() => {
+              unSelect && unSelect(dish);
+              console.log("mi nút");
+            }}
+          >
             <MinusIcon />
           </TouchableOpacity>
         )}
       </View>
     );
   };
-
+  const DishItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 5,
+          marginVertical: 10,
+          padding: 10,
+          borderRadius: 10,
+          backgroundColor: "white",
+          elevation: 2,
+        }}
+      >
+        <View
+          style={{
+            borderRadius: 12,
+          }}
+        >
+          <Image
+            source={{ uri: item?.image }}
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 50,
+              marginBottom: 10,
+            }}
+            resizeMode="cover"
+          />
+        </View>
+        <View
+          style={{ flex: 1, paddingLeft: 10, gap: 4, justifyContent: "center" }}
+        >
+          <Text style={styles.nameText}>{item?.name}</Text>
+          {/* <Text
+            style={{ ...styles.nameText, fontSize: 12 }}
+          >{`Type: ${item?.dishTypeDto?.name}`}</Text> */}
+        </View>
+        <TouchableOpacity
+          style={{
+            alignSelf: "center",
+          }}
+          onPress={() => onHandleRemove(item.dishId)}
+        >
+          <MinusIcon />
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  };
+  useEffect(() => {
+    console.log("array dish hien tai", arrayDishToAPI);
+  }, [arrayDishToAPI]);
   return (
     <View style={{ backgroundColor: colors.COLOR_LIGHT, height: "100%" }}>
       <HeaderComp
         onBack={() => {
           navigation.goBack();
         }}
-        label={id ? "Edit meal" : "Create meal"}
+        label={meal?.meal?.mealId ? "Edit meal" : "Create meal"}
       />
-      <View
+      <ScrollView
         style={{
-          padding: 28,
-          gap: 20,
-          height: "88%",
+          padding: 20,
+          gap: 5,
+          height: "100%",
         }}
       >
-        <TextInput
-          style={styles.textInput}
-          placeholder="Name of dish"
-          placeholderTextColor={"#C1C1C1"}
-          defaultValue={meal?.name}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Description"
-          placeholderTextColor={"#C1C1C1"}
-          defaultValue={meal?.description}
-        />
-
-        <TouchableOpacity
-          style={styles.uploadImages}
-          onPress={() => onSelectAvatar()}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
         >
-          <View style={{alignItems: "center"}}>
-            <CameraIcon />
-            <Text>{"Post picture of dish"}</Text>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderStyle: "dashed",
+              width: 120,
+              height: 120,
+              borderRadius: 12,
+            }}
+            onPress={() => pickImage()}
+          >
+            {meal.meal?.image ? (
+              <Image
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: 10,
+                  resizeMode: "cover",
+                }}
+                source={{ uri: meal.meal?.image }}
+              ></Image>
+            ) : imageToApi ? (
+              <Image
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: 10,
+                }}
+                source={{ uri: imageToApi }}
+              ></Image>
+            ) : (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <CameraIcon />
+                <Text>{"Post picture"}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+          <View style={{ width: "60%" }}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Meal's Name"
+              placeholderTextColor={"#C1C1C1"}
+              // value={meal.meal?.name}
+              defaultValue={meal.meal?.name}
+              onChangeText={(text) =>
+                setMealObjectToAPI({ ...mealObjectToAPI, name: text })
+              }
+            />
+            <TextInput
+              multiline
+              numberOfLines={3}
+              style={styles.textInput}
+              placeholder="Description"
+              placeholderTextColor={"#C1C1C1"}
+              defaultValue={meal.meal?.description}
+              onChangeText={(text) =>
+                setMealObjectToAPI({ ...mealObjectToAPI, description: text })
+              }
+            />
           </View>
-        </TouchableOpacity>
+        </View>
         <View
           style={{
             backgroundColor: "#f2ebe1",
             borderRadius: 12,
+            marginTop: 10,
           }}
         >
           <View
@@ -194,24 +323,36 @@ const FromMeal = (props) => {
             style={{
               backgroundColor: "#ffd580",
               borderRadius: 12,
-              maxHeight: 200,
+              maxHeight: 400,
+              paddingHorizontal: 20,
             }}
           >
+            {dishInMeal.map((item, index) => {
+              return <DishItem item={item} key={index} />;
+            })}
             <MultiSelect
               style={styles.dropdown}
               placeholderStyle={{
                 textAlign: "right",
                 color: "#89703e",
                 paddingHorizontal: 4,
+                marginBottom: 10,
+                alignSelf: "center",
               }}
-              data={meal?.dishDto ?? []}
+              data={dish}
+              containerStyle={{
+                borderRadius: 10,
+                width: "100%",
+              }}
               labelField="name"
-              valueField="id"
-              key={(item) => item.id}
+              valueField="dishId"
+              key={(item) => item.dishId}
               placeholder="Add more"
-              value={selected}
+              value={""}
               onChange={(item) => {
-                setSelected(item);
+                setArrayDishToAPI((prevArray) => [...prevArray, ...item]);
+                setSelected(item[0]);
+                onHandleSelectDishAddToMeal(item[0]);
               }}
               renderRightIcon={() => (
                 <AddIcon bgColor={"#ffd580"} color={"#89703e"} />
@@ -220,10 +361,11 @@ const FromMeal = (props) => {
               renderSelectedItem={(item, unSelect) => {
                 return renderDishItem(item, unSelect);
               }}
+              dropdownPosition="auto"
             />
           </ScrollView>
         </View>
-      </View>
+      </ScrollView>
       <View
         style={{
           alignItems: "center",
@@ -244,12 +386,12 @@ const FromMeal = (props) => {
             borderRadius: 20,
           }}
           onPress={() => {
-            //call api
+            onHandleCreateNewMeal();
           }}
         >
           <Text style={styles.buttonTextStyle}>{"Save"}</Text>
         </TouchableOpacity>
-        {id && (
+        {meal.kitchenDtoReponseMeal?.mealId && (
           <TouchableOpacity
             style={{
               paddingHorizontal: 40,
@@ -257,9 +399,9 @@ const FromMeal = (props) => {
               backgroundColor: "#E64B17",
               borderRadius: 20,
             }}
-            onPress={() => {
-              //call api
-            }}
+            // onPress={() => {
+            //   //call api
+            // }}
           >
             <Text style={styles.buttonTextStyle}>{"Remove"}</Text>
           </TouchableOpacity>
@@ -271,13 +413,13 @@ const FromMeal = (props) => {
 
 const styles = StyleSheet.create({
   textInput: {
-    borderWidth: 0.5,
-    fontSize: 18,
+    fontSize: 15,
     borderColor: "#B2B2B2",
-    paddingVertical: 16,
-    paddingLeft: 20,
     borderRadius: 12,
     backgroundColor: "#F8F8FC",
+    marginVertical: 10,
+    minHeight: 40,
+    padding: 10,
   },
   labelText: {
     fontSize: 16,
@@ -286,11 +428,9 @@ const styles = StyleSheet.create({
   },
   uploadImages: {
     padding: 50,
-    backgroundColor: "#F8F8FC",
-    gap: 5,
-    borderRadius: 12,
-    alignItems: "center",
-    borderWidth: 0.2,
+    height: 50,
+    width: 200,
+    backgroundColor: "black",
   },
   buttonTextStyle: {
     color: "#FFF",
@@ -302,7 +442,6 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     backgroundColor: "#ffd580",
-    padding: 10,
   },
   dishItem: {
     flexDirection: "row",
@@ -315,14 +454,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
   },
-  uploadImages: {
-    padding: 50,
-    backgroundColor: "#F8F8FC",
-    gap: 5,
-    borderRadius: 12,
-    alignItems: "center",
-    borderWidth: 0.2,
-  },
+  uploadImages: {},
 });
 
 export default React.memo(FromMeal);

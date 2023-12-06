@@ -104,23 +104,23 @@ const OrderCartScreen = ({ navigation, route }) => {
     );
   };
 
-  const handleCreateOrder = async () => {
-    try {
-      await createOrder();
-      Toast.show({
-        type: "success",
-        text1: "Home Meal Taste",
-        text2: "Create Order Successfully.",
-      });
-      navigation.navigate('CustomerHome', {user: user});
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Home Meal Taste",
-        text2: "Add new failed.",
-      });
-    }
-  };
+  // const handleCreateOrder = async () => {
+  //   try {
+  //     await createOrder();
+  //     Toast.show({
+  //       type: "success",
+  //       text1: "Home Meal Taste",
+  //       text2: "Create Order Successfully.",
+  //     });
+  //     navigation.navigate('CustomerHome', {user: user});
+  //   } catch (error) {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Home Meal Taste",
+  //       text2: "Add new failed.",
+  //     });
+  //   }
+  // };
 
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
@@ -194,8 +194,9 @@ const OrderCartScreen = ({ navigation, route }) => {
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <TouchableOpacity
               onPress={() => {
-                handleCreateOrder();
-                navigation.navigate("CustomerHome", {user: user});
+                // handleCreateOrder();
+                createOrder()
+                navigation.navigate("Order", {user: user});
               }}
               style={{
                 backgroundColor: "#f96163",

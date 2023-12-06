@@ -20,6 +20,7 @@ const OrderScreen = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);
 
   const fectOrderByCustomerId = () => {
+    console.log("Fetching order data...");
     getAllOrderByCutomerId(user.userId).then((res) => {
       console.log("Ress order by cutoer", res);
       setOrder(res);
@@ -31,9 +32,6 @@ const OrderScreen = ({ navigation }) => {
     fectOrderByCustomerId();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("Order state changed:", order);
-  // }, [order, user.userId]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -41,7 +39,7 @@ const OrderScreen = ({ navigation }) => {
       console.log("Data refreshed!");
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation,user]);
   
   const CartCard = ({item}) =>{
     return (

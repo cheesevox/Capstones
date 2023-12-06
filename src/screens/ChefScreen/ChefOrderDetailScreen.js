@@ -18,7 +18,7 @@ import { RouteName } from "../../Constant";
 
 const ChefOrderDetailScreen = ({ navigation, route }) => {
 
-    const plus = ({ item }) => { };
+    // const plus = ({ item }) => { };
     
     // const {order} = route.params
     const { item } = route.params || {};

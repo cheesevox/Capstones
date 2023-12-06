@@ -116,7 +116,7 @@ export const getAllSessionByAreaId = async (id) => {
     const response = await axios.get(
       // `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id?areaid=${id}`
       `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id-with-status-true?areaid=${id}`
-      // `https://homemealtaste.azurewebsites.net/api/MealSession/get-all-meal-session-by-session-id-IN-DAY?sessionid=${id}`
+      // `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id-with-status-true-and-in-day?areaid=${id}`
     );
     return response.data;
   } catch (error) {
@@ -124,7 +124,17 @@ export const getAllSessionByAreaId = async (id) => {
   }
 };
 // <<<<<<< HEAD
-
+export const getAllSessionByAreaIdchef = async (id) => {
+  try {
+    const response = await axios.get(
+`https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id?areaid=${id}`
+      // `https://homemealtaste.azurewebsites.net/api/Session/get-all-session-by-area-id-with-status-true?areaid=${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("get all session by area Id", error);
+  }
+};
 export const getMealInSessionBySessionId = async (id) => {
   try {
     const response = await axios.get(
@@ -415,3 +425,49 @@ export const getAllMealSessionInDayApprove = async () => {
     console.log("err log all meal with approve ", error)
   }
 }
+
+export const createNewMeal = async (image, attribute, dishes) => {
+  console.log("tung thanh phan", image, attribute, dishes);
+  const formData = new FormData();
+  formData.append("Image", {
+    uri: image,
+    type: "image/jpeg", // or 'image/png'
+    name: "mealImage.jpg",
+  });
+  Object.entries(attribute).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+  dishes.forEach((dishId, index) => {
+    formData.append("DishIds", dishId);
+  });
+  // formData.append("DishIds", dishes);
+
+  console.log("formdata la", formData);
+  console.log("dish dc gui sang api la", dishes);
+  try {
+    const response = await axios.post(
+      "https://homemealtaste.azurewebsites.net/api/Meal/create-meal",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    if (response.status === 200) {
+      console.log("Create new meal successfully.");
+      console.log(response.data);
+    }
+  } catch (error) {
+    console.error("Error creating new dish:", error.message);
+    console.error("Error details:", error.response);
+
+    // Log the entire error object for more information
+    console.error("Full error object:", error);
+
+    // If error.response is not available, log the entire error object
+    if (!error.response) {
+      console.error("Error object without response:", error);
+    }
+  }
+};

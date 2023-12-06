@@ -68,11 +68,13 @@ const MealSessionScreen = ({ navigation }) => {
   const filteredData = mealSession.filter((item) =>
     item.createDate.includes(formatter.format(selectedDate))
   );
-  console.log("Filtered mealsession", filteredData);
-  const mealSessionId = filteredData.length > 0 ? filteredData[0].mealSessionId : null;
-  console.log("mealsessionId", mealSessionId);
+
+  // console.log("Filtered mealsession", filteredData);
+  // const mealSessionId = filteredData.length > 0 ? filteredData[0].mealSessionId : null;
+  // console.log("mealsessionId", mealSessionId);
 
   const renderSessionItem = ({ item }) => {
+    const mealSessionId = item.mealSessionId;
     return (
       <TouchableOpacity
         style={{
@@ -80,7 +82,7 @@ const MealSessionScreen = ({ navigation }) => {
         }}
         onPress={() => {
           // if (item.status === 'PROCESS') {
-          navigation.navigate("MealSessionDetail", item={mealSessionId});
+          navigation.navigate("MealSessionDetail", {mealSessionId});
           // }
         }}
       // disabled={item.status !== 'APPROVED'}
@@ -190,7 +192,8 @@ const MealSessionScreen = ({ navigation }) => {
       <View style={{ flex: 2 }}>
         <FlatList
           // data={mealSession}
-          data={newData}
+          // data={newData} 
+          data={newData.slice().reverse()}
           keyExtractor={(item) => item.mealSessionId}
           renderItem={(item) => renderSessionItem(item)}
           showsHorizontalScrollIndicator={false}
