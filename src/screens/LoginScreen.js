@@ -14,9 +14,12 @@ import { useRef } from "react";
 import { login } from "../Api";
 import { useDispatch } from "react-redux";
 import { getUserInfor } from "../../slices/userSlice";
-import { RouteName } from "../Constant";
+import { useRoute, useEffect } from '@react-navigation/native';
 
 const LoginScreen = ({ navigation }) => {
+  const route = useRoute();
+  const user = route.params?.user || null;
+
   const dispatch = useDispatch();
   // collect data
   const [phone, setPhone] = useState("");
@@ -25,17 +28,17 @@ const LoginScreen = ({ navigation }) => {
     phone: null,
     password: null,
   });
-  const Login = () => {
+  const Login = ({route}) => {
     login(values, navigation)
       .then((res) => {
         dispatch(getUserInfor(res));
       })
       .catch((res) => console.log("that bai get api", res));
   };
-  //create toast message ref
+
   const [toastType, setToastType] = useState("success");
   const toastRef = useRef(null);
-
+  const { loginFailure } = route.params || {};
   const handleShowToast = () => {
     if (toastRef.current) {
       toastRef.current.show();
@@ -74,7 +77,10 @@ const LoginScreen = ({ navigation }) => {
           text="Login successfuly"
           description="Login succes"
           ref={toastRef}
-        />
+        /> 
+         {loginFailure && (
+          <Text style={{ textAlign: 'left' }}>Login failed. Please try again.</Text>
+        )}
       </View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Image

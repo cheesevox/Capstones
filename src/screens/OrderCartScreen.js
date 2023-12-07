@@ -46,8 +46,6 @@ const OrderCartScreen = ({ navigation, route }) => {
       <View style={styles.cartcard}>
         <View
           style={{
-            height: 100,
-            marginLeft: 10,
             paddingVertical: 20,
             flex: 1,
           }}
@@ -252,7 +250,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     backgroundColor: "#fab3a2",
     fontWeight: "bold",
-    marginTop: 40,
+    marginTop: 32,
     width: "40%",
     borderRadius: 20,
     borderWidth: 2,

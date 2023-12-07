@@ -5,12 +5,14 @@ import * as Icon from "react-native-feather";
 import UserCard from '../components/UserCard'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons/build/Icons';
+import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { getUserByID } from '../Api';
 import TabViewSession from '../components/TabViewSession';
 import Toast from "react-native-toast-message";
 
 const UserProfileScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user.user)
   const [profile, setProfile] = useState()
 
@@ -28,13 +30,11 @@ const UserProfileScreen = ({ navigation, route }) => {
       fectProfileByCustomerId();
       console.log("Data refreshed!");
     });
-
-    // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
 
   const handleLogout = () => {
-    navigation.navigate("Login", { user: user })
+    navigation.navigate('Login', { user: null });
     Toast.show({
       type: "success",
       text1: "Logout",
@@ -57,7 +57,7 @@ const UserProfileScreen = ({ navigation, route }) => {
       backgroundColor: "#FFF",
       height: "100%",
       flex: 1,
-
+      marginVertical:15
     }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         {/* <TouchableOpacity

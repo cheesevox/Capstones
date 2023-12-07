@@ -19,7 +19,7 @@ export const login = async (values, navigation) => {
       if (roleId === 2) {
         navigation.navigate("CustomerHome", {user:response.data});
       } else if (roleId === 3) {
-        navigation.navigate(`${RouteName.KITCHEN}`, {user:response.data});
+        navigation.navigate("Login" , {loginFailure : true});
       } else {
         console.log("Unknown roleId:", roleId);
       }

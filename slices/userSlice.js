@@ -12,6 +12,12 @@ export const userSlice = createSlice({
         console.log("payload item la///////////////",action.payload)
       state.user = action.payload
     },
+    logout: (state) => {
+      localStorage.removeItem('userToken') 
+      state.userInfo = null
+      state.userToken = null
+      state.error = null
+    },
   },
 });
 
