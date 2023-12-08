@@ -5,23 +5,22 @@ import HeaderComp from "../HeaderComp";
 import AddIcon from "../../components/Icons/AddIcon";
 import { RouteName } from "../../Constant";
 import { getAllMealByKitchen } from "../../Api";
+import { useSelector } from "react-redux";
 
 const MealManagement = ({ navigation }) => {
   const [meal, setMeal] = useState([]);
-
-  useEffect(() => {
-    console.log("RUN fetchAllMealByKitchenId");
-    fetchAllMealByKitchenId();
-  }, []);
+  const user = useSelector((state) => state.user.user);
 
   const fetchAllMealByKitchenId = () => {
-    getAllMealByKitchen(1)
+    getAllMealByKitchen(user?.kitchenId)
       .then((res) => {
         setMeal(res);
       })
       .catch((error) => console.log(error));
   };
-
+  useEffect(() => {
+    fetchAllMealByKitchenId();
+  }, []);
   const renderItem = (item) => {
     return <MealItem data={item.item} navigation={navigation} />;
   };

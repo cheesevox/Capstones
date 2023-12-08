@@ -44,7 +44,7 @@ const MealItem = (props) => {
         <Pressable
           onPress={() => {
             navigation.navigate(RouteName.FORM_MEAL, {
-              id: data?.mealId,
+              meal: data,
             });
           }}
           style={({ pressed }) => [

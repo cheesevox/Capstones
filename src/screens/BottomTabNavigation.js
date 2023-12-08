@@ -20,10 +20,11 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = ({ route }) => {
   const dispatch = useDispatch();
   const { user } = route.params || {};
-  console.log("user bottom navigator : ::::::::", user);
-  useEffect(() => {
-    dispatch(getUserInfor(user));
-  }, [user?.userId]);
+  console.log("user bottom navigator", user.kitchenId);
+  dispatch(getUserInfor(user));
+  // useEffect(() => {
+  //   dispatch(getUserInfor(user));
+  // }, [user?.userId]);
   // const role = 3;
   return user?.roleId == 3 ? (
     <Tab.Navigator

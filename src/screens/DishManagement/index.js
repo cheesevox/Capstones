@@ -6,11 +6,14 @@ import HeaderComp from "../HeaderComp";
 import { RouteName } from "../../Constant";
 import { getAllDishByKitchenId } from "../../Api";
 import { useFocusEffect } from "@react-navigation/core";
+import { useSelector } from "react-redux";
 const DishManagement = ({ navigation }) => {
+  const user = useSelector((state) => state.user.user);
   const [dish, setDish] = useState([]);
 
+  console.log("user kitchen id la", user);
   useEffect(() => {
-    getAllDishByKitchenId(1)
+    getAllDishByKitchenId(user?.kitchenId)
       .then((result) => {
         setDish(result);
       })
@@ -26,7 +29,7 @@ const DishManagement = ({ navigation }) => {
   const handleClickAdd = () => {
     navigation.navigate(RouteName.FORM_DISH);
   };
-  
+
   return (
     <View>
       <HeaderComp
