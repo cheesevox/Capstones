@@ -7,93 +7,97 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Icon from "react-native-feather";
-import { getAllMealSessionWithStatus, getAllSessionByAreaId } from "../Api";
+import {
+  getAllApprovedMealSessionBySessionId,
+  getAllMealSessionInDayApprove,
+  getAllMealSessionWithStatus,
+  getAllSessionByAreaId,
+  getMealInSessionBySessionId,
+} from "../Api";
 import MealSessionCard from "../components/MealSessionCard";
 // import { err } from 'react-native-svg/lib/typescript/xml';
-
+import FoodCard from "../components/FoodCard";
+import HeaderComp from "./HeaderComp";
+import { Dropdown } from "react-native-element-dropdown";
+import { FlatList } from "react-native";
+import { SafeAreaView } from "react-native";
 const MealSession = ({ navigation, route }) => {
   const { areaId } = route.params;
-  console.log("meall session page : ", areaId);
   const [session, setSession] = useState([]);
-  const fetchAllSessionByAreaId = (id) => {
-    getAllSessionByAreaId(areaId ? areaId : area[0])
-      .then((res) => {
-        console.log("tra ve session tao tesrtttttttttttttttttttt", res);
-        setSession(res);
-      })
-      .catch((error) => console.log(error));
-  };
+  const [value, setValue] = useState();
 
+  const [mealSession, setMealSession] = useState([]);
+  // const fetchAllSessionByAreaId = () => {
+  //   getAllMealSessionInDayApprove(areaId).then((res) => {
+  // setMealSession(res);
+  //   });
+  // };
+  const fetchAllSessionTrueByAreaId = () => {
+    getAllSessionByAreaId(areaId).then((res) => {
+      console.log("session res la", res[0]?.sessionId);
+      setSession(res);
+      setValue(res[0]?.sessionId);
+    });
+  };
+  const fetchAllMealSessionBySessionId = () => {
+    getAllApprovedMealSessionBySessionId(value).then((res) => {
+      setMealSession(res);
+    });
+  };
+  // const filteredMealSession = mealSession.filter(
+  //   (item) =>
+  //     item?.sessionDtoForMealSession?.areaDtoForMealSession?.areaId === areaId
+  // );
   useEffect(() => {
-    fetchAllSessionByAreaId();
+    fetchAllMealSessionBySessionId();
+  }, [value]);
+  useEffect(() => {
+    // fetchAllSessionByAreaId();
+    fetchAllSessionTrueByAreaId();
   }, [areaId]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      fetchAllSessionByAreaId();
+      // fetchAllSessionByAreaId();
       console.log("Data refreshed!");
     });
-
-    // Clean up the listener when the component is unmounted
     return unsubscribe;
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              height: 40,
-              backgroundColor: "orange",
-              borderRadius: 28,
-              marginTop: 42,
-            }}
-          >
-            <Icon.ArrowLeft style={{ color: "white" }} strokeWidth={3} />
-          </TouchableOpacity>
-          <Text style={styles.Text}>Meal In Session</Text>
-          <TouchableOpacity
-            // onPress={() => navigation.navigate("OrderCart")}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              height: 40,
-              borderRadius: 28,
-              marginTop: 42,
-            }}
-          >
-            <Icon.CreditCard style={{}} strokeWidth={3} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ScrollView style={styles.body}>
-        {session?.map((item, index) => (
-          <ScrollView style={{}} key={index}>
-            {item.status == true && (
-              <View>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    fontWeight: "bold",
-                    elevation: 2,
-                  }}
-                >
-                  Session {item.sessionType}
-                </Text>
-                <MealSessionCard key={index} sessionId={item.sessionId} />
-              </View>
-            )}
+    <SafeAreaView style={styles.container}>
+      <HeaderComp label="Meal's Market" onBack={() => navigation.goBack()} />
+      <View style={styles.body}>
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          containerStyle={styles.containerStyle}
+          fontFamily="Poppins"
+          data={session}
+          maxHeight={300}
+          labelField="sessionName"
+          valueField="sessionId"
+          placeholder="Select Session"
+          value={value}
+          onChange={(item) => {
+            setValue(item.sessionId);
+          }}
+        />
+        {/* <ScrollView style={styles.body}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {filteredMealSession?.map((item, index) => (
+              <FoodCard item={item} key={index} />
+            ))}
           </ScrollView>
-        ))}
-      </ScrollView>
-      <View style={styles.footer}></View>
-    </View>
+        </ScrollView> */}
+        <FlatList
+          numColumns={2}
+          data={mealSession}
+          renderItem={(item, index) => <FoodCard item={item} key={index} />}
+        ></FlatList>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -107,8 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   body: {
-    // backgroundColor: 'green',
-    height: "75%",
+    height: "90%",
   },
   Text: {
     fontWeight: "600",
@@ -130,4 +133,25 @@ const styles = StyleSheet.create({
   //     flex: 1,
   //     // backgroundColor: 'blue'
   // }
+  dropdown: {
+    margin: 16,
+    height: 50,
+    borderBottomColor: "gray",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    fontFamily: "Poppins",
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  containerStyle: {
+    borderRadius: 10,
+  },
 });

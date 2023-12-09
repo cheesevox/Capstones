@@ -11,21 +11,20 @@ import {
 } from "react-native";
 import React from "react";
 import { colors, recipeList } from "../Constant";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const FoodCard = ({ item }) => {
+const FeedbackCard = ({ item }) => {
   const navigation = useNavigation();
   return (
     <View
       style={{
         paddingHorizontal: 15,
-        width: "50%",
+        width: "100%",
         marginBottom: 20,
       }}
     >
       <Pressable
-        onPress={() => navigation.navigate("MealDetail", { item: item.item })}
         style={{
           backgroundColor: colors.COLOR_LIGHT,
           shadowOpacity: 0.1,
@@ -43,38 +42,42 @@ const FoodCard = ({ item }) => {
             borderRadius: 10,
             flexDirection: "row",
           }}
-        >
-          <Image
-            source={{ uri: item.item?.mealDtoForMealSession?.image }}
-            style={{
-              height: 100,
-              width: "100%",
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}
-          ></Image>
-        </View>
+        ></View>
         {/* <Text>{item.name}</Text> */}
-        <View style={{ flexDirection: "row", marginTop: 8 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            {item.item?.mealDtoForMealSession?.name}
-          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              fontSize: 15,
+              width: "100%",
+              borderBottomWidth: 0.5,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text>
+              <Ionicons name="person" size={18} />
+              <Text>{item.item?.customerDtoFeedbackReponseModel?.name}</Text>
+            </Text>
+
+            <Text style={{ color: "gray" }}>{item.item?.createDate}</Text>
+          </View>
         </View>
-        <View>
+        <View style={{ width: "100%", borderBottomWidth: 0.5 }}></View>
+        <View style={{ minHeight: 80, marginTop: 10 }}>
           <Text
             style={{
-              fontWeight: "600",
+              fontWeight: "400",
+              color: "gray",
             }}
           >
-            Price: {item.item?.price} VND{" "}
-          </Text>
-          <Text
-            style={{
-              fontWeight: "600",
-            }}
-          >
-            Booking Slot : {item.item?.quantity - item.item?.remainQuantity} /{" "}
-            {item.item?.quantity}
+            {item.item?.description}
           </Text>
         </View>
       </Pressable>
@@ -82,6 +85,6 @@ const FoodCard = ({ item }) => {
   );
 };
 
-export default FoodCard;
+export default FeedbackCard;
 
 const styles = StyleSheet.create({});

@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import * as Icon from "react-native-feather";
 import { imageorder, item } from "../Constant";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,27 +19,23 @@ import {
   getAllFeedbackByKitchenId,
 } from "../Api";
 import { useDispatch, useSelector } from "react-redux";
+import HeaderComp from "./HeaderComp";
 
 export default function FeedBackScreen({ navigation, route }) {
+  const user = useSelector((state) => state.user.user);
+  console.log("usewr à", user);
   const [orderdetail, setOrderdetail] = useState([]);
   const [description, setDescription] = useState("");
   const handleDescriptionChange = (text) => {
     setDescription(text);
   };
   const { item } = route.params;
-  console.log("item feedback", item);
-  console.log(
-    "kitchenID ,,,",
-    item?.mealSessionDto2?.mealDto2?.kitchenDto2?.kitchenId
-  );
-
+  console.log("Item là", item);
   const [feedback, setfeedback] = useState([]);
-
   const fectAllFeedbackByKitchenId = () => {
     getAllFeedbackByKitchenId(
       item?.mealSessionDto2?.mealDto2?.kitchenDto2?.kitchenId
     ).then((res) => {
-      console.log("res for feedback", res);
       setfeedback(res);
     });
   };
@@ -46,179 +43,256 @@ export default function FeedBackScreen({ navigation, route }) {
   useEffect(() => {
     fectAllFeedbackByKitchenId();
   }, [item?.mealSessionDto2?.mealDto2?.kitchenDto2?.kitchenId]);
-
-  const createFeedack = () => {
-    createFeedBackOrder({ ...values, description: description });
-  };
   const [values, setValues] = useState({
-    customerId: item?.customerDto2?.customerId,
+    customerId: user.customerId,
     kitchenId: item?.mealSessionDto2?.mealDto2?.kitchenDto2?.kitchenId,
     description: description,
   });
+  const createFeedback = () => {
+    createFeedBackOrder(values)
+      .then(() => {
+        Toast.show({
+          type: "success",
+          text1: "Home Meal Taste",
+          text2: "Feedback Completed.",
+        });
+        navigation.navigate("CustomerHome", { user: user });
+      })
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Home Meal Taste",
+          text2: "Feedback Failed.",
+        });
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headder}>
-        <View
-          style={{
-            // padding:30
-            flexDirection: "row",
-            marginTop: 25,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
+      <HeaderComp
+        label="Order Information  "
+        onBack={() => {
+          navigation.goBack();
+        }}
+      />
+      <View style={styles.body}>
+        <View>
+          {/* order id */}
+          <View
             style={{
-              justifyContent: "center",
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
               alignItems: "center",
-              width: "10%",
-              height: "100%",
-              backgroundColor: "orange",
-              borderRadius: 28,
-              position: "relative",
             }}
           >
-            <Icon.ArrowLeft style={{ color: "white" }} strokeWidth={3} />
-          </TouchableOpacity>
-          <View style={{ flexDirection: "row-reverse", margin: "auto" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              Order : #{item?.orderId}
+            </Text>
             <Text
               style={{
-                alignItems: "center",
-                width: "60%",
-                textAlign: "center",
-                fontWeight: "bold",
-                fontSize: 26,
-                justifyContent: "center",
-                borderRadius: 30,
-                backgroundColor: "orange",
-                color: "#e65332",
+                fontSize: 20,
+                fontWeight: "500",
+                padding: 10,
+                paddingHorizontal: 20,
+                color:
+                  item?.status == "PAID"
+                    ? "green"
+                    : "CANCELLED"
+                    ? "gray"
+                    : "blue",
+                backgroundColor: "white",
+                borderRadius: 10,
               }}
             >
-              Review
+              {item?.status}
             </Text>
           </View>
-        </View>
-      </View>
-      <View style={styles.body}>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 10,
-            marginHorizontal: 40,
-          }}
-        >
-          {/* <Image source={{uri: order?.mealSessionDto2?.mealDto2?.image}} style={{ height: 250, width: 400, resizeMode: 'center', borderRadius: 10 }}></Image> */}
-        </View>
-        <View style={{ marginHorizontal: 40 }}>
-          {/* name */}
-          <Text style={{ fontWeight: "bold", fontSize: 26 }}>{}</Text>
-          {/* order id */}
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Order id : {item?.orderId}
-          </Text>
-          {/* price */}
-          <Text style={{ color: "green", fontSize: 17 }}>
-            Total Price: {item?.totalPrice} vnd
-          </Text>
-          {/* addres */}
-
-          <Text style={{ fontSize: 22 }}>
-            <Ionicons name="location-outline" size={20}>
-              Kitchen :
-            </Ionicons>
-            {item?.mealSessionDto2?.mealDto2?.kitchenDto2?.name}
-          </Text>
 
           <View
             style={{
               width: "100%",
+              minHeight: 150,
               padding: 10,
               borderRadius: 20,
-              marginTop: 10,
+              marginVertical: 10,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              elevation: 5,
+              backgroundColor: "white",
+              alignItems: "center",
             }}
           >
             <Image
               style={{
-                width: 150,
-                height: 150,
-                borderRadius: 10,
+                width: "30%",
+                height: "100%",
+                borderRadius: 20,
                 resizeMode: "cover",
               }}
               source={{ uri: item?.mealSessionDto2?.mealDto2?.image }}
             />
-            <View style={{ width: "auto", padding: 10 }}>
-              <Text>
-                Meal Session : {item?.mealSessionDto2?.mealDto2?.name}
+            <View style={{ width: "65%", gap: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                <Ionicons name="restaurant-outline" size={25} /> :
+                {item?.mealSessionDto2?.mealDto2?.name}
               </Text>
-              <Text style={{ width: "60%" }}>
-                Description : {item?.mealSessionDto2?.mealDto2?.description}
+              <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                <Ionicons name="home-outline" size={25} /> :
+                {item?.mealSessionDto2?.mealDto2?.kitchenDto2?.name}
               </Text>
-              <Text>Time : {item?.time}</Text>
-              <Text>Quantity Order : {item?.quantity}</Text>
-              <Text>Status Order : {item?.status}</Text>
+              <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                <Ionicons name="time-outline" size={25} /> : Time : {item?.time}
+              </Text>
             </View>
           </View>
+          <View
+            style={{
+              width: "100%",
+              minHeight: 150,
+              padding: 10,
+              borderRadius: 20,
+              marginVertical: 10,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              backgroundColor: "white",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ width: "100%", gap: 10 }}>
+              <View
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text>
+                  <Ionicons name="person-outline" size={25} />
+                </Text>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  {item?.customerDto2?.name}
+                </Text>
+              </View>
+              <View
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text>
+                  <Ionicons name="phone-portrait-outline" size={25} />
+                </Text>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  {item?.customerDto2?.phone}
+                </Text>
+              </View>
 
-          {/* <Text style={{fontSize:22}}><Ionicons name='location-outline' size={20}>Feed Back DE :</Ionicons> {feedback?.feedbackId?.}</Text> */}
-        </View>
-        <View
-          style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
-        ></View>
-        <View style={{ flex: 3 }}>
-          <View style={{ borderRadius: 20, paddingHorizontal: 20 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              Rate The Food
-            </Text>
-            <View
-              style={{
-                borderWidth: 2,
-                borderRadius: 10,
-                borderBlockColor: "green",
-              }}
-            >
-              <View>
-                <TextInput
-                  placeholder="Write a comment"
-                  style={{
-                    marginLeft: 10,
-                    height: "75%",
-                    flexDirection: "row",
-                  }}
-                  onChangeText={handleDescriptionChange}
-                  value={description}
-                ></TextInput>
+              <View
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  Booked Slot :
+                </Text>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  {item?.quantity}
+                </Text>
+              </View>
+              <View
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  Total Price :
+                </Text>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>
+                  {item?.totalPrice} VND
+                </Text>
               </View>
             </View>
           </View>
         </View>
+        <View style={{ borderRadius: 20, marginVertical: 10, gap: 10 }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ fontWeight: "bold", fontSize: 25, marginHorizontal: 10 }}
+            >
+              Feedback
+            </Text>
+          </View>
+          <View
+            style={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              height: 200,
+            }}
+          >
+            <View>
+              <TextInput
+                multiline={true}
+                numberOfLines={3}
+                placeholder="Enter your feedback ..."
+                style={{
+                  padding: 10,
+                  borderWidth: 0,
+                }}
+                onChangeText={(text) =>
+                  setValues({ ...values, description: text })
+                }
+              ></TextInput>
+            </View>
+          </View>
+        </View>
       </View>
-      <View style={styles.footer}>
-        <View
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 10,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => createFeedback()}
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 20,
+            backgroundColor: "#FFAB01",
+            borderRadius: 20,
+            width: "80%",
+            paddingVertical: 20,
           }}
         >
-          <TouchableOpacity
-            onPress={createFeedack()}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "green",
-              borderRadius: 30,
-              paddingVertical: 16,
-              width: "80%",
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 18 }}>Submit</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={{ color: "white", fontSize: 18 }}>Feedback</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -227,16 +301,9 @@ export default function FeedBackScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 4,
-  },
-  headder: {
-    flex: 1,
   },
   body: {
-    flex: 6,
-    display: "flex",
-  },
-  footer: {
+    padding: 10,
     flex: 1,
   },
   text: {

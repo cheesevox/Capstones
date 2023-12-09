@@ -9,8 +9,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     getUserInfor: (state, action) => {
-        console.log("payload item la///////////////",action.payload)
-      state.user = action.payload
+      console.log("user đc gửi qua store là", action.payload);
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      localStorage.removeItem("userToken");
+      state.userInfo = null;
+      state.userToken = null;
+      state.error = null;
     },
   },
 });

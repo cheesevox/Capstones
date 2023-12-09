@@ -13,17 +13,17 @@ import DishCard from "../components/DishCard";
 import { getDishByMealId } from "../Api";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
+import { FlatList } from "react-native";
+import HeaderComp from "./HeaderComp";
 const MealDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { item } = route.params;
-  const { qty, setQty } = React.useState(1);
   console.log("item meal", item);
   const [meal, setMeal] = useState();
   const [dish, setDish] = useState([]);
   const fetchAllDish = () => {
-    getDishByMealId(item.mealSessionId).then((res) => {
-      console.log("----------------", res);
-      setMeal(res);
+    console.log("heheehehehehehe", item.mealSessionId);
+    getDishByMealId(item.mealDtoForMealSession?.mealId).then((res) => {
       setDish(res.dishDto);
     });
   };
@@ -32,143 +32,129 @@ const MealDetailScreen = ({ navigation, route }) => {
     fetchAllDish();
   }, [item.mealSessionId]);
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView>
+    <View
+      style={{
+        flex: 1,
+        width: "100%",
+        position: "relative",
+      }}
+    >
+      <HeaderComp label="Meal Session" onBack={() => navigation.goBack()} />
+      <View
+        style={{
+          height: "30%",
+        }}
+      >
+        <Image
+          source={{ uri: item?.mealDtoForMealSession?.image }}
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            top: 0,
+          }}
+        />
+      </View>
+      {/* menu */}
+      <View
+        style={{
+          borderTopLeftRadius: 40,
+          borderTopRightRadius: 40,
+          padding: 20,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          backgroundColor: "#F2F2F2",
+          height: "70%",
+          top: -70,
+          // display: "none",
+        }}
+      >
         <View
-          style={
-            {
-              // position: "relative",
-            }
-          }
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
         >
-          <Image
-            source={{ uri: item?.mealDtoForMealSession?.image }}
-            style={{
-              width: 500,
-              height: 200,
-              resizeMode: "center",
-            }}
-          />
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              if (
+                item &&
+                item.kitchenDtoForMealSession &&
+                item.kitchenDtoForMealSession.kitchenId
+              ) {
+                navigation.navigate("ChefHomeView", {
+                  kitchenId: item.kitchenDtoForMealSession.kitchenId,
+                });
+              }
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 30,
+                fontWeight: "bold",
+              }}
+            >
+              {item?.mealDtoForMealSession?.name}
+            </Text>
+            <Text>{item?.mealDtoForMealSession.description}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            // onPress={() => navigation.navigate("MealDetail", { item: item })}
+            onPress={() => {
+              dispatch(addToCart(item));
+              navigation.navigate("OrderCart", { item });
+            }}
             style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              height: 40,
-              position: "absolute",
-              marginTop: 40,
-              marginLeft: 24,
+              width: 50,
+              height: 50,
               backgroundColor: "orange",
               borderRadius: 28,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Icon.ArrowLeft style={{ color: "#fff" }} strokeWidth={3} />
+            <Ionicons name="cart-outline" size={25} />
+            {/* <ion-icon name="cart-outline"></ion-icon> */}
           </TouchableOpacity>
-          <View
-            style={{
-              width: "100%",
-              backgroundColor: "#fff",
-              borderTopLeftRadius: 60,
-              borderTopRightRadius: 50,
-              justifyContent: "space-between",
-              flexDirection: "row",
-              padding: 20,
-            }}
-          >
-            <View>
-              <TouchableOpacity onPress={() => navigation.navigate("ChefHome")}>
-                <Text
-                  style={{
-                    fontSize: 30,
-                    fontWeight: "bold",
-                    padding: 5,
-                  }}
-                >
-                  {item?.mealDtoForMealSession?.name}
-                  {/* <Icon name="restaurantfast-food-outline-outline" size={25} > </Icon> */}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              // onPress={() => navigation.navigate("MealDetail", { item: item })}
-              onPress={() => {
-                dispatch(addToCart(item));
-                navigation.navigate("OrderCart", { item });
-              }}
-              style={{
-                width: 50,
-                height: 50,
-                backgroundColor: "orange",
-                borderRadius: 28,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Ionicons name="cart-outline" size={25} />
-              {/* <ion-icon name="cart-outline"></ion-icon> */}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              backgroundColor: "black",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: 40,
-                height: 40,
-                position: "absolute",
-                marginTop: 24,
-                marginLeft: 24,
-                backgroundColor: "white",
-                borderRadius: 28,
-              }}
-            >
-              <Icon.ArrowLeft style={{ color: "orange" }} strokeWidth={3} />
-            </TouchableOpacity>
-          </View>
-          {/* menu */}
-          <View style={{ padding: 20, gap: 10, minHeight: 600 }}>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 26,
-                  paddingBottom: 36,
-                  marginLeft: 30,
-                }}
-              >
-                Dish List
-              </Text>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 26,
-                  paddingBottom: 36,
-                  marginLeft: 30,
-                  color: "red",
-                }}
-              >
-                {item?.price}vnd
-              </Text>
-            </View>
-            <ScrollView style={{ display: "flex" }}>
-              {dish?.map((dish, index) => (
-                <DishCard item={{ ...dish }} key={index} />
-              ))}
-            </ScrollView>
-          </View>
         </View>
-      </ScrollView>
+        <View
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 26,
+            }}
+          >
+            Includes :
+          </Text>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 26,
+              paddingBottom: 36,
+              marginLeft: 30,
+              color: "red",
+            }}
+          >
+            {item?.price} VND
+          </Text>
+        </View>
+        <FlatList
+          scrollEnabled
+          data={dish}
+          renderItem={(item, index) => <DishCard item={item} key={index} />}
+          keyExtractor={(item, index) => item.dishId}
+        ></FlatList>
+      </View>
     </View>
   );
 };

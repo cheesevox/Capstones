@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
 function MessageIcon(props) {
-  const { size = 35, color = "#000" } = props;
+  const { size = 35, color = "#fc8403" } = props;
   return (
     <Svg width={size} height={size} viewBox="0 0 35 35" fill="none" {...props}>
       <Path

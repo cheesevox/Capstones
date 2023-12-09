@@ -15,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrderUser } from "../Api";
+import Toast from "react-native-toast-message";
+import HeaderComp from "./HeaderComp";
 
 const OrderCartScreen = ({ navigation, route }) => {
   const { item } = route.params || {};
@@ -26,7 +28,21 @@ const OrderCartScreen = ({ navigation, route }) => {
     quantity: quantity,
   });
   const createOrder = () => {
-    createOrderUser({ ...values, quantity: quantity });
+    createOrderUser({ ...values, quantity: quantity })
+      .then(() => {
+        Toast.show({
+          type: "success",
+          text1: "Home Meal Taste",
+          text2: "Create Order Completed.",
+        });
+      })
+      .catch(() => {
+        Toast.show({
+          type: "success",
+          text1: "Home Meal Taste",
+          text2: "Create Order Failed.",
+        });
+      });
   };
   const increase = () => {
     if (quantity < item.remainQuantity) {
@@ -43,112 +59,72 @@ const OrderCartScreen = ({ navigation, route }) => {
   const CartCard = ({ item }) => {
     return (
       <View style={styles.cartcard}>
-        <View
-          style={{
-            height: 100,
-            marginLeft: 10,
-            paddingVertical: 20,
-            flex: 1,
-          }}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              source={{ uri: item?.mealDtoForMealSession?.image }}
-              style={{ width: 50, height: 50, resizeMode: "cover" }}
-            />
-            <View
-              style={{
-                justifyContent: "center",
-                flexDirection: "column",
-                marginLeft: 20,
-              }}
-            >
-              <Text style={styles.textItem}>
-                {item?.mealDtoForMealSession?.name}
-              </Text>
-              <Text style={styles.textItem}>
-                Description: {item?.mealDtoForMealSession.description}
-              </Text>
-              <Text>Remain quantiy : {item.remainQuantity}</Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {/* <Text style={styles.textItem}>Price: {item.price}</Text> */}
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.actionButton}>
-            <TouchableOpacity onPress={() => increase()}>
-              <Ionicons
-                name="add-circle-outline"
-                size={25}
-                color={Colors.black}
-              ></Ionicons>
-            </TouchableOpacity>
-            <Text
-              style={{ fontWeight: "bold", fontSize: 18, textAlign: "center" }}
-            >
-              {quantity}
+        <View style={{ flexDirection: "row", width: "100%", height: 120 }}>
+          <Image
+            source={{ uri: item?.mealDtoForMealSession?.image }}
+            style={{
+              width: "30%",
+              height: "100% ",
+              resizeMode: "cover",
+              borderRadius: 20,
+            }}
+          />
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "column",
+              marginLeft: 20,
+              width: "60%",
+            }}
+          >
+            <Text style={styles.textItem}>
+              {item?.mealDtoForMealSession?.name}
             </Text>
-            <TouchableOpacity onPress={() => decrease()}>
-              <Ionicons
-                name="remove-circle-outline"
-                size={25}
-                color={Colors.black}
-              ></Ionicons>
-            </TouchableOpacity>
+            <Text style={styles.textItem}>
+              Description: {item?.mealDtoForMealSession.description}
+            </Text>
+            <Text>Booking Slot : {item.remainQuantity}</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {/* <Text style={styles.textItem}>Price: {item.price}</Text> */}
+            </View>
+            <View style={styles.actionButton}>
+              <TouchableOpacity onPress={() => increase()}>
+                <Ionicons
+                  name="add-circle-outline"
+                  size={25}
+                  color={Colors.black}
+                ></Ionicons>
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
+                {quantity}
+              </Text>
+              <TouchableOpacity onPress={() => decrease()}>
+                <Ionicons
+                  name="remove-circle-outline"
+                  size={25}
+                  color={Colors.black}
+                ></Ionicons>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
     );
   };
-
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            width: 40,
-            height: 40,
-            position: "absolute",
-            marginLeft: 24,
-            backgroundColor: "orange",
-            borderRadius: 28,
-            marginTop: 42,
-          }}
-        >
-          <Icon.ArrowLeft style={{ color: "white" }} strokeWidth={3} />
-        </TouchableOpacity>
-      </View>
-      <View
+    <SafeAreaView style={{ backgroundColor: "#F2F2F2", flex: 1 }}>
+      <HeaderComp label="Cart" onBack={() => navigation.goBack()} />
+      <ScrollView
         style={{
-          marginBottom: 30,
-          justifyContent: "center",
-          alignItems: "center",
+          padding: 20,
         }}
       >
-        <Text style={styles.titleText}>Cart</Text>
-      </View>
-      <View style={{ padding: 30, backgroundColor: "#f7e4ad" }}>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row-reverse",
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 18, color: "#de8407" }}>
-            Change
-          </Text>
-          <Text style={{ fontSize: 16, marginLeft: 40 }}>
-            Chef is prepare food for 30minus
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView>
         {item === undefined ? null : quantity === 0 ? (
           ""
         ) : (
@@ -187,17 +163,18 @@ const OrderCartScreen = ({ navigation, route }) => {
               Order Total
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {item?.price * quantity} vnd
+              {item?.price * quantity} VND
             </Text>
           </View>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <TouchableOpacity
               onPress={() => {
+                // handleCreateOrder();
                 createOrder();
                 navigation.navigate("CustomerHome", { user: user });
               }}
               style={{
-                backgroundColor: "#f96163",
+                backgroundColor: "#FFAB01",
                 borderRadius: 29,
                 paddingVertical: 18,
                 marginTop: 30,
@@ -230,15 +207,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   cartcard: {
-    height: 100,
-    elevation: 15,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: Colors.white,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
+    padding: 10,
   },
   titleText: {
     fontWeight: "600",
@@ -250,17 +223,16 @@ const styles = StyleSheet.create({
     borderColor: "white",
     backgroundColor: "#fab3a2",
     fontWeight: "bold",
-    marginTop: 40,
+    marginTop: 32,
     width: "40%",
     borderRadius: 20,
     borderWidth: 2,
   },
   actionButton: {
-    width: 80,
-    height: 30,
-    borderRadius: 30,
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-around",
+    gap: 15,
+    justifyContent: "flex-end",
     alignContent: "center",
   },
 });
